@@ -6,12 +6,13 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "HOST=0.0.0.0 react-native start",
     "test": "jest"
   },
   "dependencies": {
     "@emotion/native": "^11.11.0",
     "@emotion/react": "^11.11.0",
+    "@jiggag/react-native-kakao-maps": "^0.0.10",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
