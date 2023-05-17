@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, Text, useWindowDimensions, View} from 'react-native';
 import styled from '@emotion/native';
 import {Input} from '../components/common/input';
 import {KakaoMapView} from '@jiggag/react-native-kakao-maps';
@@ -8,7 +8,10 @@ const getHeightRatio = (height: number) =>
   Math.floor((height / 812) * 100) + '%';
 
 const UniversityScreen = () => {
+  const {width, height} = useWindowDimensions();
   const [university, setUniversity] = useState('');
+  console.log(width, height);
+  const MAP_WIDTH = width - 40;
   return (
     <SafeAreaView>
       <Container>
@@ -32,8 +35,8 @@ const UniversityScreen = () => {
               markerName: 'marker2',
             },
           ]}
-          width={300}
-          height={500}
+          width={MAP_WIDTH}
+          height={MAP_WIDTH * (3 / 4)}
           centerPoint={{
             lat: 37.59523,
             lng: 127.086,
