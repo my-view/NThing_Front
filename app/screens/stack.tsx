@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import RootScreen from '.';
 import TestScreen from './test';
+import UniversityScreen from './university';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const RootStackScreen = ({}) => {
       <Stack.Group>
         <Stack.Screen name="RootScreen" component={RootScreen} />
         <Stack.Screen name="testScreen" component={TestScreen} />
+        <Stack.Screen name="universityScreen" component={UniversityScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

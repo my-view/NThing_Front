@@ -19,7 +19,7 @@ const RootScreen = ({navigation}) => {
       <View style={[styles.loginArea]}>
         <TouchableWithoutFeedback
           onPress={() => {
-            // navigation.navigate('UserMainStack');
+            navigation.navigate('universityScreen');
           }}>
           <View style={[styles.kakaoLoginWrap]}>
             <View style={[styles.kakaoButton]}>
