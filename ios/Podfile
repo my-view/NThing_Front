@@ -48,6 +48,8 @@ target 'nThing' do
     # Pods for testing
   end
 
+  pod 'NMapsMap','3.10.1' # 버전 3.10.1 명시
+
   post_install do |installer|
     react_native_post_install(
       installer,
