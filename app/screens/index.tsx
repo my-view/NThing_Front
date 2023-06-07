@@ -1,97 +1,79 @@
 import React from 'react';
 import {
-  Dimensions,
   Image,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
+  useWindowDimensions,
 } from 'react-native';
-import {css} from '@emotion/native';
+import styled from '@emotion/native';
+import {Font16W500, UnderLine14} from '../components/common/text';
+import {getWidthRatio, getHeightRatio} from '../assets/util/layout';
 
-const RootScreen = ({navigation}) => {
+const RootScreen = ({navigation}: any) => {
+  const {width, height} = useWindowDimensions();
+
   return (
     <SafeAreaView>
-      <View style={[styles.titleArea, {}]}>
-        <Text>Main</Text>
-      </View>
-      <View style={[styles.loginArea]}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            navigation.navigate('universityScreen');
+      <Container>
+        <View
+          style={{
+            flex: 1,
           }}>
-          <View style={[styles.kakaoLoginWrap]}>
-            <View style={[styles.kakaoButton]}>
-              {/* <Image source={require('../assets/images/kakao-icon.png')} /> */}
-              <Text style={[styles.kakaoText]}>카카오톡으로 시작하기</Text>
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            navigation.navigate('testScreen');
-          }}>
-          <View style={[styles.appleLoginWrap]}>
-            <View style={[styles.kakaoButton]}>
-              {/* <Image source={require('../assets/images/apple-icon.png')} /> */}
-              <Text style={[styles.appleText]}>Apple로 시작하기</Text>
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
+          <Text>NTHING</Text>
+        </View>
+        <SocialLoginWrap>
+          <SocialSubTitle>sns로 간편 로그인</SocialSubTitle>
+          <ButtonWrap>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.navigate('universityScreen');
+              }}>
+              <Image source={require('../assets/image/naver-btn.png')} />
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.navigate('universityScreen');
+              }}>
+              <Image source={require('../assets/image/kakao-btn.png')} />
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.navigate('universityScreen');
+              }}>
+              <Image source={require('../assets/image/google-btn.png')} />
+            </TouchableWithoutFeedback>
+          </ButtonWrap>
+          <LaterLogin>나중에 로그인하기</LaterLogin>
+        </SocialLoginWrap>
+      </Container>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  titleArea: css`
-    align-items: center;
-    justify-content: center;
-  `,
-  title: css`
-    font-size: 26px;
-    margin-bottom: 51px;
-  `,
-  loginArea: css`
-    align-items: center;
-    justify-content: center;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 30px;
-  `,
-  kakaoLoginWrap: css`
-    background-color: #ffe812;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 56px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-  `,
-  kakaoButton: css`
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-  `,
-  kakaoText: css`
-    margin-left: 6px;
-    font-size: 16px;
-  `,
-  appleLoginWrap: css`
-    background-color: #000;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 56px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-  `,
-  appleText: css`
-    margin-left: 6px;
-    font-size: 16px;
-    color: #fff;
-  `,
-});
+const Container = styled(View)`
+  padding: ${getHeightRatio(0)} 20px;
+  height: 100%;
+`;
+
+const SocialLoginWrap = styled(View)`
+  align-items: center;
+`;
+
+const SocialSubTitle = styled(Font16W500)`
+  margin-bottom: 30px;
+  //color: ${props => props.theme.palette.primary};
+`;
+const LaterLogin = styled(UnderLine14)`
+  margin-top: 20px;
+`;
+
+const ButtonWrap = styled(View)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 22px;
+`;
 
 export default RootScreen;
