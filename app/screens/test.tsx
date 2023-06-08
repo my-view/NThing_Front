@@ -17,6 +17,10 @@ const TestScreen = ({}) => {
         <Text>Test</Text>
       </View>
       <View style={[styles.loginArea]}>
+        <View>
+          <Text>sdf</Text>
+          <Image source={require('../assets/image/kakao-btn.png')} />
+        </View>
         <TouchableWithoutFeedback
           onPress={() => {
             // navigation.navigate('UserMainStack');
@@ -34,7 +38,7 @@ const TestScreen = ({}) => {
           }}>
           <View style={[styles.appleLoginWrap]}>
             <View style={[styles.kakaoButton]}>
-              {/* <Image source={require('../assets/images/apple-icon.png')} /> */}
+              <Image source={require('../assets/image/kakao-btn.png')} />
               <Text style={[styles.appleText]}>Apple로 시작하기</Text>
             </View>
           </View>
