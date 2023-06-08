@@ -335,7 +335,7 @@ PODS:
   - react-native-nmap (0.0.66):
     - NMapsMap
     - React
-  - react-native-safe-area-context (4.5.2):
+  - react-native-safe-area-context (4.5.3):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -427,9 +427,9 @@ PODS:
     - React-perflogger (= 0.71.7)
   - RNCMaskedView (0.2.9):
     - React-Core
-  - RNGestureHandler (2.10.0):
+  - RNGestureHandler (2.11.0):
     - React-Core
-  - RNReanimated (3.1.0):
+  - RNReanimated (3.2.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -671,7 +671,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 9885f6f94d231b95a739ef7bb50536fb87ce7539
   React-logger: 3f8ebad1be1bf3299d1ab6d7f971802d7395c7ef
   react-native-nmap: cfcc5402746040494c544ea90a6062f49505acdf
-  react-native-safe-area-context: 1d596539b05a78f2b346e954e7c577f6f9be7544
+  react-native-safe-area-context: b8979f5eda6ed5903d4dbc885be3846ea3daa753
   React-perflogger: 2d505bbe298e3b7bacdd9e542b15535be07220f6
   React-RCTActionSheet: 0e96e4560bd733c9b37efbf68f5b1a47615892fb
   React-RCTAnimation: fd138e26f120371c87e406745a27535e2c8a04ef
@@ -686,13 +686,13 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: c5c89f8f543842dd864b63ded1b0bbb9c9445328
   ReactCommon: dbfbe2f7f3c5ce4ce44f43f2fd0d5950d1eb67c5
   RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
-  RNGestureHandler: e145476da655f3dbc48ef2f0a08cf7a34338c02b
-  RNReanimated: b1220a0e5168745283ff5d53bfc7d2144b2cee1b
+  RNGestureHandler: 026038a97d4c8649ce397a22e162ca58b4e6c230
+  RNReanimated: c931b356bda56c0196110bdc462e48e4c2668dc3
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: d56980c8914db0b51692f55533409e844b66133c
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 057c7f1ff629feb99b596ed257c7de299b34f7c4
+PODFILE CHECKSUM: 26ca15e1ccb7afba255abb7509c16104a45c41f2
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.11.3
