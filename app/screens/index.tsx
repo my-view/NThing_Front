@@ -63,7 +63,8 @@ const SocialLoginWrap = styled(View)`
 
 const SocialSubTitle = styled(Font16W500)`
   margin-bottom: 30px;
-  //color: ${props => props.theme.palette.primary};
+  // font-family: ${props => props.theme.font[500]};
+  // color: ${props => props.theme.palette.primary};
 `;
 const LaterLogin = styled(UnderLine14)`
   margin-top: 20px;
