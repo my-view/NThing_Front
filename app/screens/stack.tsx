@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Image, TouchableWithoutFeedback} from 'react-native';
-import RootScreen from '.';
-import TestScreen from './test';
-import UniversityScreen from './university';
+import RootScreen from 'screens';
+import TestScreen from 'screens/test';
+import UniversityScreen from 'screens/university';
 
 const Stack = createNativeStackNavigator();
 
