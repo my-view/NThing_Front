@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {theme} from '../../../theme';
+import { theme } from '../../../theme';
 
 const Font16W500 = styled.Text`
   /* font-family: 'Pretendard'; */
@@ -18,4 +18,4 @@ const UnderLine14 = styled.Text`
   text-decoration-line: underline;
 `;
 
-export {Font16W500, UnderLine14};
+export { Font16W500, UnderLine14 };

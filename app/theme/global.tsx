@@ -1,6 +1,6 @@
-import {css} from '@emotion/native';
+import { css } from '@emotion/native';
 
-export const StyleCommon: any = {
+export const StyleCommon = {
   color: {
     blue: '#3778FE',
     green: '#00B8B1',
