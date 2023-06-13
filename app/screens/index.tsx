@@ -8,8 +8,8 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import styled from '@emotion/native';
-import {Font16W500, UnderLine14} from '../components/common/text';
-import {getWidthRatio, getHeightRatio} from '../assets/util/layout';
+import {Font16W500, UnderLine14} from 'components/common/text';
+import {getWidthRatio, getHeightRatio} from 'assets/util/layout';
 
 const RootScreen = ({navigation}: any) => {
   const {width, height} = useWindowDimensions();
@@ -17,10 +17,7 @@ const RootScreen = ({navigation}: any) => {
   return (
     <SafeAreaView>
       <Container>
-        <View
-          style={{
-            flex: 1,
-          }}>
+        <View style={{flex: 1}}>
           <Text>NTHING</Text>
         </View>
         <SocialLoginWrap>

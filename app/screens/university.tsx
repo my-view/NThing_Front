@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import styled from '@emotion/native';
-import {Input} from '../components/common/input';
+import {Input} from 'components/common/input';
 import NaverMapView, {
   Circle,
   Marker,
@@ -26,7 +26,7 @@ const UniversityScreen = () => {
           value={university}
           onChangeText={text => setUniversity(text)}
           placeholder="학교명을 검색하세요"
-          // autoFocus
+          autoFocus
         />
         <NaverMapView
           style={{width: '100%', height: '60%'}}
