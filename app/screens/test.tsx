@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Dimensions,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -8,9 +7,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {css} from '@emotion/native';
+import { css } from '@emotion/native';
 
-const TestScreen = ({}) => {
+const TestScreen = () => {
   return (
     <SafeAreaView>
       <View style={[styles.titleArea, {}]}>
@@ -24,7 +23,8 @@ const TestScreen = ({}) => {
         <TouchableWithoutFeedback
           onPress={() => {
             // navigation.navigate('UserMainStack');
-          }}>
+          }}
+        >
           <View style={[styles.kakaoLoginWrap]}>
             <View style={[styles.kakaoButton]}>
               {/* <Image source={require('../assets/images/kakao-icon.png')} /> */}
@@ -35,7 +35,8 @@ const TestScreen = ({}) => {
         <TouchableWithoutFeedback
           onPress={() => {
             // navigation.navigate('UserMainStack');
-          }}>
+          }}
+        >
           <View style={[styles.appleLoginWrap]}>
             <View style={[styles.kakaoButton]}>
               <Image source={require('../assets/image/kakao-btn.png')} />

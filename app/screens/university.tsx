@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import styled from '@emotion/native';
-import {Input} from 'components/common/input';
+import { Input } from 'components/common/input';
 import NaverMapView, {
   Circle,
   Marker,
@@ -15,34 +15,35 @@ const getHeightRatio = (height: number) =>
 
 const UniversityScreen = () => {
   const [university, setUniversity] = useState('');
-  const P0 = {latitude: 37.564362, longitude: 126.977011};
-  const P1 = {latitude: 37.565051, longitude: 126.978567};
-  const P2 = {latitude: 37.565383, longitude: 126.976292};
+  const P0 = { latitude: 37.564362, longitude: 126.977011 };
+  const P1 = { latitude: 37.565051, longitude: 126.978567 };
+  const P2 = { latitude: 37.565383, longitude: 126.976292 };
   return (
     <SafeAreaView>
       <Container>
         <MainText>{`학교를\n선택해 주세요`}</MainText>
         <Input
           value={university}
-          onChangeText={text => setUniversity(text)}
-          placeholder="학교명을 검색하세요"
+          onChangeText={(text) => setUniversity(text)}
+          placeholder='학교명을 검색하세요'
           autoFocus
         />
         <NaverMapView
-          style={{width: '100%', height: '60%'}}
+          style={{ width: '100%', height: '60%' }}
           showsMyLocationButton={true}
-          center={{...P0, zoom: 16}}
+          center={{ ...P0, zoom: 16 }}
           onTouch={() => console.log('onTouch')}
-          onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
+          onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
+        >
           <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} />
           <Marker
             coordinate={P1}
-            pinColor="blue"
+            pinColor='blue'
             onClick={() => console.warn('onClick! p1')}
           />
           <Marker
             coordinate={P2}
-            pinColor="red"
+            pinColor='red'
             onClick={() => console.warn('onClick! p2')}
           />
           <Path

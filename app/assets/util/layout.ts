@@ -7,4 +7,4 @@ const getHeightRatio = (height: number) =>
 const getWidthRatio = (width: number) =>
   Math.floor((width / FIGMA_WIDTH) * 100) + '%';
 
-export {getHeightRatio, getWidthRatio};
+export { getHeightRatio, getWidthRatio };
