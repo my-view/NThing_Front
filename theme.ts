@@ -16,6 +16,19 @@ const palette = {
   gray06: '#1B1E26',
 };
 
+const font = {
+  Thin: 'Pretendard-Thin',
+  ExtraLight: 'Pretendard-ExtraLight',
+  Light: 'Pretendard-Light',
+  Regular: 'Pretendard-Regular',
+  Medium: 'Pretendard-Medium',
+  SemiBold: 'Pretendard-SemiBold',
+  Bold: 'Pretendard-Bold',
+  ExtraBold: 'Pretendard-ExtraBold',
+  Black: 'Pretendard-Black',
+};
+
 export const theme = {
   palette,
+  font,
 };
