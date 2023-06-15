@@ -25,14 +25,14 @@ const RootScreen = ({ navigation }: any) => {
           <ButtonWrap>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.navigate('universityScreen');
+                navigation.navigate('UniversityScreen');
               }}
             >
               <Image source={require('../assets/image/naver-btn.png')} />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.navigate('universityScreen');
+                navigation.navigate('UniversityScreen');
               }}
             >
               <Image source={require('../assets/image/kakao-btn.png')} />
