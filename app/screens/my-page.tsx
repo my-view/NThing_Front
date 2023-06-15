@@ -8,17 +8,20 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import styled from '@emotion/native';
-import { Font16W500, UnderLine14 } from 'components/common/text';
-import { getWidthRatio, getHeightRatio } from 'assets/util/layout';
+import {Font16W500, UnderLine14} from '../components/common/text';
+import {getWidthRatio, getHeightRatio} from '../assets/util/layout';
 
-const RootScreen = ({ navigation }: any) => {
-  const { width, height } = useWindowDimensions();
+const MyPageScreen = ({navigation}: any) => {
+  const {width, height} = useWindowDimensions();
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <Container>
-        <View style={{ flex: 1 }}>
-          <Text>NTHING</Text>
+        <View
+          style={{
+            flex: 1,
+          }}>
+          <Text>마이페이지오</Text>
         </View>
         <SocialLoginWrap>
           <SocialSubTitle>sns로 간편 로그인</SocialSubTitle>
@@ -26,22 +29,19 @@ const RootScreen = ({ navigation }: any) => {
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate('universityScreen');
-              }}
-            >
+              }}>
               <Image source={require('../assets/image/naver-btn.png')} />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate('universityScreen');
-              }}
-            >
+              }}>
               <Image source={require('../assets/image/kakao-btn.png')} />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate('MainScreen');
-              }}
-            >
+              }}>
               <Image source={require('../assets/image/google-btn.png')} />
             </TouchableWithoutFeedback>
           </ButtonWrap>
@@ -55,6 +55,7 @@ const RootScreen = ({ navigation }: any) => {
 const Container = styled(View)`
   padding: ${getHeightRatio(0)} 20px;
   height: 100%;
+  background-color: #ffffff;
 `;
 
 const SocialLoginWrap = styled(View)`
@@ -63,8 +64,8 @@ const SocialLoginWrap = styled(View)`
 
 const SocialSubTitle = styled(Font16W500)`
   margin-bottom: 30px;
-  // font-family: ${(props) => props.theme.font[500]};
-  // color: ${(props) => props.theme.palette.primary};
+  // font-family: ${props => props.theme.font[500]};
+  // color: ${props => props.theme.palette.primary};
 `;
 const LaterLogin = styled(UnderLine14)`
   margin-top: 20px;
@@ -77,4 +78,4 @@ const ButtonWrap = styled(View)`
   gap: 22px;
 `;
 
-export default RootScreen;
+export default MyPageScreen;
