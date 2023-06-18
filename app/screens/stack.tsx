@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image, TouchableWithoutFeedback } from 'react-native';
 import RootScreen from 'screens';
 import UniversityScreen from 'screens/university';
 import UniversityMapModal from 'screens/modal/university-map-modal';
