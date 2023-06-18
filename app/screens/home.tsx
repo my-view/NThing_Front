@@ -4,7 +4,7 @@ import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import NaverMapView, { Marker } from 'react-native-nmap';
 
-const HomeScreen = ({ navigation }: any) => {
+const HomeScreen = ({ navigation }) => {
   const P0 = { latitude: 37.564362, longitude: 126.977011 };
   const P1 = { latitude: 37.565051, longitude: 126.978567 };
   const P2 = { latitude: 37.565383, longitude: 126.976292 };
@@ -52,27 +52,6 @@ const HomeScreen = ({ navigation }: any) => {
 
 const Container = styled(View)`
   background-color: #000;
-`;
-
-const SocialLoginWrap = styled(View)`
-  align-items: center;
-`;
-
-const SocialSubTitle = styled(Font16W500)`
-  margin-bottom: 30px;
-  // font-family: ${(props) => props.theme.font[500]};
-  // color: ${(props) => props.theme.palette.primary};
-`;
-
-const LaterLogin = styled(UnderLine14)`
-  margin-top: 20px;
-`;
-
-const ButtonWrap = styled(View)`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 22px;
 `;
 
 export default HomeScreen;
