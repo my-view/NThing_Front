@@ -5,9 +5,9 @@ import { Coordinate } from 'types/common';
 
 export const CustomMarker: React.FC<{
   coordinate: Coordinate;
-  onClick: () => void;
   isSelected?: boolean;
-}> = ({ coordinate, onClick, isSelected }) => {
+  onClick?: () => void;
+}> = ({ coordinate, isSelected, onClick }) => {
   const SIZE = isSelected ? 50 : 34;
   return Platform.OS === 'ios' ? (
     <Marker

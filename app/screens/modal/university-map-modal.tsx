@@ -1,14 +1,15 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import NaverMapView, { Marker } from 'react-native-nmap';
+import NaverMapView from 'react-native-nmap';
 import Close from 'assets/image/Close.svg';
 import styled from '@emotion/native';
 import { getWidthRatio } from 'assets/util/layout';
 import { Font18W600 } from 'components/common/text';
 import { theme } from '~/../theme';
+import { CustomMarker } from 'components/nmap/marker';
 
 const UniversityMapModal = ({ navigation }) => {
-  const P0 = { latitude: 37.564362, longitude: 126.977011 };
+  const P0 = { id: 1, latitude: 37.564362, longitude: 126.977011 };
   return (
     <ModalBackground>
       <ModalContent>
@@ -30,7 +31,7 @@ const UniversityMapModal = ({ navigation }) => {
           onTouch={() => console.log('onTouch')}
           onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
         >
-          <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} />
+          <CustomMarker coordinate={P0} />
         </NaverMapView>
         <TouchableOpacity
           style={{ marginTop: 20 }}

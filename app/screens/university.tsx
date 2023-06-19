@@ -6,7 +6,6 @@ import { getHeightRatio } from 'assets/util/layout';
 
 const UniversityScreen = ({ navigation }) => {
   const [university, setUniversity] = useState('');
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <SafeAreaView>
       <Container>
