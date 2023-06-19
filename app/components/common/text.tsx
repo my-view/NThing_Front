@@ -1,6 +1,11 @@
 import styled from '@emotion/native';
 import { theme } from '../../../theme';
 
+export const Font15W500 = styled.Text`
+  font-size: 15px;
+  font-weight: 500;
+`;
+
 export const Font16W500 = styled.Text`
   /* font-family: 'Pretendard'; */
   font-style: normal;
