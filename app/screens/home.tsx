@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
+import { Pressable, SafeAreaView, TouchableOpacity, View } from 'react-native';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from '@components/nmap/marker';
-import { getWidthRatio } from '@assets/util/layout';
-import { Font15W500, Font18W600 } from '@components/common/text';
+import { Font18W600 } from '@components/common/text';
 import Search from '@assets/image/Search.svg';
 import Down from '@assets/image/Down.svg';
 import Left from '@assets/image/Left.svg';
 import Close from '@assets/image/Close.svg';
 import { Row } from '@components/common/layout';
+import { Header } from 'components/main/header';
+import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -31,9 +26,9 @@ import {
 } from 'react-native-gesture-handler';
 import { ITEM_LIST } from '@assets/mock/item-list';
 
-const HomeScreen = ({ navigation }: any) => {
+const HomeScreen = ({ route, navigation }: any) => {
+  const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
-  const [searchKeyword, setSearchKeyword] = useState('휴지');
   const PIN_DATA = [
     { id: 1, latitude: 37.564362, longitude: 126.977011 },
     { id: 2, latitude: 37.565051, longitude: 126.978567 },
@@ -52,23 +47,34 @@ const HomeScreen = ({ navigation }: any) => {
     ),
     [],
   );
+  console.log(keyword);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <GestureHandlerRootView>
         <Container>
-          {searchKeyword ? (
+          {keyword ? (
             <Header>
               <TouchableOpacity
-                onPress={() => navigation.navigate('SearchScreen')}
+                onPress={() =>
+                  navigation.navigate('SearchScreen', {
+                    keyword: keyword,
+                  })
+                }
               >
                 <Left width={24} height={24} />
               </TouchableOpacity>
-              <KeywordBox>
-                <KeywordText>{searchKeyword}</KeywordText>
-              </KeywordBox>
-              <TouchableOpacity onPress={() => setSearchKeyword('')}>
-                <Close width={16} height={16} />
+              <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.setParams({
+                    keyword: '',
+                  })
+                }
+              >
+                <View style={{ width: 24 }}>
+                  <Close width={16} height={16} />
+                </View>
               </TouchableOpacity>
             </Header>
           ) : (
@@ -80,9 +86,7 @@ const HomeScreen = ({ navigation }: any) => {
                 </Row>
               </Pressable>
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('SearchScreen');
-                }}
+                onPress={() => navigation.navigate('SearchScreen')}
               >
                 <Search width={24} height={24} />
               </TouchableOpacity>
@@ -111,7 +115,6 @@ const HomeScreen = ({ navigation }: any) => {
               ))}
             </NaverMapView>
           </View>
-
           <BottomSheet
             ref={listSheetRef}
             snapPoints={ListPoints}
@@ -137,26 +140,6 @@ const HomeScreen = ({ navigation }: any) => {
 
 const Container = styled(View)`
   background-color: #000;
-`;
-
-const Header = styled(Row)`
-  height: 56px;
-  padding: 10px ${getWidthRatio(26)};
-  justify-content: space-between;
-  background-color: ${(p) => p.theme.palette.white};
-`;
-
-const KeywordBox = styled(Row)`
-  flex: 1;
-  height: 100%;
-  margin: 0 17px 0 8px;
-  //padding-horizontal: 14px;
-  background-color: ${(p) => p.theme.palette.gray01};
-  border-radius: 4px;
-`;
-
-const KeywordText = styled(Font15W500)`
-  color: ${(p) => p.theme.palette.gray06};
 `;
 
 export default HomeScreen;

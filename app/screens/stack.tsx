@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RootScreen from 'screens';
 import UniversityScreen from 'screens/university';
@@ -24,7 +24,12 @@ const RootStackScreen = () => {
         <Stack.Screen name='RootScreen' component={RootScreen} />
         <Stack.Screen name='MainScreen' component={MainScreen} />
         <Stack.Screen name='UniversityScreen' component={UniversityScreen} />
-        <Stack.Screen name='SearchScreen' component={SearchScreen} />
+        <Stack.Screen
+          name='SearchScreen'
+          component={SearchScreen}
+          options={{ animation: 'none' }}
+          initialParams={{ keyword: '' }}
+        />
       </Stack.Group>
       <Stack.Group
         screenOptions={{
