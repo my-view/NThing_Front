@@ -16,19 +16,22 @@ import Down from '@assets/image/Down.svg';
 import Left from '@assets/image/Left.svg';
 import Close from '@assets/image/Close.svg';
 import { Row } from '@components/common/layout';
+import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
+import { Item } from '@components/common/item';
 import {
   GestureHandlerRootView,
   PanGestureHandler,
   TapGestureHandler,
 } from 'react-native-gesture-handler';
+import { ITEM_LIST } from '@assets/mock/item-list';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }: any) => {
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
   const [searchKeyword, setSearchKeyword] = useState('휴지');
   const PIN_DATA = [
@@ -38,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
   ];
 
   const listSheetRef = React.useRef<BottomSheet>(null);
-  const ListPoints = React.useMemo(() => ['1%', '30%', '50%', '76.8%'], []);
+  const ListPoints = React.useMemo(() => ['1%', '37%', '50%', '88.5%'], []);
   const renderBackdrop = React.useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -49,9 +52,6 @@ const HomeScreen = ({ navigation }) => {
     ),
     [],
   );
-  // useEffect(() => {
-  //   listSheetRef.current?.snapToIndex(0);
-  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -94,8 +94,8 @@ const HomeScreen = ({ navigation }) => {
               showsMyLocationButton={false}
               zoomControl={false}
               center={{ ...PIN_DATA[selectedPin || 0], zoom: 16 }}
-              onTouch={() => console.log('onTouch')}
-              onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
+              // onTouch={() => console.log('onTouch')}
+              // onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
             >
               {PIN_DATA.map((pin, index) => (
                 <CustomMarker
@@ -104,7 +104,7 @@ const HomeScreen = ({ navigation }) => {
                   onClick={() => {
                     setSelectedPin(index);
                     listSheetRef.current?.snapToIndex(1);
-                    console.warn(`onClick!${pin.id}`);
+                    // console.warn(`onClick!${pin.id}`);
                   }}
                   isSelected={index === selectedPin}
                 />
@@ -116,12 +116,17 @@ const HomeScreen = ({ navigation }) => {
             ref={listSheetRef}
             snapPoints={ListPoints}
             index={0}
+            handleIndicatorStyle={BottomSheetHandleStyle}
             // backdropComponent={renderBackdrop}
           >
-            <BottomSheetView>
-              <Text>dfsfsdfsfsdfdfsdf</Text>
-              <Text>dfsfsdfsfsdfdfsdf</Text>
-              <Text>dfsfsdfsfsdfdfsdf</Text>
+            <BottomSheetView
+              style={{
+                paddingHorizontal: 20,
+              }}
+            >
+              {ITEM_LIST.map((item, index) => (
+                <Item key={index} data={item} />
+              ))}
             </BottomSheetView>
           </BottomSheet>
         </Container>

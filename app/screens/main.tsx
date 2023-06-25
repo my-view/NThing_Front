@@ -3,6 +3,7 @@ import HomeScreen from './home';
 import ChatingScreen from './chating';
 import MyPageScreen from './my-page';
 import TradeRegistScreen from './trade-regist';
+import styled from '@emotion/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TradeRegist from '@assets/image/TradeRegist.svg';
 import Home from '@assets/image/Home.svg';
@@ -12,12 +13,26 @@ import FillTradeRegist from '@assets/image/FillTradeRegist.svg';
 import FillHome from '@assets/image/FillHome.svg';
 import FillMyPage from '@assets/image/FillMyPage.svg';
 import FillChat from '@assets/image/FillChat.svg';
-import { Text } from 'react-native';
+import { MyTabBar } from '@components/common/bottom-tap';
 
 const Tab = createBottomTabNavigator();
 
 const MainScreen = () => {
   return (
+    // <Tab.Navigator
+    //   screenOptions={{
+    //     headerShown: true,
+    //     headerShadowVisible: false,
+    //   }}
+    //   tabBar={(props) => <MyTabBar {...props} />}
+    // >
+    //   <Tab.Group>
+    //     <Tab.Screen name='홈' component={HomeScreen} />
+    //     <Tab.Screen name='거래등록' component={TradeRegistScreen} />
+    //     <Tab.Screen name='채팅' component={ChatingScreen} />
+    //     <Tab.Screen name='My' component={MyPageScreen} />
+    //   </Tab.Group>
+    // </Tab.Navigator>
     <Tab.Navigator
       initialRouteName='Home'
       screenOptions={{
@@ -29,17 +44,7 @@ const MainScreen = () => {
         <Tab.Screen
           name='홈'
           options={{
-            tabBarLabel: ({ focused, color }) => (
-              <Text
-                style={{
-                  fontWeight: 600,
-                  fontSize: 10,
-                  color: '#000000',
-                }}
-              >
-                홈
-              </Text>
-            ),
+            tabBarLabel: ({ focused, color }) => <MenuText>홈</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <FillHome width={24} height={24} color={'#000000'} />
@@ -52,17 +57,7 @@ const MainScreen = () => {
         <Tab.Screen
           name='TradeRegist'
           options={{
-            tabBarLabel: ({ focused, color }) => (
-              <Text
-                style={{
-                  fontWeight: 600,
-                  fontSize: 10,
-                  color: '#000000',
-                }}
-              >
-                거래 등록
-              </Text>
-            ),
+            tabBarLabel: ({ focused, color }) => <MenuText>거래 등록</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <FillTradeRegist width={24} height={24} color={'#000000'} />
@@ -75,17 +70,7 @@ const MainScreen = () => {
         <Tab.Screen
           name='Chating'
           options={{
-            tabBarLabel: ({ focused, color }) => (
-              <Text
-                style={{
-                  fontWeight: 600,
-                  fontSize: 10,
-                  color: '#000000',
-                }}
-              >
-                채팅
-              </Text>
-            ),
+            tabBarLabel: ({ focused, color }) => <MenuText>채팅</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <FillChat width={24} height={24} color={'#000000'} />
@@ -98,17 +83,7 @@ const MainScreen = () => {
         <Tab.Screen
           name='Mypage'
           options={{
-            tabBarLabel: ({ focused, color }) => (
-              <Text
-                style={{
-                  fontWeight: 600,
-                  fontSize: 10,
-                  color: '#000000',
-                }}
-              >
-                My
-              </Text>
-            ),
+            tabBarLabel: ({ focused, color }) => <MenuText>My</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <FillMyPage width={24} height={24} color={'#000000'} />
@@ -124,3 +99,9 @@ const MainScreen = () => {
 };
 
 export default MainScreen;
+
+const MenuText = styled.Text`
+  font-weight: 600;
+  font-size: 10px;
+  color: ${(p) => p.theme.palette.black};
+`;
