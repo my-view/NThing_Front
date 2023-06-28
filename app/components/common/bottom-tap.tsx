@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity } from 'react-native';
 import styled from '@emotion/native';
 
 export const MyTabBar = ({ state, descriptors, navigation }) => {
