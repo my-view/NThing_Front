@@ -42,7 +42,7 @@ const MainScreen = () => {
     >
       <Tab.Group>
         <Tab.Screen
-          name='홈'
+          name='HomeScreen'
           options={{
             tabBarLabel: ({ focused, color }) => <MenuText>홈</MenuText>,
             tabBarIcon: ({ color, focused }) =>
@@ -53,9 +53,10 @@ const MainScreen = () => {
               ),
           }}
           component={HomeScreen}
+          initialParams={{ keyword: '' }}
         />
         <Tab.Screen
-          name='TradeRegist'
+          name='TradeRegistScreen'
           options={{
             tabBarLabel: ({ focused, color }) => <MenuText>거래 등록</MenuText>,
             tabBarIcon: ({ color, focused }) =>
@@ -68,7 +69,7 @@ const MainScreen = () => {
           component={TradeRegistScreen}
         />
         <Tab.Screen
-          name='Chating'
+          name='ChatingScreen'
           options={{
             tabBarLabel: ({ focused, color }) => <MenuText>채팅</MenuText>,
             tabBarIcon: ({ color, focused }) =>
@@ -81,7 +82,7 @@ const MainScreen = () => {
           component={ChatingScreen}
         />
         <Tab.Screen
-          name='Mypage'
+          name='MyPageScreen'
           options={{
             tabBarLabel: ({ focused, color }) => <MenuText>My</MenuText>,
             tabBarIcon: ({ color, focused }) =>
