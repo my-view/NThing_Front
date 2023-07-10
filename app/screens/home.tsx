@@ -47,7 +47,15 @@ const HomeScreen = ({ route, navigation }: any) => {
     ),
     [],
   );
-  console.log(keyword);
+
+  useEffect(() => {
+    // TODO: 홈화면 접속 시 최초에 거래 목록 받아오기
+    // fetch(
+    //   'https://3b55-2001-e60-87dc-6fa1-fc8b-5655-9c11-29b3.ngrok-free.app/purchase',
+    // )
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
