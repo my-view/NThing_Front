@@ -12,6 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3B8918E72A35FEFC00214DA0 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3B8918E62A35FEFC00214DA0 /* Fonts */; };
+		44441CEC2A5F71A10028E186 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 44441CEB2A5F71A10028E186 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		F4B04C9FD7728D8F8E7D0322 /* libPods-nThing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA41BCBEC244E767E64962E8 /* libPods-nThing.a */; };
 		F9A9A477BD5A97AF6C5AD27F /* libPods-nThing-nThingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15D249E38B39DB04E01344CD /* libPods-nThing-nThingTests.a */; };
@@ -41,6 +42,7 @@
 		15D249E38B39DB04E01344CD /* libPods-nThing-nThingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nThing-nThingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CB6908819EB2FADB650D7E2 /* Pods-nThing-nThingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nThing-nThingTests.release.xcconfig"; path = "Target Support Files/Pods-nThing-nThingTests/Pods-nThing-nThingTests.release.xcconfig"; sourceTree = "<group>"; };
 		3B8918E62A35FEFC00214DA0 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		44441CEB2A5F71A10028E186 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = nThing/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B056902B7E7A1051FCE72ECD /* Pods-nThing-nThingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nThing-nThingTests.debug.xcconfig"; path = "Target Support Files/Pods-nThing-nThingTests/Pods-nThing-nThingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BA41BCBEC244E767E64962E8 /* libPods-nThing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nThing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 		13B07FAE1A68108700A75B9A /* nThing */ = {
 			isa = PBXGroup;
 			children = (
+				44441CEB2A5F71A10028E186 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -246,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B8918E72A35FEFC00214DA0 /* Fonts in Resources */,
+				44441CEC2A5F71A10028E186 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

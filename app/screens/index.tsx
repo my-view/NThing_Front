@@ -11,13 +11,17 @@ import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getWidthRatio, getHeightRatio } from 'assets/util/layout';
 import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const naverLoginKeys = {
-  consumerKey: 'vnH89uX9Nczv8vOeXfQw',
-  consumerSecret: 'TtWl5HamP7',
+  consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
+  consumerSecret: 'TtWl5HamP7', // 얘도 필요한건가?
   appName: 'nThing',
   serviceUrlScheme: 'naverlogin', // only for iOS
 };
+
+const googleWebClientId =
+  '141023294009-g5k49bh6cmk0re3c94mnu9esi4ep3gcc.apps.googleusercontent.com';
 
 const RootScreen = ({ navigation }: any) => {
   const { width, height } = useWindowDimensions();
@@ -26,7 +30,19 @@ const RootScreen = ({ navigation }: any) => {
   const naverLogin = async (props: NaverLoginRequest) => {
     try {
       const { successResponse } = await NaverLogin.login(props);
-      console.log('토큰', successResponse?.accessToken);
+      console.log('네이버 토큰', successResponse?.accessToken);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  const googleLogin = async () => {
+    GoogleSignin.configure({
+      webClientId: googleWebClientId,
+    });
+    try {
+      const { idToken } = await GoogleSignin.signIn();
+      console.log('구글 토큰', idToken);
     } catch (e) {
       console.warn(e);
     }
@@ -53,11 +69,7 @@ const RootScreen = ({ navigation }: any) => {
             >
               <Image source={require('../assets/image/kakao-btn.png')} />
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigation.navigate('MainScreen');
-              }}
-            >
+            <TouchableWithoutFeedback onPress={() => googleLogin()}>
               <Image source={require('../assets/image/google-btn.png')} />
             </TouchableWithoutFeedback>
           </ButtonWrap>
