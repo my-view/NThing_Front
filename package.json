@@ -16,6 +16,7 @@
     "@gorhom/bottom-sheet": "^4",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-masked-view/masked-view": "^0.2.9",
+    "@react-native-seoul/naver-login": "^3.0.0-rc.2",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
