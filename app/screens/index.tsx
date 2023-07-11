@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -10,9 +10,27 @@ import {
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getWidthRatio, getHeightRatio } from 'assets/util/layout';
+import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
+
+const naverLoginKeys = {
+  consumerKey: 'vnH89uX9Nczv8vOeXfQw',
+  consumerSecret: 'TtWl5HamP7',
+  appName: 'nThing',
+  serviceUrlScheme: 'naverlogin', // only for iOS
+};
 
 const RootScreen = ({ navigation }: any) => {
   const { width, height } = useWindowDimensions();
+  const [token, setToken] = useState<string>();
+
+  const naverLogin = async (props: NaverLoginRequest) => {
+    try {
+      const { successResponse } = await NaverLogin.login(props);
+      console.log('토큰', successResponse?.accessToken);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -24,9 +42,7 @@ const RootScreen = ({ navigation }: any) => {
           <SocialSubTitle>sns로 간편 로그인</SocialSubTitle>
           <ButtonWrap>
             <TouchableWithoutFeedback
-              onPress={() => {
-                navigation.navigate('UniversityScreen');
-              }}
+              onPress={() => naverLogin(naverLoginKeys)}
             >
               <Image source={require('../assets/image/naver-btn.png')} />
             </TouchableWithoutFeedback>
