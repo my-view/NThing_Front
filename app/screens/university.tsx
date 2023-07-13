@@ -1,32 +1,109 @@
 import React, { useEffect, useState } from 'react';
-import { Button, SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import styled from '@emotion/native';
 import { Input } from 'components/common/input';
 import { getHeightRatio } from 'assets/util/layout';
+import { College } from 'types/common';
+import { Autocomplete } from 'components/common/autocomplete';
 
 const UniversityScreen = ({ navigation }) => {
-  const [university, setUniversity] = useState('');
+  const [input, setInput] = useState('');
+  const [colleges, setColleges] = useState<College[]>([]);
+
   useEffect(() => {
-    // TODO: 검색어와 일치하는 학교 목록 불러오기 (디바운스 적용?)
+    if (!input.length) return;
+    // mock data
+    setColleges([
+      {
+        id: 1,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+      {
+        id: 2,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+      {
+        id: 3,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+      {
+        id: 4,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+      {
+        id: 5,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+      {
+        id: 6,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+      {
+        id: 7,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+      {
+        id: 8,
+        name: '부산대학교',
+        address: '부산',
+        longitude: 129.096871971614,
+        latitude: 35.2446753071785,
+      },
+    ]);
+
+    // TODO: 디바운스 적용?
+    // 실제 데이터
     // fetch(
-    //   'https://3b55-2001-e60-87dc-6fa1-fc8b-5655-9c11-29b3.ngrok-free.app/college',
+    //   `https://3063-1-225-155-14.ngrok-free.app/college?search_keyword=${input}`,
     // )
     //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
-  }, [university]);
+    //   .then((data) => {
+    //     console.log(data);
+    //     setColleges(data);
+    //   });
+  }, [input]);
+
   return (
     <SafeAreaView>
       <Container>
         <MainText>{`학교를\n선택해 주세요`}</MainText>
         <Input
-          value={university}
-          onChangeText={(text) => setUniversity(text)}
+          value={input}
+          onChangeText={(text) => setInput(text.trim())}
           placeholder='학교명을 검색하세요'
           autoFocus
         />
-        <Button
-          onPress={() => navigation.navigate('UniversityMapModal')}
-          title='선택'
+        <Autocomplete
+          data={colleges}
+          onSelect={(id) => {
+            const selected = colleges.find((item) => item.id === id) as College;
+            const { latitude, longitude } = selected;
+            navigation.navigate('UniversityMapModal', {
+              latitude,
+              longitude,
+            });
+          }}
         />
       </Container>
     </SafeAreaView>
