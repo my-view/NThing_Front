@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "141023294009",
+    "project_id": "nthing-388215",
+    "storage_bucket": "nthing-388215.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141023294009:android:a42b5d8f8d3ec95e4153e8",
+        "android_client_info": {
+          "package_name": "com.nthing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141023294009-j3le5730h1rr4lcpttvtg49satl1k4pd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nthing",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "141023294009-1us22k961jc2tb0q1hrvjh1c8eu9s89p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDohQHU1-4-cMChqioCHbEKraphD7myAxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141023294009-1us22k961jc2tb0q1hrvjh1c8eu9s89p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
