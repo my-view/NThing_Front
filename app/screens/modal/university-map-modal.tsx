@@ -8,8 +8,9 @@ import { Font18W600 } from 'components/common/text';
 import { theme } from '~/../theme';
 import { CustomMarker } from 'components/nmap/marker';
 
-const UniversityMapModal = ({ navigation }) => {
-  const P0 = { id: 1, latitude: 37.564362, longitude: 126.977011 };
+const UniversityMapModal = ({ navigation, route }) => {
+  const { latitude, longitude } = route.params;
+  const pin = { id: 1, latitude, longitude };
   return (
     <ModalBackground>
       <ModalContent>
@@ -27,11 +28,11 @@ const UniversityMapModal = ({ navigation }) => {
         <NaverMapView
           style={{ width: '100%', aspectRatio: '4/3' }}
           showsMyLocationButton={true}
-          center={{ ...P0, zoom: 14 }}
+          center={{ ...pin, zoom: 14 }}
           onTouch={() => console.log('onTouch')}
           onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
         >
-          <CustomMarker coordinate={P0} />
+          <CustomMarker coordinate={pin} />
         </NaverMapView>
         <TouchableOpacity
           style={{ marginTop: 20 }}

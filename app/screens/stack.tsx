@@ -42,6 +42,7 @@ const RootStackScreen = () => {
           name='UniversityMapModal'
           component={UniversityMapModal}
           options={{ animation: 'none' }}
+          initialParams={{ latitude: 37.564362, longitude: 126.977011 }}
         />
       </Stack.Group>
     </Stack.Navigator>
