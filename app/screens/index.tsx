@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   View,
   useWindowDimensions,
+  Pressable,
 } from 'react-native';
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
@@ -73,7 +74,9 @@ const RootScreen = ({ navigation }: any) => {
               <Image source={require('../assets/image/google-btn.png')} />
             </TouchableWithoutFeedback>
           </ButtonWrap>
-          <LaterLogin>나중에 로그인하기</LaterLogin>
+          <Pressable onPress={() => navigation.navigate('MainScreen')}>
+            <LaterLogin>나중에 로그인하기</LaterLogin>
+          </Pressable>
         </SocialLoginWrap>
       </Container>
     </SafeAreaView>
@@ -94,6 +97,7 @@ const SocialSubTitle = styled(Font16W500)`
   // font-family: ${(props) => props.theme.font[500]};
   // color: ${(props) => props.theme.palette.primary};
 `;
+
 const LaterLogin = styled(UnderLine14)`
   margin-top: 20px;
 `;
