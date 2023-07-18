@@ -26,7 +26,7 @@ import {
 } from 'react-native-gesture-handler';
 import { ITEM_LIST } from '@assets/mock/item-list';
 
-const HomeScreen = ({ route, navigation }: any) => {
+const SearchMapScreen = ({ route, navigation }: any) => {
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
@@ -64,7 +64,6 @@ const HomeScreen = ({ route, navigation }: any) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <GestureHandlerRootView>
         <Container>
-          {keyword ? (
             <Header>
               <TouchableOpacity
                 onPress={() =>
@@ -75,7 +74,7 @@ const HomeScreen = ({ route, navigation }: any) => {
               >
                 <Left width={24} height={24} />
               </TouchableOpacity>
-              <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
+              <KeywordBox style={{ lineHeight: 36 }}>{keyword}dsdf</KeywordBox>
               <TouchableOpacity
                 onPress={() =>
                   navigation.setParams({
@@ -88,21 +87,6 @@ const HomeScreen = ({ route, navigation }: any) => {
                 </View>
               </TouchableOpacity>
             </Header>
-          ) : (
-            <Header>
-              <Pressable onPress={() => console.warn('touched')}>
-                <Row style={{ gap: 5 }}>
-                  <Font18W600>서울대학교</Font18W600>
-                  <Down width={16} height={16} />
-                </Row>
-              </Pressable>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('SearchScreen')}
-              >
-                <Search width={24} height={24} />
-              </TouchableOpacity>
-            </Header>
-          )}
           <View style={{ height: '100%' }}>
             <NaverMapView
               style={{ width: '100%', height: '100%' }}
@@ -153,4 +137,4 @@ const Container = styled(View)`
   background-color: #000;
 `;
 
-export default HomeScreen;
+export default SearchMapScreen;
