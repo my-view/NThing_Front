@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { css } from '@emotion/native';
 import styled from '@emotion/native';
 import { View, Text } from 'react-native';
 import { itemType } from '@assets/mock/item-list';
 import { Font15W500, Font16W600, Font12W400 } from './text';
-export const Item = ({ data }: { data: itemType }) => {
+
+export const Item = ({
+  data,
+  index,
+  listLength,
+}: {
+  data: itemType;
+  index: number;
+  listLength: number;
+}) => {
   const { title, price, place, n, person, time } = data;
   const [lineCount, setLineCount] = useState(1);
+
   const singleLine = 16;
   const multiLine = 24;
 
@@ -39,6 +50,11 @@ export const Item = ({ data }: { data: itemType }) => {
           </PricePersonBox>
         </InfoBox>
       </Box>
+      <Divider
+        style={{
+          borderBottomWidth: index === listLength ? 0 : 1,
+        }}
+      />
     </>
   );
 };
@@ -47,7 +63,10 @@ const Box = styled.View`
   margin-top: 15px;
   flex-direction: row;
   padding-bottom: 15px;
-  border-bottom-width: 1px;
+`;
+
+const Divider = styled.View`
+  /* border-bottom-width: 1px;/ */
   border-bottom-color: ${(p) => p.theme.palette.gray01};
 `;
 

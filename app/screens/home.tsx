@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Pressable, SafeAreaView,TouchableOpacity, View, Dimensions } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+  Pressable,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from '@components/nmap/marker';
@@ -17,7 +24,9 @@ import BottomSheet, {
   BottomSheetView,
   BottomSheetModal,
   BottomSheetModalProvider,
+  BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
+
 import { Item } from '@components/common/item';
 import {
   GestureHandlerRootView,
@@ -38,8 +47,12 @@ const HomeScreen = ({ route, navigation }: any) => {
 
   const listSheetRef = React.useRef<BottomSheet>(null);
   const headerFullHeight = windowHeight - 76;
-  
-  const ListPoints = React.useMemo(() => ['1%', '37%', '50%', headerFullHeight], []);
+
+  const ListPoints = React.useMemo(
+    () => ['1%', '24%', '37%', '50%', headerFullHeight],
+    [],
+  );
+
   const renderBackdrop = React.useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -51,6 +64,10 @@ const HomeScreen = ({ route, navigation }: any) => {
     [],
   );
 
+  const handleSheetChange = useCallback((index: number) => {
+    console.log('handleSheetChange', index);
+  }, []);
+
   useEffect(() => {
     // TODO: 홈화면 접속 시 최초에 거래 목록 받아오기
     // fetch(
@@ -59,6 +76,24 @@ const HomeScreen = ({ route, navigation }: any) => {
     //   .then((res) => res.json())
     //   .then((data) => console.log(data));
   }, []);
+
+  const renderItem = useCallback(
+    (item: any, index: number) => (
+      <Item
+        key={index}
+        data={item}
+        index={index}
+        listLength={ITEM_LIST.length - 1}
+      />
+    ),
+    [],
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      listSheetRef.current?.snapToIndex(2);
+    }, 400);
+  }, [selectedPin]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -109,7 +144,9 @@ const HomeScreen = ({ route, navigation }: any) => {
               showsMyLocationButton={false}
               zoomControl={false}
               center={{ ...PIN_DATA[selectedPin || 0], zoom: 16 }}
-              // onTouch={() => console.log('onTouch')}
+              onTouch={() => {
+                listSheetRef.current?.snapToIndex(1);
+              }}
               // onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
             >
               {PIN_DATA.map((pin, index) => (
@@ -118,8 +155,6 @@ const HomeScreen = ({ route, navigation }: any) => {
                   coordinate={pin}
                   onClick={() => {
                     setSelectedPin(index);
-                    listSheetRef.current?.snapToIndex(1);
-                    // console.warn(`onClick!${pin.id}`);
                   }}
                   isSelected={index === selectedPin}
                 />
@@ -129,19 +164,19 @@ const HomeScreen = ({ route, navigation }: any) => {
           <BottomSheet
             ref={listSheetRef}
             snapPoints={ListPoints}
-            index={0}
+            index={1}
             handleIndicatorStyle={BottomSheetHandleStyle}
+            onChange={handleSheetChange}
             // backdropComponent={renderBackdrop}
           >
-            <BottomSheetView
-              style={{
+            <BottomSheetScrollView
+              contentContainerStyle={{
                 paddingHorizontal: 20,
+                paddingBottom: 120,
               }}
             >
-              {ITEM_LIST.map((item, index) => (
-                <Item key={index} data={item} />
-              ))}
-            </BottomSheetView>
+              {ITEM_LIST.map(renderItem)}
+            </BottomSheetScrollView>
           </BottomSheet>
         </Container>
       </GestureHandlerRootView>
