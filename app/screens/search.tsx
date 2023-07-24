@@ -15,12 +15,21 @@ const SearchScreen = ({ route, navigation }) => {
   const [searchKeyword, setSearchKeyword] = useState(route.params.keyword);
   const [latestKeywords, setLatestKeywords] = useState<string[]>([]);
   const STORAGE_LATEST_KEYWORD = 'latestKeyword';
+
   const navigateToHome = (keyword: string) => {
     navigation.navigate('MainScreen', {
       screen: 'HomeScreen',
       params: { keyword },
     });
   };
+
+  const navigateToSearchMap = (keyword: string) => {
+    navigation.navigate('SearchMapScreen', {
+      screen: 'SearchMapScreen',
+      params: { keyword },
+    });
+  };
+
   const search = () => {
     if (!searchKeyword.trim()) return;
     if (!latestKeywords.includes(searchKeyword)) {
@@ -29,8 +38,9 @@ const SearchScreen = ({ route, navigation }) => {
         JSON.stringify([searchKeyword, ...latestKeywords]),
       );
     }
-    navigateToHome(searchKeyword);
+    navigateToSearchMap(searchKeyword);
   };
+
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_LATEST_KEYWORD, (_, result) => {
       if (!result) return;
@@ -73,7 +83,7 @@ const SearchScreen = ({ route, navigation }) => {
                   STORAGE_LATEST_KEYWORD,
                   JSON.stringify(updated),
                 );
-                navigateToHome(item);
+                navigateToSearchMap(item);
               }}
               onDelete={() => {
                 const updated = latestKeywords.filter(
