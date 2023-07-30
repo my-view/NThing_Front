@@ -17,3 +17,9 @@ export interface College extends Coordinate {
   name: string;
   address: string;
 }
+
+export interface filterType {
+  cd: string;
+  nm: string;
+}
+
