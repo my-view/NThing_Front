@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from '@components/nmap/marker';
@@ -34,6 +35,7 @@ import {
   TapGestureHandler,
 } from 'react-native-gesture-handler';
 import { ITEM_LIST } from '@assets/mock/item-list';
+import { filterType } from '~/types/common';
 
 const HomeScreen = ({ route, navigation }: any) => {
   const windowHeight = Dimensions.get('window').height;
@@ -45,6 +47,12 @@ const HomeScreen = ({ route, navigation }: any) => {
     { id: 3, latitude: 37.565383, longitude: 126.976292 },
   ];
 
+  const [selectValue, setSelectValue] = useState({
+    nm: '최신순',
+    cd: 'recent',
+  });
+
+  console.log('selectValue---', selectValue);
   const listSheetRef = React.useRef<BottomSheet>(null);
   const headerFullHeight = windowHeight - 76;
 
@@ -52,6 +60,13 @@ const HomeScreen = ({ route, navigation }: any) => {
     () => ['1%', '24%', '37%', '50%', headerFullHeight],
     [],
   );
+
+  const countries: filterType[] = [
+    { nm: '최신순', cd: 'recent' },
+    { nm: '가격순', cd: 'price' },
+    { nm: '마감임박순', cd: 'i_dl' },
+    { nm: '시간임박순', cd: 't_dl' },
+  ];
 
   const renderBackdrop = React.useCallback(
     (props: any) => (
@@ -138,7 +153,7 @@ const HomeScreen = ({ route, navigation }: any) => {
               </TouchableOpacity>
             </Header>
           )}
-          <View style={{ height: '100%' }}>
+          <View style={{ height: '100%', paddingBottom: 160 }}>
             <NaverMapView
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
@@ -169,7 +184,23 @@ const HomeScreen = ({ route, navigation }: any) => {
             onChange={handleSheetChange}
             // backdropComponent={renderBackdrop}
           >
+            <View
+              style={{
+                paddingLeft: 20,
+                height: 14,
+                paddingBottom: 20,
+                // backgroundColor: 'blue',
+              }}
+            >
+              <SelectBox
+                value={selectValue}
+                onChange={setSelectValue}
+                options={countries}
+                defaultValue={selectValue}
+              />
+            </View>
             <BottomSheetScrollView
+              onLayout={(e) => console.log(e)}
               contentContainerStyle={{
                 paddingHorizontal: 20,
                 paddingBottom: 120,
