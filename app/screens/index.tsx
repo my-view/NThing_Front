@@ -13,6 +13,7 @@ import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getWidthRatio, getHeightRatio } from 'assets/util/layout';
 import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import * as KakaoLogin from '@react-native-seoul/kakao-login';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?

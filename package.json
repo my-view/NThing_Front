@@ -11,7 +11,6 @@
     "test": "jest",
     "react-devtools": "react-devtools"
   },
-
   "dependencies": {
     "@emotion/native": "^11.11.0",
     "@emotion/react": "^11.11.0",
@@ -20,6 +19,7 @@
     "@react-native-firebase/app": "^18.1.0",
     "@react-native-google-signin/google-signin": "^10.0.1",
     "@react-native-masked-view/masked-view": "^0.2.9",
+    "@react-native-seoul/kakao-login": "^5.3.0",
     "@react-native-seoul/naver-login": "^3.0.0-rc.2",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",

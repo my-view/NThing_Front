@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		3B21A2742A77FF5F00CEEBF3 /* Swift Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B21A2732A77FF5F00CEEBF3 /* Swift Bridge.swift */; };
 		3B8918E72A35FEFC00214DA0 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3B8918E62A35FEFC00214DA0 /* Fonts */; };
 		3BC363B52A654C80001EBC0C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BC363B42A654C80001EBC0C /* GoogleService-Info.plist */; };
 		3FBF4220A3260200B6D9F395 /* libPods-nThing-nThingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28BDA11E8E0BD36E16135F6C /* libPods-nThing-nThingTests.a */; };
@@ -38,8 +39,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = nThing/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = nThing/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = nThing/main.m; sourceTree = "<group>"; };
-		28BDA11E8E0BD36E16135F6C /* libPods-nThing-nThingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nThing-nThingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		362B8AFE53AEFB30194AAABD /* Pods-nThing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nThing.debug.xcconfig"; path = "Target Support Files/Pods-nThing/Pods-nThing.debug.xcconfig"; sourceTree = "<group>"; };
+		3B21A2732A77FF5F00CEEBF3 /* Swift Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swift Bridge.swift"; sourceTree = "<group>"; };
 		3B8918E62A35FEFC00214DA0 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		3B9148C945AAB8B588970F94 /* Pods-nThing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nThing.release.xcconfig"; path = "Target Support Files/Pods-nThing/Pods-nThing.release.xcconfig"; sourceTree = "<group>"; };
 		3BC363B42A654C80001EBC0C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -97,6 +97,7 @@
 				3BC363B42A654C80001EBC0C /* GoogleService-Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				3B21A2732A77FF5F00CEEBF3 /* Swift Bridge.swift */,
 			);
 			name = nThing;
 			sourceTree = "<group>";
@@ -214,7 +215,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1340;
 					};
 				};
 			};
@@ -435,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				3B21A2742A77FF5F00CEEBF3 /* Swift Bridge.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,6 +456,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 799291565DF660D8A4C9DA07 /* Pods-nThing-nThingTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -481,6 +484,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8ABE0C3ACBFC1C53C48BFE6F /* Pods-nThing-nThingTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = nThingTests/Info.plist;
@@ -523,6 +527,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = nThing;
+				SWIFT_OBJC_BRIDGING_HEADER = "nThing-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -550,6 +555,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = nThing;
+				SWIFT_OBJC_BRIDGING_HEADER = "nThing-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
