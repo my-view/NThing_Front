@@ -8,6 +8,11 @@ export const Font12W400 = styled.Text`
   font-weight: 400;
 `;
 
+export const Font13W500 = styled.Text`
+  font-size: 13px;
+  font-weight: 500;
+`;
+
 export const Font15W500 = styled.Text`
   font-size: 15px;
   font-weight: 500;
@@ -30,6 +35,11 @@ export const Font16W600 = styled.Text`
   font-weight: 600;
   font-size: 16px;
   line-height: 16px;
+`;
+
+export const Font13W600 = styled.Text`
+  font-weight: 600;
+  font-size: 13px;
 `;
 
 // UnderLine--------------------------->
