@@ -50,6 +50,7 @@ target 'nThing' do
     # Pods for testing
   end
 
+  pod 'KakaoSDK'
   pod 'NMapsMap'
   pod 'naveridlogin-sdk-ios'
 

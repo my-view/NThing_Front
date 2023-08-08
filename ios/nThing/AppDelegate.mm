@@ -10,15 +10,6 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)app
-     openURL:(NSURL *)url
-     options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
- if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
-    return [RNKakaoLogins handleOpenUrl: url];
- }
-
- return NO;
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -42,8 +33,12 @@
   if ([url.scheme isEqualToString:@"your_apps_urlscheme"]) {
     return [[NaverThirdPartyLoginConnection getSharedInstance] application:application openURL:url options:options];
   }
+  // for kakao login
+  if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+     return [RNKakaoLogins handleOpenUrl: url];
+  }
         
-    return YES;
+    return NO;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
