@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import { IconButton } from '~/components/common/button';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
