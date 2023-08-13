@@ -64,7 +64,7 @@ const TradeRegistScreen = ({ navigation }) => {
           onPress={navigation.goBack}
           style={{ position: 'absolute', left: getWidthRatio(20) }}
         >
-          <Left width={24} height={24} />
+          <Left width={24} height={24} color={theme.palette.black} />
         </TouchableOpacity>
         <Font16W600>거래글 작성</Font16W600>
       </Header>

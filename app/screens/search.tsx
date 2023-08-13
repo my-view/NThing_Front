@@ -51,7 +51,7 @@ const SearchScreen = ({ route, navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <Header>
         <TouchableOpacity onPress={navigation.goBack}>
-          <Left width={24} height={24} />
+          <Left width={24} height={24} color={theme.palette.black} />
         </TouchableOpacity>
         <KeywordInput
           value={searchKeyword}

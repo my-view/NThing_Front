@@ -151,7 +151,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
                 })
               }
             >
-              <Left width={24} height={24} />
+              <Left width={24} height={24} color={theme.palette.black} />
             </TouchableOpacity>
             <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
             <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
