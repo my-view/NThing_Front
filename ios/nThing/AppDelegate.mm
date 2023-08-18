@@ -28,17 +28,16 @@
 {
   
   
-  
-    // for naver login
+  // for naver login
   if ([url.scheme isEqualToString:@"your_apps_urlscheme"]) {
     return [[NaverThirdPartyLoginConnection getSharedInstance] application:application openURL:url options:options];
   }
   // for kakao login
   if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
-     return [RNKakaoLogins handleOpenUrl: url];
+    return [RNKakaoLogins handleOpenUrl: url];
   }
         
-    return NO;
+  return NO;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

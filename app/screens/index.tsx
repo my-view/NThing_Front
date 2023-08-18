@@ -38,6 +38,15 @@ const RootScreen = ({ navigation }: any) => {
     }
   };
 
+  const kakaoLogin = async () => {
+    try {
+      const { accessToken } = await KakaoLogin.login();
+      console.log('카카오 토큰', accessToken);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
   const googleLogin = async () => {
     GoogleSignin.configure({
       webClientId: googleWebClientId,
@@ -66,7 +75,8 @@ const RootScreen = ({ navigation }: any) => {
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.navigate('UniversityScreen');
+                kakaoLogin();
+                // navigation.navigate('UniversityScreen');
               }}
             >
               <Image source={require('../assets/image/kakao-btn.png')} />
