@@ -34,6 +34,7 @@ import { ITEM_LIST } from '@assets/mock/item-list';
 import { filterType } from '~/types/common';
 import getDistanceFromLatLonInKm from '~/assets/util/map';
 import { Text } from 'react-native-svg';
+import { theme } from '~/../theme';
 
 const SearchMapScreen = ({ route, navigation }: any) => {
   console.log('SearchMapScreen', route);
