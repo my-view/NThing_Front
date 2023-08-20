@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import { IconButton } from '~/components/common/button';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -146,7 +147,9 @@ const HomeScreen = ({ route, navigation }: any) => {
                   <Down width={16} height={16} />
                 </Row>
               </Pressable>
-              <TouchableOpacity onPress={() => navigate('SearchScreen')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SearchScreen')}
+              >
                 <Search width={24} height={24} />
               </TouchableOpacity>
             </Header>

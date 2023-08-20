@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/native';
 import styled from '@emotion/native';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable, Image } from 'react-native';
 import { itemType } from '@assets/mock/item-list';
 import { Font15W500, Font16W600, Font12W400 } from './text';
+import { Icon, IconButton } from '@components/common/button';
+import Reset from '~/assets/image/Reset.svg';
 
 export const Item = ({
   data,
@@ -14,7 +16,7 @@ export const Item = ({
   index: number;
   listLength: number;
 }) => {
-  const { title, price, place, n, person, time } = data;
+  const { title, price, place, n, person, time, islike } = data;
   const [lineCount, setLineCount] = useState(1);
 
   const singleLine = 16;
@@ -25,30 +27,47 @@ export const Item = ({
     setLineCount(lines.length);
   };
 
+  const [like, setLike] = useState<boolean>(islike);
+  const handleLikeButton = () => {
+    console.log('handleLikeButton');
+    setLike(!like);
+  };
+
   return (
     <>
       <Box>
-        <ItemImg />
-        <InfoBox>
-          <Title
-            style={{
-              lineHeight: lineCount >= 1 ? singleLine : multiLine,
-            }}
-            numberOfLines={2}
-            onTextLayout={handleTextLayout}
-          >
-            {title}
-          </Title>
-          <TradeInfo>
-            {place} · {time}
-          </TradeInfo>
-          <PricePersonBox>
-            <Price>{price}원</Price>
-            <Person>
-              <N>{n}</N>/{person}명
-            </Person>
-          </PricePersonBox>
-        </InfoBox>
+        <ItemBox>
+          <ItemImg />
+          <InfoBox>
+            <Title
+              style={{
+                lineHeight: lineCount >= 1 ? singleLine : multiLine,
+              }}
+              numberOfLines={2}
+              onTextLayout={handleTextLayout}
+            >
+              {title}
+            </Title>
+            <TradeInfo>
+              {place} · {time}
+            </TradeInfo>
+            <PricePersonBox>
+              <Price>{price}원</Price>
+              <Person>
+                <N>{n}</N>/{person}명
+              </Person>
+            </PricePersonBox>
+          </InfoBox>
+        </ItemBox>
+        {like ? (
+          <IconButton onPress={handleLikeButton}>
+            <Icon name='FillHeart' size={20} />
+          </IconButton>
+        ) : (
+          <IconButton onPress={handleLikeButton}>
+            <Icon name='Heart' size={20} />
+          </IconButton>
+        )}
       </Box>
       <Divider
         style={{
@@ -62,7 +81,16 @@ export const Item = ({
 const Box = styled.View`
   margin-top: 15px;
   flex-direction: row;
+  justify-content: space-between;
   padding-bottom: 15px;
+`;
+const ItemBox = styled.View`
+  flex-direction: row;
+`;
+
+const IconBox = styled.Pressable`
+  padding: 4px;
+  border-radius: 4px;
 `;
 
 const Divider = styled.View`
