@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/native';
 import styled from '@emotion/native';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Image } from 'react-native';
 import { itemType } from '@assets/mock/item-list';
 import { Font15W500, Font16W600, Font12W400 } from './text';
 import { Icon, IconButton } from '@components/common/button';
+import Reset from '~/assets/image/Reset.svg';
 
 export const Item = ({
   data,
@@ -31,6 +32,7 @@ export const Item = ({
     console.log('handleLikeButton');
     setLike(!like);
   };
+
   return (
     <>
       <Box>

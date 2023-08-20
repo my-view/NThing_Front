@@ -7,7 +7,7 @@ import {
   Alert,
 } from 'react-native';
 import styled from '@emotion/native';
-import NaverMapView, { Polygon } from 'react-native-nmap';
+import NaverMapView, { Marker, Polygon } from 'react-native-nmap';
 import { CustomMarker } from '@components/nmap/marker';
 import Search from '@assets/image/Search.svg';
 import Down from '@assets/image/Down.svg';
@@ -17,6 +17,7 @@ import { Header } from 'components/main/header';
 import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import { SelectBox } from '@components/common/select';
+import { Icon, IconButton } from '@components/common/button';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
@@ -160,16 +161,9 @@ const SearchMapScreen = ({ route, navigation }: any) => {
             </TouchableOpacity>
           </Header>
           <View style={{ height: '100%' }}>
-            {notMove && (
-              <View
-                style={{
-                  position: 'absolute',
-                  backgroundColor: 'red',
-                }}
-              >
-                <Text>notMove</Text>
-              </View>
-            )}
+            <CLSWrap>
+              <CLSButton />
+            </CLSWrap>
             <NaverMapView
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
@@ -197,7 +191,12 @@ const SearchMapScreen = ({ route, navigation }: any) => {
               }}
               // onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
             >
-              {/* <CLSButton /> */}
+              {/* <Marker
+                image={require('../assets/image/csl-button.png')}
+                width={153}
+                height={36}
+                coordinate={PIN_DATA[0]}
+              /> */}
               {PIN_DATA.map((pin, index) => (
                 <CustomMarker
                   key={pin.id}
@@ -225,16 +224,6 @@ const SearchMapScreen = ({ route, navigation }: any) => {
             onChange={handleSheetChange}
             // backdropComponent={renderBackdrop}
           >
-            {notMove && (
-              <View
-                style={{
-                  // position: 'absolute',
-                  backgroundColor: 'red',
-                }}
-              >
-                <Text>notMove</Text>
-              </View>
-            )}
             <View
               style={{
                 paddingLeft: 20,
@@ -267,6 +256,14 @@ const SearchMapScreen = ({ route, navigation }: any) => {
 
 const Container = styled(View)`
   background-color: #000;
+`;
+
+const CLSWrap = styled(View)`
+  margin-top: 16px;
+  left: 25%;
+  margin-left: 25px;
+  z-index: 9999;
+  position: absolute;
 `;
 
 export default SearchMapScreen;

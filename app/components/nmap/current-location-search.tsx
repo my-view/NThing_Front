@@ -2,15 +2,16 @@ import React from 'react';
 import styled from '@emotion/native';
 import { Font14W400 } from '../common/text';
 import { Icon, IconButton } from '../common/button';
+
 /**
  * 현재위치검색 버튼 current-location-search
  */
 export const CLSButton = () => {
   return (
     <ButtonBox onPress={() => console.log('현재위치검색 버튼')}>
-      <Icon name='FillHeart' size={16} />
-      {/* Reset이 안불러짐 */}
-      {/* <Icon name='Reset' size={16} />  */}
+      <IconButton>
+        <Icon fill={'#fff'} name='Reset' size={16} />
+      </IconButton>
       <SearchText>현재 위치에서 검색</SearchText>
     </ButtonBox>
   );
@@ -24,9 +25,6 @@ const ButtonBox = styled.Pressable`
   border: 1px solid ${(p) => p.theme.palette.gray01};
   background: #fff;
   flex-direction: row;
-  margin-top: 16px;
-  left: 25%;
-  margin-left: -25%;
   // shadow 사용해야함.
 `;
 

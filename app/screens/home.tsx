@@ -147,7 +147,9 @@ const HomeScreen = ({ route, navigation }: any) => {
                   <Down width={16} height={16} />
                 </Row>
               </Pressable>
-              <TouchableOpacity onPress={() => navigate('SearchScreen')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SearchScreen')}
+              >
                 <Search width={24} height={24} />
               </TouchableOpacity>
             </Header>
