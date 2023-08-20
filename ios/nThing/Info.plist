@@ -42,9 +42,19 @@
 				<string>com.googleusercontent.apps.141023294009-39oo468khq2c8bmtgeeep7a2ckkd4v8n</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao3fb25a1fbbbd7c0e935ee19ef47afc12</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>KAKAO_APP_KEY</key>
+	<string>3fb25a1fbbbd7c0e935ee19ef47afc12</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>naversearchapp</string>
@@ -67,6 +77,12 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>Queried URL Schemes</key>
+	<array>
+		<string>kakaolink</string>
+		<string>kakaokompassauth</string>
+		<string>3fb25a1fbbbd7c0e935ee19ef47afc12</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fonts/Pretendard-Thin.otf</string>

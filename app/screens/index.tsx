@@ -13,6 +13,7 @@ import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getWidthRatio, getHeightRatio } from 'assets/util/layout';
 import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import * as KakaoLogin from '@react-native-seoul/kakao-login';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -32,6 +33,15 @@ const RootScreen = ({ navigation }: any) => {
     try {
       const { successResponse } = await NaverLogin.login(props);
       console.log('네이버 토큰', successResponse?.accessToken);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  const kakaoLogin = async () => {
+    try {
+      const { accessToken } = await KakaoLogin.login();
+      console.log('카카오 토큰', accessToken);
     } catch (e) {
       console.warn(e);
     }
@@ -65,7 +75,8 @@ const RootScreen = ({ navigation }: any) => {
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.navigate('UniversityScreen');
+                kakaoLogin();
+                // navigation.navigate('UniversityScreen');
               }}
             >
               <Image source={require('../assets/image/kakao-btn.png')} />
