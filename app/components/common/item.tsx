@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/native';
 import { itemType } from '@assets/mock/item-list';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
-import { Icon, IconButton } from '@components/common/button';
-import Reset from 'assets/image/Reset.svg';
+import { HeartButton } from 'components/common/heart-button';
 
 export const Item = ({
   data,
@@ -14,7 +13,7 @@ export const Item = ({
   index: number;
   listLength: number;
 }) => {
-  const { title, price, place, n, person, time, islike } = data;
+  const { title, price, place, n, person, time, isLike } = data;
   const [lineCount, setLineCount] = useState(1);
 
   const singleLine = 16;
@@ -23,12 +22,6 @@ export const Item = ({
   const handleTextLayout = (event: any) => {
     const { lines } = event.nativeEvent;
     setLineCount(lines.length);
-  };
-
-  const [like, setLike] = useState<boolean>(islike);
-  const handleLikeButton = () => {
-    console.log('handleLikeButton');
-    setLike(!like);
   };
 
   return (
@@ -57,15 +50,7 @@ export const Item = ({
             </PricePersonBox>
           </InfoBox>
         </ItemBox>
-        {like ? (
-          <IconButton onPress={handleLikeButton}>
-            <Icon name='FillHeart' size={20} />
-          </IconButton>
-        ) : (
-          <IconButton onPress={handleLikeButton}>
-            <Icon name='Heart' size={20} />
-          </IconButton>
-        )}
+        <HeartButton isLike={isLike} />
       </Box>
       <Divider
         style={{
@@ -82,13 +67,9 @@ const Box = styled.View`
   justify-content: space-between;
   padding-bottom: 15px;
 `;
+
 const ItemBox = styled.View`
   flex-direction: row;
-`;
-
-const IconBox = styled.Pressable`
-  padding: 4px;
-  border-radius: 4px;
 `;
 
 const Divider = styled.View`
