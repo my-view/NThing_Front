@@ -18,7 +18,7 @@ import Down from '@assets/image/Down.svg';
 import Left from '@assets/image/Left.svg';
 import Close from '@assets/image/Close.svg';
 import { Row } from '@components/common/layout';
-import { Header } from 'components/main/header';
+import { Header } from '~/components/common/header';
 import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import BottomSheet, {

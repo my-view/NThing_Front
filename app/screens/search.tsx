@@ -4,7 +4,7 @@ import { SafeAreaView, TouchableOpacity } from 'react-native';
 import Left from 'assets/image/Left.svg';
 import Search from 'assets/image/Search.svg';
 import { KeywordInput } from 'components/main/keyword';
-import { Header } from 'components/main/header';
+import { Header } from '~/components/common/header';
 import { theme } from '~/../theme';
 import { Font18W600 } from '~/components/common/text';
 import { getHeightRatio, getWidthRatio } from '~/assets/util/layout';
