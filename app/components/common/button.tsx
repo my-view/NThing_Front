@@ -1,7 +1,7 @@
 import React, { useState, useRef, Component } from 'react';
 import styled from '@emotion/native';
 import { TouchableOpacity, Pressable } from 'react-native';
-import { Font13W600 } from 'components/common/text';
+import { Font13W600, Font16W600 } from 'components/common/text';
 import { SvgProps } from 'react-native-svg';
 import * as icons from '@assets/image/icon';
 
@@ -24,7 +24,7 @@ type IconProps = SvgProps & {
 };
 export function Icon({
   name,
-  fill = 'black',
+  fill = 'transparent',
   width: _width,
   height: _height,
   size,
@@ -51,4 +51,45 @@ const Container = styled.View`
 
 const ButtonTitle = styled(Font13W600)`
   color: ${(p) => p.theme.palette.white};
+`;
+
+type RoundedButtonType = {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+};
+
+export const RoundedButton = ({
+  title,
+  onPress,
+  disabled,
+}: RoundedButtonType) => {
+  const DefaultButtonStyle = {
+    width: '100%',
+    paddingVertical: 20,
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#34C185',
+  };
+
+  const DisabledButtonStyle = {
+    ...DefaultButtonStyle,
+    backgroundColor: '#E1E5EC',
+  };
+
+  return (
+    <Pressable
+      style={disabled ? DisabledButtonStyle : DefaultButtonStyle}
+      onPress={onPress}
+    >
+      <RoundedButtonText>{title}</RoundedButtonText>
+    </Pressable>
+  );
+};
+
+const RoundedButtonText = styled(Font16W600)`
+  text-align: center;
+  font-weight: 500;
+  color: white;
 `;

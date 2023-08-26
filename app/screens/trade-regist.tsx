@@ -11,7 +11,7 @@ import {
 import styled from '@emotion/native';
 import { Font13W500, Font15W500, Font16W600 } from 'components/common/text';
 import { getWidthRatio } from 'assets/util/layout';
-import { Header } from 'components/main/header';
+import { Header } from '~/components/common/header';
 import Left from 'assets/image/Left.svg';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
@@ -68,6 +68,7 @@ const TradeRegistScreen = ({ navigation }) => {
         </TouchableOpacity>
         <Font16W600>거래글 작성</Font16W600>
       </Header>
+      {/*       <CustomHeader navigation={navigation} /> */}
       <Container>
         <ImageContainer>
           {images.length < 10 && (
