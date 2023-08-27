@@ -3,6 +3,7 @@ import styled from '@emotion/native';
 import { itemType } from '@assets/mock/item-list';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { HeartButton } from 'components/common/heart-button';
+import { formatPrice } from 'assets/util/format';
 
 export const Item = ({
   data,
@@ -43,7 +44,7 @@ export const Item = ({
               {place} · {time}
             </TradeInfo>
             <PricePersonBox>
-              <Price>{price}원</Price>
+              <Price>{formatPrice(price)}원</Price>
               <Person>
                 <N>{n}</N>/{person}명
               </Person>
