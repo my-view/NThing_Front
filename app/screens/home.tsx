@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  ScrollView,
 } from 'react-native';
 import { IconButton } from '~/components/common/button';
 import { SelectBox } from '@components/common/select';
@@ -23,22 +22,15 @@ import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import BottomSheet, {
   BottomSheetBackdrop,
-  BottomSheetView,
-  BottomSheetModal,
-  BottomSheetModalProvider,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
 
 import { Item } from '@components/common/item';
-import {
-  GestureHandlerRootView,
-  PanGestureHandler,
-  TapGestureHandler,
-} from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ITEM_LIST } from '@assets/mock/item-list';
 import { filterType } from '~/types/common';
 
-const HomeScreen = ({ route, navigation }: any) => {
+const HomeScreen = ({ route, navigation }) => {
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
@@ -95,12 +87,9 @@ const HomeScreen = ({ route, navigation }: any) => {
 
   const renderItem = useCallback(
     (item: any, index: number) => (
-      <Item
-        key={index}
-        data={item}
-        index={index}
-        listLength={ITEM_LIST.length - 1}
-      />
+      <Pressable key={index} onPress={() => navigation.navigate('TradeScreen')}>
+        <Item data={item} index={index} listLength={ITEM_LIST.length - 1} />
+      </Pressable>
     ),
     [],
   );
@@ -124,7 +113,7 @@ const HomeScreen = ({ route, navigation }: any) => {
                   })
                 }
               >
-                <Left width={24} height={24} />
+                <Left width={24} height={24} color={theme.palette.black} />
               </TouchableOpacity>
               <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
               <TouchableOpacity
@@ -190,7 +179,6 @@ const HomeScreen = ({ route, navigation }: any) => {
                 paddingLeft: 20,
                 height: 14,
                 paddingBottom: 20,
-                // backgroundColor: 'blue',
               }}
             >
               <SelectBox

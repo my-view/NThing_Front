@@ -1,17 +1,23 @@
-import React, { useState, useRef, Component } from 'react';
+import React from 'react';
 import styled from '@emotion/native';
 import { TouchableOpacity, Pressable } from 'react-native';
 import { Font13W600, Font16W600 } from 'components/common/text';
 import { SvgProps } from 'react-native-svg';
 import * as icons from '@assets/image/icon';
 
-export const Button: React.FCC<{ onPress: () => void }> = ({
+export enum BtnSize {
+  SMALL = '6px 12px',
+  MEDIUM = '11.5px 18px',
+}
+
+export const Button: React.FCC<{ onPress: () => void; size?: BtnSize }> = ({
   onPress,
+  size = BtnSize.MEDIUM,
   children,
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Container>
+      <Container size={size}>
         <ButtonTitle>{children}</ButtonTitle>
       </Container>
     </TouchableOpacity>
@@ -22,6 +28,7 @@ type IconProps = SvgProps & {
   name: keyof typeof icons;
   size?: number;
 };
+
 export function Icon({
   name,
   fill = 'transparent',
@@ -43,8 +50,8 @@ export function Icon({
 
 export const IconButton = styled.Pressable``;
 
-const Container = styled.View`
-  padding: 6px 12px;
+const Container = styled.View<{ size: BtnSize }>`
+  padding: ${(p) => p.size};
   background-color: ${(p) => p.theme.palette.primary};
   border-radius: 4px;
 `;

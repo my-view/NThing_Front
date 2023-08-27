@@ -16,7 +16,7 @@ import Left from 'assets/image/Left.svg';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { Button } from 'components/common/button';
+import { BtnSize, Button } from 'components/common/button';
 import Inform from 'assets/image/Inform.svg';
 import Camera from 'assets/image/Camera.svg';
 import Add from 'assets/image/Add.svg';
@@ -64,7 +64,7 @@ const TradeRegistScreen = ({ navigation }) => {
           onPress={navigation.goBack}
           style={{ position: 'absolute', left: getWidthRatio(20) }}
         >
-          <Left width={24} height={24} />
+          <Left width={24} height={24} color={theme.palette.black} />
         </TouchableOpacity>
         <Font16W600>거래글 작성</Font16W600>
       </Header>
@@ -156,6 +156,7 @@ const TradeRegistScreen = ({ navigation }) => {
           <InformText>{`내가 구하고자 하는 인원의 수를 적으면\n가격이 자동으로 계산돼요`}</InformText>
         </View>
         <Button
+          size={BtnSize.SMALL}
           onPress={() => {
             // post 요청
           }}

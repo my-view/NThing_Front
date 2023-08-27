@@ -26,6 +26,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
     "babel-plugin-module-resolver": "^5.0.0",
+    "moment": "^2.29.4",
     "patch-package": "^7.0.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "18.2.0",
@@ -39,7 +40,9 @@
     "react-native-screens": "^3.20.0",
     "react-native-select-dropdown": "^3.3.4",
     "react-native-shadow-2": "^7.0.8",
+    "react-native-status-bar-height": "^2.6.0",
     "react-native-svg": "^13.9.0",
+    "react-native-swiper": "^1.6.0",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7"
   },

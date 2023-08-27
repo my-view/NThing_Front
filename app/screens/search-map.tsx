@@ -34,6 +34,7 @@ import { ITEM_LIST } from '@assets/mock/item-list';
 import { filterType } from '~/types/common';
 import getDistanceFromLatLonInKm from '~/assets/util/map';
 import { Text } from 'react-native-svg';
+import { theme } from '~/../theme';
 
 const SearchMapScreen = ({ route, navigation }: any) => {
   console.log('SearchMapScreen', route);
@@ -151,7 +152,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
                 })
               }
             >
-              <Left width={24} height={24} />
+              <Left width={24} height={24} color={theme.palette.black} />
             </TouchableOpacity>
             <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
             <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>

@@ -6,6 +6,7 @@ import UniversityMapModal from 'screens/modal/university-map-modal';
 import MainScreen from 'screens/main';
 import SearchScreen from 'screens/search';
 import SearchMapScreen from 'screens/search-map';
+import TradeScreen from 'screens/trade';
 import MyPageEditScreen from '~/screens/user-edit';
 
 const Stack = createNativeStackNavigator();
@@ -38,6 +39,7 @@ const RootStackScreen = () => {
           options={{ animation: 'none' }}
           initialParams={{ keyword: '' }}
         />
+        <Stack.Screen name='TradeScreen' component={TradeScreen} />
         <Stack.Screen name='MyPageEditScreen' component={MyPageEditScreen} />
       </Stack.Group>
       <Stack.Group

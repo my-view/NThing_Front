@@ -5,7 +5,7 @@ export interface itemType {
   price: number;
   n: number;
   person: number;
-  islike: boolean;
+  isLike: boolean;
 }
 
 export const ITEM_LIST: itemType[] = [
@@ -16,7 +16,7 @@ export const ITEM_LIST: itemType[] = [
     price: 2500,
     n: 3,
     person: 5,
-    islike: false,
+    isLike: false,
   },
   {
     title: '어떤 내용1',
@@ -25,7 +25,7 @@ export const ITEM_LIST: itemType[] = [
     price: 5000,
     n: 1,
     person: 2,
-    islike: true,
+    isLike: true,
   },
   {
     title: '긴 제목이 있는 게시물입니다. 두줄테스트 두줄테스트 두줄테스트',
@@ -34,7 +34,7 @@ export const ITEM_LIST: itemType[] = [
     price: 10000,
     n: 2,
     person: 3,
-    islike: false,
+    isLike: false,
   },
   {
     title: '게시물 제목',
@@ -43,7 +43,7 @@ export const ITEM_LIST: itemType[] = [
     price: 8000,
     n: 4,
     person: 6,
-    islike: true,
+    isLike: true,
   },
   {
     title: '제목',
@@ -52,7 +52,7 @@ export const ITEM_LIST: itemType[] = [
     price: 15000,
     n: 5,
     person: 8,
-    islike: true,
+    isLike: true,
   },
   {
     title: '긴 내용이 있는 게시물입니다. 긴 내용이 있는 게시물입니다.',
@@ -61,7 +61,7 @@ export const ITEM_LIST: itemType[] = [
     price: 3500,
     n: 2,
     person: 4,
-    islike: true,
+    isLike: true,
   },
   {
     title: '게시물 제목2',
@@ -70,7 +70,7 @@ export const ITEM_LIST: itemType[] = [
     price: 12000,
     n: 3,
     person: 5,
-    islike: true,
+    isLike: true,
   },
   {
     title: '짧은 제목',
@@ -79,7 +79,7 @@ export const ITEM_LIST: itemType[] = [
     price: 500,
     n: 1,
     person: 2,
-    islike: true,
+    isLike: true,
   },
   {
     title: '게시물',
@@ -88,7 +88,7 @@ export const ITEM_LIST: itemType[] = [
     price: 1000,
     n: 2,
     person: 3,
-    islike: false,
+    isLike: false,
   },
   {
     title: '제목입니다.',
@@ -97,7 +97,7 @@ export const ITEM_LIST: itemType[] = [
     price: 5000,
     n: 1,
     person: 2,
-    islike: false,
+    isLike: false,
   },
   {
     title: '어떤 내용2',
@@ -106,6 +106,6 @@ export const ITEM_LIST: itemType[] = [
     price: 3000,
     n: 2,
     person: 4,
-    islike: false,
+    isLike: false,
   },
 ];
