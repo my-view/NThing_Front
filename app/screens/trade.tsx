@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Platform,
+  Pressable,
   StatusBar,
   Text,
   TouchableOpacity,
@@ -11,7 +12,12 @@ import {
 import styled from '@emotion/native';
 import {
   Font10W600,
+  Font12W500,
+  Font12W600,
+  Font13W400,
   Font15W600,
+  Font16W500,
+  Font16W600,
   Font18W600,
   Font18W700,
 } from 'components/common/text';
@@ -25,6 +31,8 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Swiper from 'react-native-swiper';
 import { HeartButton } from 'components/common/heart-button';
 import { Row } from 'components/common/layout';
+import { formatDate, formatPrice } from 'assets/util/format';
+import moment from 'moment';
 
 const EXAMPLE_IMAGE_PATH = '../assets/image/item-example.png';
 
@@ -34,7 +42,28 @@ const ITEM_IMAGES = [
   { id: 3, url: require(EXAMPLE_IMAGE_PATH) },
 ];
 
+const MOCK_DATA = {
+  id: 3,
+  title: '휴지 나눠서 사실 분',
+  description:
+    '펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분',
+  latitude: 123.213512123,
+  longitude: 546.465151515,
+  date: '2023-08-25 14:00:00',
+  denominator: 2,
+  numerator: 4,
+  status: false,
+  price: 4000,
+  place: '서울대 정문 앞',
+  updated_at: '2023-08-14 09:39:08',
+  manager: '당근토끼',
+  category_id: 1,
+  category_name: '배달',
+  liked: false,
+};
+
 const TradeScreen = ({ navigation }) => {
+  const [comment, setComment] = useState('');
   const { width } = useWindowDimensions();
 
   // 상태바 설정인데 안드로이드에서만 적용되는지?
@@ -47,8 +76,7 @@ const TradeScreen = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, position: 'relative' }}>
-      <Container>
-        {/* 사라진 Dot 찾아야함 */}
+      <ScrollContainer>
         <Swiper
           height={width}
           dot={<Dot style={{ opacity: 0.4 }} />}
@@ -63,13 +91,42 @@ const TradeScreen = ({ navigation }) => {
             />
           ))}
         </Swiper>
-        <ManagerInfo>
-          <Font15W600>당근토끼</Font15W600>
-        </ManagerInfo>
-        <ContentBox>
-          <Font18W700>휴지 나눠서 사실 분</Font18W700>
-        </ContentBox>
-      </Container>
+        <ManagerInfoBox>
+          <ProfileImage>{/* TODO: image 넣기 */}</ProfileImage>
+          <Font15W600>{MOCK_DATA.manager}</Font15W600>
+        </ManagerInfoBox>
+        <TradeInfoBox>
+          <Font18W700>{MOCK_DATA.title}</Font18W700>
+          <SubInfoWrapper>
+            <Pressable>
+              <GrayFont style={{ textDecorationLine: 'underline' }}>
+                {MOCK_DATA.category_name}
+              </GrayFont>
+            </Pressable>
+            <GrayFont>{` · ${formatDate(MOCK_DATA.updated_at)} 전`}</GrayFont>
+          </SubInfoWrapper>
+          <Row style={{ gap: 17, alignItems: 'flex-start', marginBottom: 8 }}>
+            <Font12W600>거래 장소</Font12W600>
+            <View style={{ gap: 7 }}>
+              <Font12W500>{MOCK_DATA.place}</Font12W500>
+              <Font12W500>
+                {moment(MOCK_DATA.date).format('yyyy.MM.DD. hh:mm')}
+              </Font12W500>
+            </View>
+          </Row>
+          <Font16W500 style={{ lineHeight: 24 }}>
+            {MOCK_DATA.description}
+          </Font16W500>
+        </TradeInfoBox>
+        <CommentBox>
+          <Font16W600>댓글(0)</Font16W600>
+          <CommentInput
+            value={comment}
+            onChangeText={(v) => setComment(v)}
+            placeholder='댓글을 입력해주세요'
+          />
+        </CommentBox>
+      </ScrollContainer>
       <Header
         style={{
           position: 'absolute',
@@ -99,7 +156,7 @@ const TradeScreen = ({ navigation }) => {
             <View style={{ gap: 2 }}>
               <Font10W600>1개당</Font10W600>
               <Row style={{ gap: 10 }}>
-                <Font18W600>2,500원</Font18W600>
+                <Font18W600>{formatPrice(MOCK_DATA.price)}원</Font18W600>
                 <View
                   style={{
                     height: 10,
@@ -109,7 +166,10 @@ const TradeScreen = ({ navigation }) => {
                   }}
                 />
                 <Font18W600>
-                  <Text style={{ color: theme.palette.primary }}>1</Text>/4명
+                  <Text style={{ color: theme.palette.primary }}>
+                    {MOCK_DATA.denominator}
+                  </Text>
+                  /{MOCK_DATA.numerator}명
                 </Font18W600>
               </Row>
             </View>
@@ -134,17 +194,50 @@ const Dot = styled.View`
   border-radius: 6px;
 `;
 
-const Container = styled.ScrollView`
+const ScrollContainer = styled.ScrollView`
   flex: 1;
   background-color: ${(p) => p.theme.palette.white};
+  margin-bottom: 80px;
 `;
 
-const ManagerInfo = styled.View`
+const ManagerInfoBox = styled(Row)`
   padding: 12px 20px;
+  border-bottom-width: 1px;
+  border-bottom-color: #f3f5f7;
+  gap: 10px;
 `;
 
-const ContentBox = styled.View`
-  padding: 20px;
+const ProfileImage = styled.View`
+  width: 36px;
+  height: 36px;
+  background-color: ${(p) => p.theme.palette.gray01};
+  border-radius: 36px;
+`;
+
+const TradeInfoBox = styled.View`
+  padding: 20px 20px 15px;
+  border-bottom-width: 8px;
+  border-bottom-color: ${(p) => p.theme.palette.gray01}66;
+`;
+
+const SubInfoWrapper = styled(Row)`
+  margin: 14px 0 20px;
+`;
+
+const GrayFont = styled(Font13W400)`
+  color: ${(p) => p.theme.palette.gray03};
+`;
+
+const CommentBox = styled.View`
+  padding: 20px 20px 65px;
+  gap: 30px;
+`;
+
+const CommentInput = styled.TextInput`
+  padding: 14px;
+  background-color: ${(p) => p.theme.palette.gray01}4D;
+  border-radius: 4px;
+  color: ${(p) => p.theme.palette.gray03};
 `;
 
 export default TradeScreen;

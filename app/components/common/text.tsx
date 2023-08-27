@@ -13,6 +13,13 @@ export const Font12W400 = styled.Text`
   font-weight: 400;
 `;
 
+export const Font12W500 = styled.Text`
+  font-size: 12px;
+  font-family: Pretendard;
+  line-height: 12px;
+  font-weight: 500;
+`;
+
 export const Font12W600 = styled.Text`
   font-size: 12px;
   font-family: Pretendard;
