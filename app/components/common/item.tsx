@@ -1,9 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/native';
 import { itemType } from '@assets/mock/item-list';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { HeartButton } from 'components/common/heart-button';
 import { formatPrice } from 'assets/util/format';
+import { View, Text, Pressable, Image, Vibration } from 'react-native';
+import { Icon, IconButton } from '@components/common/button';
+import Reset from '~/assets/image/Reset.svg';
+import { UsePressableListAnimated } from 'hooks/animated/usePressableList';
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  interpolate,
+  interpolateColor,
+  withTiming,
+  withSpring,
+  Easing,
+  withDelay,
+  Keyframe,
+} from 'react-native-reanimated';
+
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
 
 export const Item = ({
   data,
@@ -14,8 +36,57 @@ export const Item = ({
   index: number;
   listLength: number;
 }) => {
-  const { title, price, place, n, person, time, isLike } = data;
+  const { title, price, place, n, person, time, islike } = data;
+
+  const enteringAnimation = new Keyframe({
+    0: {
+      originX: -10,
+      originY: 30,
+      opacity: 0,
+    },
+    50: {
+      originX: -10,
+      originY: -30,
+      opacity: 1,
+    },
+    100: {
+      opacity: 0,
+    },
+  }).duration(1000);
+  const enteringAnimation2 = new Keyframe({
+    0: {
+      originX: 20,
+      originY: 20,
+      opacity: 0,
+    },
+    50: {
+      originX: 20,
+      originY: -20,
+      opacity: 1,
+    },
+    100: {
+      opacity: 0,
+    },
+  }).duration(800);
+  const enteringAnimation3 = new Keyframe({
+    0: {
+      originX: 10,
+      originY: 40,
+      opacity: 0,
+    },
+    50: {
+      originX: 10,
+      originY: -10,
+      opacity: 1,
+    },
+    100: {
+      opacity: 0,
+    },
+  }).duration(500);
+
+  // .withCallback(opacity:0)
   const [lineCount, setLineCount] = useState(1);
+  const [animationOn, setAnimationOn] = useState(false);
 
   const singleLine = 16;
   const multiLine = 24;
@@ -24,6 +95,23 @@ export const Item = ({
     const { lines } = event.nativeEvent;
     setLineCount(lines.length);
   };
+
+  const [like, setLike] = useState<boolean>(islike);
+  const handleLikeButton = () => {
+    console.log('handleLikeButton');
+    setLike(!like);
+  };
+
+  useEffect(() => {
+    console.log('like', like, 'animationOn', animationOn);
+    if (like) {
+      setAnimationOn(true);
+
+      Vibration.vibrate(10 * 1000);
+    } else {
+      setAnimationOn(false);
+    }
+  }, [like]);
 
   return (
     <>
@@ -51,7 +139,42 @@ export const Item = ({
             </PricePersonBox>
           </InfoBox>
         </ItemBox>
-        <HeartButton isLike={isLike} />
+        {like ? (
+          <IconButton onPress={handleLikeButton}>
+            <Icon name='FillHeart' size={20} />
+            <Animated.View
+              entering={enteringAnimation}
+              style={{
+                position: 'absolute',
+                zIndex: 9999,
+              }}
+            >
+              <Icon name='FillHeart' size={16} />
+            </Animated.View>
+            <Animated.View
+              entering={enteringAnimation2}
+              style={{
+                position: 'absolute',
+                zIndex: 9999,
+              }}
+            >
+              <Icon name='FillHeart' size={18} />
+            </Animated.View>
+            <Animated.View
+              entering={enteringAnimation3}
+              style={{
+                position: 'absolute',
+                zIndex: 9999,
+              }}
+            >
+              <Icon name='FillHeart' size={12} />
+            </Animated.View>
+          </IconButton>
+        ) : (
+          <IconButton onPress={handleLikeButton}>
+            <Icon name='Heart' size={20} />
+          </IconButton>
+        )}
       </Box>
       <Divider
         style={{

@@ -193,6 +193,7 @@ const HomeScreen = ({ route, navigation }) => {
               contentContainerStyle={{
                 paddingHorizontal: 20,
                 paddingBottom: 120,
+                // paddingTop: 20,
               }}
             >
               {ITEM_LIST.map(renderItem)}
