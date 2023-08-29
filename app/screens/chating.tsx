@@ -5,22 +5,20 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
-  useWindowDimensions,
 } from 'react-native';
 import styled from '@emotion/native';
-import {Font16W500, UnderLine14} from '../components/common/text';
-import {getWidthRatio, getHeightRatio} from '../assets/util/layout';
+import { Font16W500, UnderLine14 } from 'components/common/text';
+import { getHeightRatio } from 'assets/util/layout';
 
-const ChatingScreen = ({navigation}: any) => {
-  const {width, height} = useWindowDimensions();
-
+const ChatingScreen = ({ navigation }: any) => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <Container>
         <View
           style={{
             flex: 1,
-          }}>
+          }}
+        >
           <Text>채팅이오</Text>
         </View>
         <SocialLoginWrap>
@@ -29,19 +27,22 @@ const ChatingScreen = ({navigation}: any) => {
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate('universityScreen');
-              }}>
+              }}
+            >
               <Image source={require('../assets/image/naver-btn.png')} />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate('universityScreen');
-              }}>
+              }}
+            >
               <Image source={require('../assets/image/kakao-btn.png')} />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate('MainScreen');
-              }}>
+              }}
+            >
               <Image source={require('../assets/image/google-btn.png')} />
             </TouchableWithoutFeedback>
           </ButtonWrap>
@@ -64,8 +65,8 @@ const SocialLoginWrap = styled(View)`
 
 const SocialSubTitle = styled(Font16W500)`
   margin-bottom: 30px;
-  // font-family: ${props => props.theme.font[500]};
-  // color: ${props => props.theme.palette.primary};
+  // font-family: ${(props) => props.theme.font[500]};
+  // color: ${(props) => props.theme.palette.primary};
 `;
 const LaterLogin = styled(UnderLine14)`
   margin-top: 20px;

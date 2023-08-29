@@ -2,30 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/native';
 import { itemType } from '@assets/mock/item-list';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
-import { HeartButton } from 'components/common/heart-button';
 import { formatPrice } from 'assets/util/format';
-import { View, Text, Pressable, Image, Vibration } from 'react-native';
+import { Vibration } from 'react-native';
 import { Icon, IconButton } from '@components/common/button';
-import Reset from '~/assets/image/Reset.svg';
-import { UsePressableListAnimated } from 'hooks/animated/usePressableList';
-import Animated, {
-  useSharedValue,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  interpolate,
-  interpolateColor,
-  withTiming,
-  withSpring,
-  Easing,
-  withDelay,
-  Keyframe,
-} from 'react-native-reanimated';
-
-import {
-  Gesture,
-  GestureDetector,
-  GestureHandlerRootView,
-} from 'react-native-gesture-handler';
+import Animated, { Keyframe } from 'react-native-reanimated';
 
 export const Item = ({
   data,
@@ -36,7 +16,7 @@ export const Item = ({
   index: number;
   listLength: number;
 }) => {
-  const { title, price, place, n, person, time, islike } = data;
+  const { title, price, place, n, person, time, isLike } = data;
 
   const enteringAnimation = new Keyframe({
     0: {
@@ -86,7 +66,6 @@ export const Item = ({
 
   // .withCallback(opacity:0)
   const [lineCount, setLineCount] = useState(1);
-  const [animationOn, setAnimationOn] = useState(false);
 
   const singleLine = 16;
   const multiLine = 24;
@@ -96,21 +75,14 @@ export const Item = ({
     setLineCount(lines.length);
   };
 
-  const [like, setLike] = useState<boolean>(islike);
+  const [like, setLike] = useState<boolean>(isLike);
   const handleLikeButton = () => {
     console.log('handleLikeButton');
     setLike(!like);
   };
 
   useEffect(() => {
-    console.log('like', like, 'animationOn', animationOn);
-    if (like) {
-      setAnimationOn(true);
-
-      Vibration.vibrate(10 * 1000);
-    } else {
-      setAnimationOn(false);
-    }
+    if (like) Vibration.vibrate(10 * 1000);
   }, [like]);
 
   return (
@@ -197,7 +169,6 @@ const ItemBox = styled.View`
 `;
 
 const Divider = styled.View`
-  /* border-bottom-width: 1px;/ */
   border-bottom-color: ${(p) => p.theme.palette.gray01};
 `;
 

@@ -5,12 +5,11 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
-  useWindowDimensions,
   Pressable,
 } from 'react-native';
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
-import { getWidthRatio, getHeightRatio } from 'assets/util/layout';
+import { getHeightRatio } from 'assets/util/layout';
 import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import * as KakaoLogin from '@react-native-seoul/kakao-login';
@@ -26,8 +25,7 @@ const googleWebClientId =
   '141023294009-g5k49bh6cmk0re3c94mnu9esi4ep3gcc.apps.googleusercontent.com';
 
 const RootScreen = ({ navigation }: any) => {
-  const { width, height } = useWindowDimensions();
-  const [token, setToken] = useState<string>();
+  const [token, setToken] = useState<string>(); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
 
   const naverLogin = async (props: NaverLoginRequest) => {
     try {

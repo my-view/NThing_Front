@@ -6,7 +6,6 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import { IconButton } from '~/components/common/button';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -17,18 +16,15 @@ import Down from '@assets/image/Down.svg';
 import Left from '@assets/image/Left.svg';
 import Close from '@assets/image/Close.svg';
 import { Row } from '@components/common/layout';
-import { Header } from '~/components/common/header';
+import { Header } from 'components/common/header';
 import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetScrollView,
-} from '@gorhom/bottom-sheet';
-
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Item } from '@components/common/item';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ITEM_LIST } from '@assets/mock/item-list';
-import { filterType } from '~/types/common';
+import { filterType } from 'types/common';
+import { theme } from '~/../theme';
 
 const HomeScreen = ({ route, navigation }) => {
   const windowHeight = Dimensions.get('window').height;
@@ -60,17 +56,6 @@ const HomeScreen = ({ route, navigation }) => {
     { nm: '마감임박순', cd: 'i_dl' },
     { nm: '시간임박순', cd: 't_dl' },
   ];
-
-  const renderBackdrop = React.useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-      />
-    ),
-    [],
-  );
 
   const handleSheetChange = useCallback((index: number) => {
     console.log('handleSheetChange', index);

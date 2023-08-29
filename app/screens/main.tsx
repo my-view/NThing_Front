@@ -17,6 +17,7 @@ import { MyTabBar } from '@components/common/bottom-tap';
 
 const Tab = createBottomTabNavigator();
 
+// TODO: 탭 4개 목록 map하는 방식으로 리팩토링하기
 const MainScreen = () => {
   return (
     // <Tab.Navigator
