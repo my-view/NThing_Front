@@ -144,7 +144,7 @@ export const Item = ({
           </IconButton>
         ) : (
           <IconButton onPress={handleLikeButton}>
-            <Icon name='Heart' size={20} />
+            <Icon name='Heart' size={20} fill={'#000'} />
           </IconButton>
         )}
       </Box>

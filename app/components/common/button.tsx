@@ -31,7 +31,7 @@ type IconProps = SvgProps & {
 
 export function Icon({
   name,
-  fill = 'transparent',
+  fill = '#000',
   width: _width,
   height: _height,
   size,
