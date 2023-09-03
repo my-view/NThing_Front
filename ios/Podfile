@@ -26,6 +26,8 @@ target 'nThing' do
 
   pod 'GoogleUtilities', :modular_headers => true
 
+  pod 'FirebaseCore', :modular_headers => true
+
   # Flags change depending on the env values.
   flags = get_default_flags()
 
