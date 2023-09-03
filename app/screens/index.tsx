@@ -13,6 +13,7 @@ import { getHeightRatio } from 'assets/util/layout';
 import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import * as KakaoLogin from '@react-native-seoul/kakao-login';
+import auth from '@react-native-firebase/auth';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -52,6 +53,11 @@ const RootScreen = ({ navigation }: any) => {
     try {
       const { idToken } = await GoogleSignin.signIn();
       console.log('구글 토큰', idToken);
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      auth()
+        .signInWithCredential(googleCredential)
+        .then(({ user }) => user.getIdToken())
+        .then((newToken: string) => console.log('새로 받은 토큰', newToken));
     } catch (e) {
       console.warn(e);
     }
