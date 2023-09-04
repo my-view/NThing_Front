@@ -6,11 +6,12 @@ import { text } from '@storybook/addon-knobs';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 /* Local files */
-import Button from './Button';
+import NT_Text from './Text';
+import { Font14W400, Font14W600 } from '~/components/common/text';
 import CenterView from '../../decorators/CenterView/CenterView';
 
 export default {
-  title: 'Button',
+  title: 'Text',
   decorators: [
     (Story): JSX.Element => (
       <CenterView>
@@ -18,15 +19,13 @@ export default {
       </CenterView>
     ),
   ],
-} as ComponentMeta<typeof Button>;
+} as ComponentMeta<typeof Text>;
 
-export const WithText: ComponentStory<typeof Button> = ({
-  children,
-  onPress,
-}) => <Button onPress={onPress}>{children}</Button>;
+export const Font14: ComponentStory<typeof Text> = ({ children }) => (
+  <Font14W400>{children}</Font14W400>
+);
 
-WithText.args = {
-  onPress: action('clicked-with-text'),
-  children: <Text>{text('Button text', 'Hello Button')}</Text>,
+Font14.args = {
+  children: text('Font14', 'Font 14'),
 };
-WithText.storyName = 'with text';
+Font14.storyName = 'Font14';

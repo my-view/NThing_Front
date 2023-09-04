@@ -1,13 +1,13 @@
 /* Local files */
-import React, {ReactNode} from 'react';
-import {TouchableHighlight} from 'react-native';
+import React, { ReactNode } from 'react';
+import { TouchableHighlight } from 'react-native';
 
 interface Props {
   children: ReactNode;
   onPress: () => void;
 }
 
-const Button = ({onPress, children}: Props): JSX.Element => {
+const Button = ({ onPress, children }: Props): JSX.Element => {
   return <TouchableHighlight onPress={onPress}>{children}</TouchableHighlight>;
 };
 

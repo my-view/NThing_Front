@@ -1,5 +1,5 @@
 /* Libraries */
-import {getStorybookUI} from '@storybook/react-native';
+import { getStorybookUI } from '@storybook/react-native';
 
 /* Local files */
 import '../.ondevice/storybook.requires';

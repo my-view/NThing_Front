@@ -1,12 +1,12 @@
 /* Libraries */
-import React, {ReactNode} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, { ReactNode } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 interface Props {
   children: ReactNode;
 }
 
-const CenterView = ({children}: Props): JSX.Element => {
+const CenterView = ({ children }: Props): JSX.Element => {
   return <View style={styles.main}>{children}</View>;
 };
 
