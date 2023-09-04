@@ -4,6 +4,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { filterType } from '~/types/common';
 import Down from '@assets/image/Down.svg';
 import { theme } from '~/../theme';
+import { Icon } from './button';
 
 export const SelectBox: React.FCC<{
   value: filterType;
@@ -141,7 +142,7 @@ export const SelectBox: React.FCC<{
             }}
           >
             <Animated.View style={[{ transform: [{ rotate: spin }] }]}>
-              <Down color={'#000'} width={14} height={14} />
+              <Icon name='S_Down' size={14} color={theme.palette.black} />
             </Animated.View>
           </View>
         );

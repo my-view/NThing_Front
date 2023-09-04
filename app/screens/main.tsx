@@ -5,14 +5,14 @@ import MyPageScreen from './my-page';
 import TradeRegistScreen from './trade-regist';
 import styled from '@emotion/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TradeRegist from '@assets/image/TradeRegist.svg';
-import Home from '@assets/image/Home.svg';
-import MyPage from '@assets/image/MyPage.svg';
-import Chat from '@assets/image/Chat.svg';
-import FillTradeRegist from '@assets/image/FillTradeRegist.svg';
-import FillHome from '@assets/image/FillHome.svg';
-import FillMyPage from '@assets/image/FillMyPage.svg';
-import FillChat from '@assets/image/FillChat.svg';
+import S_TradeRegist from '@assets/image/icon/S_TradeRegist.svg';
+import S_Home from '@assets/image/icon/S_Home.svg';
+import S_MyPage from '@assets/image/icon/S_MyPage.svg';
+import S_Chat from '@assets/image/icon/S_Chat.svg';
+import F_TradeRegist from '@assets/image/icon/F_TradeRegist.svg';
+import F_Home from '@assets/image/icon/F_Home.svg';
+import F_MyPage from '@assets/image/icon/F_MyPage.svg';
+import F_Chat from '@assets/image/icon/F_Chat.svg';
 import { MyTabBar } from '@components/common/bottom-tap';
 
 const Tab = createBottomTabNavigator();
@@ -48,9 +48,9 @@ const MainScreen = () => {
             tabBarLabel: ({ focused, color }) => <MenuText>홈</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
-                <FillHome width={24} height={24} color={'#000000'} />
+                <F_Home width={24} height={24} color={'#000000'} />
               ) : (
-                <Home width={24} height={24} color={'#000000'} />
+                <S_Home width={24} height={24} color={'#000000'} />
               ),
           }}
           component={HomeScreen}
@@ -62,9 +62,9 @@ const MainScreen = () => {
             tabBarLabel: ({ focused, color }) => <MenuText>거래 등록</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
-                <FillTradeRegist width={24} height={24} color={'#000000'} />
+                <F_TradeRegist width={24} height={24} color={'#000000'} />
               ) : (
-                <TradeRegist width={24} height={24} color={'#000000'} />
+                <S_TradeRegist width={24} height={24} color={'#000000'} />
               ),
           }}
           component={TradeRegistScreen}
@@ -75,9 +75,9 @@ const MainScreen = () => {
             tabBarLabel: ({ focused, color }) => <MenuText>채팅</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
-                <FillChat width={24} height={24} color={'#000000'} />
+                <F_Chat width={24} height={24} color={'#000000'} />
               ) : (
-                <Chat width={24} height={24} color={'#000000'} />
+                <S_Chat width={24} height={24} color={'#000000'} />
               ),
           }}
           component={ChatingScreen}
@@ -88,9 +88,9 @@ const MainScreen = () => {
             tabBarLabel: ({ focused, color }) => <MenuText>My</MenuText>,
             tabBarIcon: ({ color, focused }) =>
               focused ? (
-                <FillMyPage width={24} height={24} color={'#000000'} />
+                <F_MyPage width={24} height={24} color={'#000000'} />
               ) : (
-                <MyPage width={24} height={24} color={'#000000'} />
+                <S_MyPage width={24} height={24} color={'#000000'} />
               ),
           }}
           component={MyPageScreen}

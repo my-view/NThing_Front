@@ -25,7 +25,7 @@ import { Header } from 'components/common/header';
 import Left from 'assets/image/Left.svg';
 import Share from 'assets/image/Share.svg';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { Button } from 'components/common/button';
+import { Button, Icon } from 'components/common/button';
 import { theme } from '~/../theme';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Swiper from 'react-native-swiper';
@@ -137,14 +137,14 @@ const TradeScreen = ({ navigation }) => {
         }}
       >
         <TouchableOpacity onPress={navigation.goBack}>
-          <Left width={24} height={24} color={theme.palette.white} />
+          <Icon name={'S_Left'} size={24} color={theme.palette.white} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             // 공유하기
           }}
         >
-          <Share width={24} height={24} color={theme.palette.white} />
+          <Icon name={'S_Share'} size={24} color={theme.palette.white} />
         </TouchableOpacity>
       </Header>
       <ShadowBottom>
