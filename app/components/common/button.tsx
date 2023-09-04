@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import { TouchableOpacity, Pressable } from 'react-native';
 import { Font13W600, Font16W600 } from 'components/common/text';
 import { SvgProps } from 'react-native-svg';
-import * as icons from '@assets/image/icon';
+import * as icons from '@assets/image/icon/icon';
 
 export enum BtnSize {
   SMALL = '6px 12px',
@@ -29,9 +29,13 @@ type IconProps = SvgProps & {
   size?: number;
 };
 
+/**
+ * name="string"
+ * size={number}
+ * color로 색상 변경
+ */
 export function Icon({
   name,
-  fill = 'transparent',
   width: _width,
   height: _height,
   size,
@@ -45,7 +49,7 @@ export function Icon({
     ...(height !== undefined ? { height } : {}),
   };
 
-  return <Comp {...props} fill={fill} {...sizeProps} />;
+  return <Comp {...props} {...sizeProps} />;
 }
 
 export const IconButton = styled.Pressable``;

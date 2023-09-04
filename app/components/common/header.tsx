@@ -5,6 +5,7 @@ import { getWidthRatio } from 'assets/util/layout';
 import { Icon } from './button';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Font13W500, Font15W500, Font16W600 } from 'components/common/text';
+import { theme } from './../../../theme';
 
 type HeaderType = {
   title: string;
@@ -38,7 +39,7 @@ export const CustomHeader = ({
           onPress={navigation.goBack}
           style={{ position: 'absolute', left: getWidthRatio(20) }}
         >
-          <Icon name='Left' fill={'#fff'} size={24} />
+          <Icon name='S_Left' color={theme.palette.black} size={24} />
         </TouchableOpacity>
       )}
       <Font16W600>{title}</Font16W600>

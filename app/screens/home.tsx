@@ -25,6 +25,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ITEM_LIST } from '@assets/mock/item-list';
 import { filterType } from 'types/common';
 import { theme } from '~/../theme';
+import { Icon } from '~/components/common/button';
 
 const HomeScreen = ({ route, navigation }) => {
   const windowHeight = Dimensions.get('window').height;
@@ -98,7 +99,7 @@ const HomeScreen = ({ route, navigation }) => {
                   })
                 }
               >
-                <Left width={24} height={24} color={theme.palette.black} />
+                <Icon name={'S_Left'} size={24} fill={theme.palette.black} />
               </TouchableOpacity>
               <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
               <TouchableOpacity
@@ -109,7 +110,7 @@ const HomeScreen = ({ route, navigation }) => {
                 }
               >
                 <View style={{ width: 24 }}>
-                  <Close width={16} height={16} />
+                  <Icon name={'S_Close'} size={16} fill={theme.palette.black} />
                 </View>
               </TouchableOpacity>
             </Header>
@@ -118,13 +119,13 @@ const HomeScreen = ({ route, navigation }) => {
               <Pressable onPress={() => console.warn('touched')}>
                 <Row style={{ gap: 5 }}>
                   <Font18W600>서울대학교</Font18W600>
-                  <Down width={16} height={16} />
+                  <Icon name={'S_Down'} size={16} color={theme.palette.black} />
                 </Row>
               </Pressable>
               <TouchableOpacity
                 onPress={() => navigation.navigate('SearchScreen')}
               >
-                <Search width={24} height={24} />
+                <Icon name={'S_Search'} size={24} color={theme.palette.black} />
               </TouchableOpacity>
             </Header>
           )}

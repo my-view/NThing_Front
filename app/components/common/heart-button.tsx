@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon, IconButton } from '@components/common/button';
+import { theme } from '~/../theme';
 
 export const HeartButton: React.FC<{
   isLike: boolean;
@@ -12,11 +13,11 @@ export const HeartButton: React.FC<{
   };
   return isFilled ? (
     <IconButton onPress={() => handleLikeButton(false)}>
-      <Icon name='FillHeart' size={20} />
+      <Icon name='F_Heart' size={20} color={theme.palette.error} />
     </IconButton>
   ) : (
     <IconButton onPress={() => handleLikeButton(true)}>
-      <Icon name='Heart' size={20} />
+      <Icon name='S_Heart' size={20} color={theme.palette.black} />
     </IconButton>
   );
 };
