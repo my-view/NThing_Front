@@ -6,7 +6,7 @@ import { formatPrice } from 'assets/util/format';
 import { Vibration } from 'react-native';
 import { Icon, IconButton } from '@components/common/button';
 import Animated, { Keyframe } from 'react-native-reanimated';
-
+import { theme } from '~/../theme';
 export const Item = ({
   data,
   index,
@@ -113,7 +113,7 @@ export const Item = ({
         </ItemBox>
         {like ? (
           <IconButton onPress={handleLikeButton}>
-            <Icon name='FillHeart' size={20} />
+            <Icon name='F_Heart' size={20} color={theme.palette.error} />
             <Animated.View
               entering={enteringAnimation}
               style={{
@@ -121,7 +121,7 @@ export const Item = ({
                 zIndex: 9999,
               }}
             >
-              <Icon name='FillHeart' size={16} />
+              <Icon name='F_Heart' size={16} color={theme.palette.error} />
             </Animated.View>
             <Animated.View
               entering={enteringAnimation2}
@@ -130,7 +130,7 @@ export const Item = ({
                 zIndex: 9999,
               }}
             >
-              <Icon name='FillHeart' size={18} />
+              <Icon name='F_Heart' size={18} color={theme.palette.error} />
             </Animated.View>
             <Animated.View
               entering={enteringAnimation3}
@@ -139,12 +139,12 @@ export const Item = ({
                 zIndex: 9999,
               }}
             >
-              <Icon name='FillHeart' size={12} />
+              <Icon name='F_Heart' size={12} color={theme.palette.error} />
             </Animated.View>
           </IconButton>
         ) : (
           <IconButton onPress={handleLikeButton}>
-            <Icon name='Heart' size={20} fill={'#000'} />
+            <Icon name='S_Heart' size={20} color={'#000'} />
           </IconButton>
         )}
       </Box>

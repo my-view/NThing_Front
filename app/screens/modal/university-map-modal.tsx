@@ -7,6 +7,7 @@ import { getWidthRatio } from 'assets/util/layout';
 import { Font18W600 } from 'components/common/text';
 import { theme } from '~/../theme';
 import { CustomMarker } from 'components/nmap/marker';
+import { Icon } from '~/components/common/button';
 
 const UniversityMapModal = ({ navigation, route }) => {
   const { latitude, longitude } = route.params;
@@ -22,7 +23,7 @@ const UniversityMapModal = ({ navigation, route }) => {
             </Text>
           </View>
           <TouchableOpacity onPress={navigation.goBack}>
-            <Close width={16} height={16} fill={'#000'} />
+            <Icon name={'S_Close'} size={16} color={theme.palette.black} />
           </TouchableOpacity>
         </ModalHeader>
         <NaverMapView

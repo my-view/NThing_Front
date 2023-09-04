@@ -21,6 +21,7 @@ import { useRecoilValue } from 'recoil';
 import { Icon } from '~/components/common/button';
 import { ListItem } from '~/components/common/list-item';
 import { Divider } from '~/components/common/divider';
+import { theme } from '~/../theme';
 
 const MyPageScreen = ({ navigation }: any) => {
   type menuListType = {
@@ -33,19 +34,19 @@ const MyPageScreen = ({ navigation }: any) => {
     {
       id: 1,
       title: '찜한 거래',
-      icon: 'Heart',
+      icon: 'S_Heart',
       navigate: 'heartTrade',
     },
     {
       id: 2,
       title: '내가 연 거래',
-      icon: 'Buy',
+      icon: 'S_Buy',
       navigate: 'MyTrade',
     },
     {
       id: 3,
       title: '참여한 거래',
-      icon: 'Sell',
+      icon: 'S_Sell',
       navigate: 'JoinTrade',
     },
   ];
@@ -53,19 +54,19 @@ const MyPageScreen = ({ navigation }: any) => {
     {
       id: 1,
       title: '공지사항',
-      icon: 'Notice',
+      icon: 'S_Notice',
       navigate: 'Notice',
     },
     {
       id: 2,
       title: '1:1 문의',
-      icon: 'HeadSet',
+      icon: 'S_HeadSet',
       navigate: 'OneByOne',
     },
     {
       id: 3,
       title: 'FAQ',
-      icon: 'OnebyOne',
+      icon: 'S_OnebyOne',
       navigate: 'FAG',
     },
   ];
@@ -128,7 +129,7 @@ const MyPageScreen = ({ navigation }: any) => {
             </EditButton>
           </UserInfoWrap>
           <UniversityInfo>
-            <Icon name='School' size={24} />
+            <Icon name='F_School' size={24} color={theme.palette.white} />
             {isLoginUser ? (
               <Font16W600 style={{ color: 'white' }}>서울대학교</Font16W600>
             ) : (

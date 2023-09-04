@@ -7,7 +7,7 @@ import { CustomHeader } from '~/components/common/header';
 import { Icon, RoundedButton } from '~/components/common/button';
 import { Input, InputLabel } from 'components/common/input';
 import { ShadowBottom } from 'components/common/bottom-box';
-
+import { theme } from '~/../theme';
 const MyPageEditScreen = ({ navigation }: any) => {
   const [input, setInput] = useState('띵띵이');
   return (
@@ -35,7 +35,11 @@ const MyPageEditScreen = ({ navigation }: any) => {
             <CameraButton onPress={() => console.log('카메라 버튼')}>
               {({ pressed }) => (
                 <View style={{ opacity: pressed ? 0.5 : 1 }}>
-                  <Icon name='Camera' size={20} />
+                  <Icon
+                    name='F_Camera'
+                    size={20}
+                    color={theme.palette.gray03}
+                  />
                 </View>
               )}
             </CameraButton>
@@ -70,7 +74,7 @@ const MyPageEditScreen = ({ navigation }: any) => {
             }
           />
           <InformationBox>
-            <Icon name='Inform' size={13} />
+            <Icon name='S_Inform' size={13} color={theme.palette.primary} />
             <Font12W400>닉네임은 30일마다 한 번 바꿀 수 있어요.</Font12W400>
           </InformationBox>
         </ApplyButtonWrap>

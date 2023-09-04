@@ -16,7 +16,7 @@ import Left from 'assets/image/Left.svg';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { BtnSize, Button } from 'components/common/button';
+import { BtnSize, Button, Icon } from 'components/common/button';
 import Inform from 'assets/image/Inform.svg';
 import Camera from 'assets/image/Camera.svg';
 import Add from 'assets/image/Add.svg';
@@ -64,7 +64,7 @@ const TradeRegistScreen = ({ navigation }) => {
           onPress={navigation.goBack}
           style={{ position: 'absolute', left: getWidthRatio(20) }}
         >
-          <Left width={24} height={24} color={theme.palette.black} />
+          <Icon name={'S_Left'} size={24} color={theme.palette.black} />
         </TouchableOpacity>
         <Font16W600>거래글 작성</Font16W600>
       </Header>
@@ -88,7 +88,11 @@ const TradeRegistScreen = ({ navigation }) => {
               }
             >
               <ImageUploader>
-                <Camera width={24} height={24} />
+                <Icon
+                  size={24}
+                  name={'F_Camera'}
+                  color={theme.palette.gray03}
+                />
                 <GraySmallText>{images.length}/10</GraySmallText>
               </ImageUploader>
             </Pressable>
@@ -119,7 +123,7 @@ const TradeRegistScreen = ({ navigation }) => {
               navigation.navigate('UniversityMapModal');
             }}
           >
-            <Add width={16} height={16} />
+            <Icon name={'S_Add'} size={16} color={theme.palette.black} />
           </Pressable>
         </Box>
         <Box>
@@ -129,7 +133,7 @@ const TradeRegistScreen = ({ navigation }) => {
               navigation.navigate('UniversityMapModal');
             }}
           >
-            <Add width={16} height={16} />
+            <Icon name={'S_Add'} size={16} color={theme.palette.black} />
           </Pressable>
         </Box>
         <Box>
@@ -152,7 +156,7 @@ const TradeRegistScreen = ({ navigation }) => {
       </Container>
       <ShadowBottom>
         <View style={{ flexDirection: 'row', gap: 8 }}>
-          <Inform width={13} height={13} />
+          <Icon size={13} name={'S_Inform'} color={theme.palette.primary} />
           <InformText>{`내가 구하고자 하는 인원의 수를 적으면\n가격이 자동으로 계산돼요`}</InformText>
         </View>
         <Button

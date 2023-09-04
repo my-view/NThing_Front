@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/native';
 import { Font14W400 } from '../common/text';
 import { Icon, IconButton } from '../common/button';
-
+import { theme } from '~/../theme';
 /**
  * 현재위치검색 버튼 current-location-search
  */
@@ -10,7 +10,7 @@ export const CLSButton = () => {
   return (
     <ButtonBox onPress={() => console.log('현재위치검색 버튼')}>
       <IconButton>
-        <Icon fill={'#fff'} name='Reset' size={16} />
+        <Icon color={theme.palette.primary} name='S_Reset' size={16} />
       </IconButton>
       <SearchText>현재 위치에서 검색</SearchText>
     </ButtonBox>

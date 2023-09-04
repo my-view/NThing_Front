@@ -4,7 +4,7 @@ import Close from '@assets/image/Close.svg';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { Pressable, TouchableOpacity } from 'react-native';
-
+import { Icon } from './button';
 export const Tag: React.FCC<{ onSelect: () => void; onDelete: () => void }> = ({
   onSelect,
   onDelete,
@@ -15,7 +15,7 @@ export const Tag: React.FCC<{ onSelect: () => void; onDelete: () => void }> = ({
       <TagBox>
         <TagText>{children}</TagText>
         <Pressable onPress={onDelete}>
-          <Close width={12} height={12} color={theme.palette.gray03} />
+          <Icon name='S_Close' size={12} color={theme.palette.gray03} />
         </Pressable>
       </TagBox>
     </TouchableOpacity>

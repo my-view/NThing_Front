@@ -10,6 +10,7 @@ import { Font18W600 } from '~/components/common/text';
 import { getHeightRatio, getWidthRatio } from '~/assets/util/layout';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Tag } from '~/components/common/tag';
+import { Icon } from '~/components/common/button';
 
 const SearchScreen = ({ route, navigation }) => {
   const [searchKeyword, setSearchKeyword] = useState(route.params.keyword);
@@ -51,7 +52,7 @@ const SearchScreen = ({ route, navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <Header>
         <TouchableOpacity onPress={navigation.goBack}>
-          <Left width={24} height={24} color={theme.palette.black} />
+          <Icon name={'S_Left'} size={24} color={theme.palette.black} />
         </TouchableOpacity>
         <KeywordInput
           value={searchKeyword}
@@ -63,7 +64,7 @@ const SearchScreen = ({ route, navigation }) => {
           placeholderTextColor={theme.palette.gray03}
         />
         <TouchableOpacity onPress={search}>
-          <Search width={24} height={24} />
+          <Icon name={'S_Search'} size={24} color={theme.palette.black} />
         </TouchableOpacity>
       </Header>
       <Container>

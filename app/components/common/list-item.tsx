@@ -9,13 +9,9 @@ import {
   Pressable,
   //   Animated,
 } from 'react-native';
-import { UsePressableListAnimated } from 'hooks/animated/usePressableList';
 import Animated, {
   useSharedValue,
-  useAnimatedScrollHandler,
   useAnimatedStyle,
-  interpolate,
-  interpolateColor,
   withTiming,
   withSpring,
   Easing,
@@ -25,6 +21,7 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
+import { theme } from '../../../theme';
 
 type menuListType = {
   id: number;
@@ -87,7 +84,11 @@ export const ListItem = ({ data }: menuListType) => {
                     }}
                   >
                     <Row>
-                      <Icon name={`${data.icon}`} size={20} />
+                      <Icon
+                        name={`${data.icon}`}
+                        size={20}
+                        color={theme.palette.black}
+                      />
                       <Text
                         style={{
                           marginLeft: 12,
@@ -103,7 +104,11 @@ export const ListItem = ({ data }: menuListType) => {
                         transform: [{ rotate: '180deg' }],
                       }}
                     >
-                      <Icon name='Left' size={16} />
+                      <Icon
+                        name='S_Left'
+                        size={16}
+                        color={theme.palette.black}
+                      />
                     </Pressable>
                   </Row>
                 </Animated.View>
