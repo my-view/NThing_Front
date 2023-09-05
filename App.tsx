@@ -7,9 +7,12 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
 import 'react-native-gesture-handler';
+import axios, { HeadersDefaults } from 'axios';
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
+
+axios.defaults.baseURL = 'https://75c6-1-225-155-14.ngrok-free.app';
 
 export default function App() {
   return (

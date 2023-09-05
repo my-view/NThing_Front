@@ -14,6 +14,7 @@ import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import * as KakaoLogin from '@react-native-seoul/kakao-login';
 import auth from '@react-native-firebase/auth';
+import { kakaoTokenAPI } from '~/api/login';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -41,6 +42,14 @@ const RootScreen = ({ navigation }: any) => {
     try {
       const { accessToken } = await KakaoLogin.login();
       console.log('카카오 토큰', accessToken);
+
+      // const res = await KakaoLogin.getProfile();
+      // console.log('카카오 정뵤', res);
+      kakaoTokenAPI({
+        id_token: accessToken,
+      }).then((res) => {
+        console.log('res', res);
+      });
     } catch (e) {
       console.warn(e);
     }
