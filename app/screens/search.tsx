@@ -1,28 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/native';
 import { SafeAreaView, TouchableOpacity } from 'react-native';
-import Left from 'assets/image/Left.svg';
-import Search from 'assets/image/Search.svg';
 import { KeywordInput } from 'components/main/keyword';
-import { Header } from '~/components/common/header';
+import { Header } from 'components/common/header';
 import { theme } from '~/../theme';
-import { Font18W600 } from '~/components/common/text';
-import { getHeightRatio, getWidthRatio } from '~/assets/util/layout';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Tag } from '~/components/common/tag';
-import { Icon } from '~/components/common/button';
+import { Font18W600 } from 'components/common/text';
+import { getHeightRatio, getWidthRatio } from 'assets/util/layout';
+import { Tag } from 'components/common/tag';
+import { Icon } from 'components/common/button';
+import { getStorage, setStorage } from 'assets/util/storage';
 
 const SearchScreen = ({ route, navigation }) => {
   const [searchKeyword, setSearchKeyword] = useState(route.params.keyword);
   const [latestKeywords, setLatestKeywords] = useState<string[]>([]);
   const STORAGE_LATEST_KEYWORD = 'latestKeyword';
-
-  const navigateToHome = (keyword: string) => {
-    navigation.navigate('MainScreen', {
-      screen: 'HomeScreen',
-      params: { keyword },
-    });
-  };
 
   const navigateToSearchMap = (keyword: string) => {
     navigation.navigate('SearchMapScreen', {
@@ -31,23 +22,23 @@ const SearchScreen = ({ route, navigation }) => {
     });
   };
 
-  const search = () => {
-    if (!searchKeyword.trim()) return;
-    if (!latestKeywords.includes(searchKeyword)) {
-      AsyncStorage.setItem(
-        STORAGE_LATEST_KEYWORD,
-        JSON.stringify([searchKeyword, ...latestKeywords]),
-      );
-    }
-    navigateToSearchMap(searchKeyword);
+  const search = (keyword: string) => {
+    if (!keyword.trim()) return;
+    const updated = [
+      keyword,
+      ...latestKeywords.filter((item) => item !== keyword),
+    ];
+    setLatestKeywords(updated);
+    setStorage(STORAGE_LATEST_KEYWORD, updated);
+    navigateToSearchMap(keyword);
   };
 
   useEffect(() => {
-    AsyncStorage.getItem(STORAGE_LATEST_KEYWORD, (_, result) => {
-      if (!result) return;
-      setLatestKeywords(JSON.parse(result));
+    getStorage(STORAGE_LATEST_KEYWORD).then((keword) => {
+      if (keword) setLatestKeywords(keword);
     });
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <Header>
@@ -58,12 +49,12 @@ const SearchScreen = ({ route, navigation }) => {
           value={searchKeyword}
           onChangeText={(text) => setSearchKeyword(text)}
           onSubmitEditing={(e) => {
-            if (e.nativeEvent.text !== '') search();
+            if (e.nativeEvent.text !== '') search(searchKeyword);
           }}
           placeholder='검색어를 입력해주세요'
           placeholderTextColor={theme.palette.gray03}
         />
-        <TouchableOpacity onPress={search}>
+        <TouchableOpacity onPress={() => search(searchKeyword)}>
           <Icon name={'S_Search'} size={24} color={theme.palette.black} />
         </TouchableOpacity>
       </Header>
@@ -75,26 +66,14 @@ const SearchScreen = ({ route, navigation }) => {
               key={item}
               onSelect={async () => {
                 setSearchKeyword(item);
-                const updated = [
-                  item,
-                  ...latestKeywords.filter((keyword) => keyword !== item),
-                ];
-                setLatestKeywords(updated);
-                AsyncStorage.setItem(
-                  STORAGE_LATEST_KEYWORD,
-                  JSON.stringify(updated),
-                );
-                navigateToSearchMap(item);
+                search(item);
               }}
               onDelete={() => {
                 const updated = latestKeywords.filter(
                   (keyword) => keyword !== item,
                 );
                 setLatestKeywords(updated);
-                AsyncStorage.setItem(
-                  STORAGE_LATEST_KEYWORD,
-                  JSON.stringify(updated),
-                );
+                setStorage(STORAGE_LATEST_KEYWORD, updated);
               }}
             >
               {item}
