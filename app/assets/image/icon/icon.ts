@@ -3,7 +3,7 @@
 
 // icon 추가할때, 색상 부분에 currentColor로 변경하고, 사용할때는 color로 색상 값 부여
 
-// extension install -- SVG Previewer -- show preview command + shift + v
+// extension install -- SVG Previewer -- show preview => command + shift + v
 
 // Stroke Icon
 export { default as S_Add } from '@assets/image/icon/S_Add.svg';

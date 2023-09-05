@@ -25,6 +25,7 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import { CustomHeader } from '~/components/common/header';
 
 const TradeRegistScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
@@ -59,7 +60,12 @@ const TradeRegistScreen = ({ navigation }) => {
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#FFFFFF', position: 'relative' }}
     >
-      <Header style={{ position: 'relative', justifyContent: 'center' }}>
+      <CustomHeader
+        title='거래글 작성'
+        navigation={navigation}
+        // bottomBorder={false}
+      />
+      {/* <Header style={{ position: 'relative', justifyContent: 'center' }}>
         <TouchableOpacity
           onPress={navigation.goBack}
           style={{ position: 'absolute', left: getWidthRatio(20) }}
@@ -67,7 +73,7 @@ const TradeRegistScreen = ({ navigation }) => {
           <Icon name={'S_Left'} size={24} color={theme.palette.black} />
         </TouchableOpacity>
         <Font16W600>거래글 작성</Font16W600>
-      </Header>
+      </Header> */}
       {/*       <CustomHeader navigation={navigation} /> */}
       <Container>
         <ImageContainer>
