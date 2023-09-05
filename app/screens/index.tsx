@@ -57,7 +57,21 @@ const RootScreen = ({ navigation }: any) => {
       auth()
         .signInWithCredential(googleCredential)
         .then(({ user }) => user.getIdToken())
-        .then((newToken: string) => console.log('새로 받은 토큰', newToken));
+        .then((firebaseToken: string) => {
+          console.log('새로 받은 토큰', firebaseToken);
+          fetch('http://86ef-1-225-155-14.ngrok-free.app/login/google', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id_token: firebaseToken }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data.token);
+              setToken(data.token);
+            });
+        });
     } catch (e) {
       console.warn(e);
     }
