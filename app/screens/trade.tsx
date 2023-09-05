@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Platform,
@@ -22,12 +22,10 @@ import {
   Font18W700,
 } from 'components/common/text';
 import { Header } from 'components/common/header';
-import Left from 'assets/image/Left.svg';
-import Share from 'assets/image/Share.svg';
 import { ShadowBottom } from 'components/common/bottom-box';
 import { Button, Icon } from 'components/common/button';
 import { theme } from '~/../theme';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { getStatusBarHeight } from 'react-native-safearea-height';
 import Swiper from 'react-native-swiper';
 import { HeartButton } from 'components/common/heart-button';
 import { Row } from 'components/common/layout';
@@ -45,6 +43,7 @@ const ITEM_IMAGES = [
 const MOCK_DATA = {
   id: 3,
   title: '휴지 나눠서 사실 분',
+  images: [],
   description:
     '펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분',
   latitude: 123.213512123,
@@ -63,17 +62,32 @@ const MOCK_DATA = {
 };
 
 const TradeScreen = ({ navigation }) => {
+  const [tradeDetail, setTradeDetail] = useState(MOCK_DATA);
   const [comment, setComment] = useState('');
   const { width } = useWindowDimensions();
-
-  // 상태바 설정인데 안드로이드에서만 적용되는지?
-  StatusBar.setTranslucent(true);
-  // StatusBar.setBackgroundColor('transparent');
-  // StatusBar.setBarStyle('dark-content');
 
   const statusBarHeight =
     Platform.OS === 'ios' ? getStatusBarHeight(true) : StatusBar.currentHeight;
 
+  useEffect(() => {
+    // 안드로이드에서만 가능??
+    // StatusBar.setTranslucent(true);
+    StatusBar.setBarStyle('light-content');
+    return () => {
+      StatusBar.setBarStyle('dark-content');
+    };
+  }, []);
+
+  useEffect(() => {
+    fetch('http://86ef-1-225-155-14.ngrok-free.app/purchase/1')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setTradeDetail(data);
+      });
+  }, []);
+
+  if (!tradeDetail) return null;
   return (
     <View style={{ flex: 1, position: 'relative' }}>
       <ScrollContainer>
@@ -93,29 +107,29 @@ const TradeScreen = ({ navigation }) => {
         </Swiper>
         <ManagerInfoBox>
           <ProfileImage>{/* TODO: image 넣기 */}</ProfileImage>
-          <Font15W600>{MOCK_DATA.manager}</Font15W600>
+          <Font15W600>{tradeDetail.manager}</Font15W600>
         </ManagerInfoBox>
         <TradeInfoBox>
-          <Font18W700>{MOCK_DATA.title}</Font18W700>
+          <Font18W700>{tradeDetail.title}</Font18W700>
           <SubInfoWrapper>
             <Pressable>
               <GrayFont style={{ textDecorationLine: 'underline' }}>
-                {MOCK_DATA.category_name}
+                {tradeDetail.category_name}
               </GrayFont>
             </Pressable>
-            <GrayFont>{` · ${formatDate(MOCK_DATA.updated_at)} 전`}</GrayFont>
+            <GrayFont>{` · ${formatDate(tradeDetail.updated_at)} 전`}</GrayFont>
           </SubInfoWrapper>
           <Row style={{ gap: 17, alignItems: 'flex-start', marginBottom: 8 }}>
             <Font12W600>거래 장소</Font12W600>
             <View style={{ gap: 7 }}>
-              <Font12W500>{MOCK_DATA.place}</Font12W500>
+              <Font12W500>{tradeDetail.place}</Font12W500>
               <Font12W500>
-                {moment(MOCK_DATA.date).format('yyyy.MM.DD. hh:mm')}
+                {moment(tradeDetail.date).format('yyyy.MM.DD. hh:mm')}
               </Font12W500>
             </View>
           </Row>
           <Font16W500 style={{ lineHeight: 24 }}>
-            {MOCK_DATA.description}
+            {tradeDetail.description}
           </Font16W500>
         </TradeInfoBox>
         <CommentBox>
@@ -156,7 +170,7 @@ const TradeScreen = ({ navigation }) => {
             <View style={{ gap: 2 }}>
               <Font10W600>1개당</Font10W600>
               <Row style={{ gap: 10 }}>
-                <Font18W600>{formatPrice(MOCK_DATA.price)}원</Font18W600>
+                <Font18W600>{formatPrice(tradeDetail.price)}원</Font18W600>
                 <View
                   style={{
                     height: 10,
@@ -167,9 +181,9 @@ const TradeScreen = ({ navigation }) => {
                 />
                 <Font18W600>
                   <Text style={{ color: theme.palette.primary }}>
-                    {MOCK_DATA.denominator}
+                    {tradeDetail.denominator}
                   </Text>
-                  /{MOCK_DATA.numerator}명
+                  /{tradeDetail.numerator}명
                 </Font18W600>
               </Row>
             </View>
