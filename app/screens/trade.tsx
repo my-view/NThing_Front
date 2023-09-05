@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Platform,
@@ -22,12 +22,10 @@ import {
   Font18W700,
 } from 'components/common/text';
 import { Header } from 'components/common/header';
-import Left from 'assets/image/Left.svg';
-import Share from 'assets/image/Share.svg';
 import { ShadowBottom } from 'components/common/bottom-box';
 import { Button, Icon } from 'components/common/button';
 import { theme } from '~/../theme';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { getStatusBarHeight } from 'react-native-safearea-height';
 import Swiper from 'react-native-swiper';
 import { HeartButton } from 'components/common/heart-button';
 import { Row } from 'components/common/layout';
@@ -66,10 +64,14 @@ const TradeScreen = ({ navigation }) => {
   const [comment, setComment] = useState('');
   const { width } = useWindowDimensions();
 
-  // 상태바 설정인데 안드로이드에서만 적용되는지?
-  StatusBar.setTranslucent(true);
-  // StatusBar.setBackgroundColor('transparent');
-  // StatusBar.setBarStyle('dark-content');
+  useEffect(() => {
+    // 안드로이드에서만 가능??
+    // StatusBar.setTranslucent(true);
+    StatusBar.setBarStyle('light-content');
+    return () => {
+      StatusBar.setBarStyle('dark-content');
+    };
+  }, []);
 
   const statusBarHeight =
     Platform.OS === 'ios' ? getStatusBarHeight(true) : StatusBar.currentHeight;
