@@ -1,68 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/native';
-import { itemType } from '~/assets/mock/purchase-item-list';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { formatPrice } from 'assets/util/format';
 import { Vibration } from 'react-native';
 import { Icon, IconButton } from '@components/common/button';
 import Animated, { Keyframe } from 'react-native-reanimated';
 import { theme } from '~/../theme';
+import { PurchaseItemType } from 'types/common';
+
+const enteringAnimation = new Keyframe({
+  0: {
+    originX: -10,
+    originY: 30,
+    opacity: 0,
+  },
+  50: {
+    originX: -10,
+    originY: -30,
+    opacity: 1,
+  },
+  100: {
+    opacity: 0,
+  },
+}).duration(1000);
+
+const enteringAnimation2 = new Keyframe({
+  0: {
+    originX: 20,
+    originY: 20,
+    opacity: 0,
+  },
+  50: {
+    originX: 20,
+    originY: -20,
+    opacity: 1,
+  },
+  100: {
+    opacity: 0,
+  },
+}).duration(800);
+
+const enteringAnimation3 = new Keyframe({
+  0: {
+    originX: 10,
+    originY: 40,
+    opacity: 0,
+  },
+  50: {
+    originX: 10,
+    originY: -10,
+    opacity: 1,
+  },
+  100: {
+    opacity: 0,
+  },
+}).duration(500);
+
 export const Item = ({
   data,
   index,
   listLength,
 }: {
-  data: itemType;
+  data: PurchaseItemType;
   index: number;
   listLength: number;
 }) => {
   const { title, price, place, n, person, time, isLike } = data;
-
-  const enteringAnimation = new Keyframe({
-    0: {
-      originX: -10,
-      originY: 30,
-      opacity: 0,
-    },
-    50: {
-      originX: -10,
-      originY: -30,
-      opacity: 1,
-    },
-    100: {
-      opacity: 0,
-    },
-  }).duration(1000);
-  const enteringAnimation2 = new Keyframe({
-    0: {
-      originX: 20,
-      originY: 20,
-      opacity: 0,
-    },
-    50: {
-      originX: 20,
-      originY: -20,
-      opacity: 1,
-    },
-    100: {
-      opacity: 0,
-    },
-  }).duration(800);
-  const enteringAnimation3 = new Keyframe({
-    0: {
-      originX: 10,
-      originY: 40,
-      opacity: 0,
-    },
-    50: {
-      originX: 10,
-      originY: -10,
-      opacity: 1,
-    },
-    100: {
-      opacity: 0,
-    },
-  }).duration(500);
 
   // .withCallback(opacity:0)
   const [lineCount, setLineCount] = useState(1);
@@ -192,14 +195,15 @@ const TradeInfo = styled(Font12W400)`
   color: ${(p) => p.theme.palette.gray03};
 `;
 
-//
 const PricePersonBox = styled.View`
   flex-direction: row;
   gap: 20px;
 `;
+
 const Price = styled(Font16W600)``;
+
 const Person = styled(Font16W600)``;
+
 const N = styled.Text`
   color: ${(p) => p.theme.palette.primary};
 `;
-//
