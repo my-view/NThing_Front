@@ -11,10 +11,6 @@ import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from '@components/nmap/marker';
 import { Font18W600 } from '@components/common/text';
-import Search from '@assets/image/Search.svg';
-import Down from '@assets/image/Down.svg';
-import Left from '@assets/image/Left.svg';
-import Close from '@assets/image/Close.svg';
 import { Row } from '@components/common/layout';
 import { Header } from 'components/common/header';
 import { KeywordBox } from 'components/main/keyword';
@@ -22,21 +18,16 @@ import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Item } from '@components/common/item';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ITEM_LIST } from '@assets/mock/item-list';
-import { filterType } from 'types/common';
+import { PURCHASE_ITEM_LIST } from '~/assets/mock/purchase-item-list';
 import { theme } from '~/../theme';
-import { Icon } from '~/components/common/button';
+import { Icon } from 'components/common/button';
+import { PINS } from 'assets/mock/pins';
+import { sortOptions } from 'assets/util/constants';
 
 const HomeScreen = ({ route, navigation }) => {
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
-  const PIN_DATA = [
-    { id: 1, latitude: 37.564362, longitude: 126.977011 },
-    { id: 2, latitude: 37.565051, longitude: 126.978567 },
-    { id: 3, latitude: 37.565383, longitude: 126.976292 },
-  ];
-
   const [selectValue, setSelectValue] = useState({
     nm: '최신순',
     cd: 'recent',
@@ -50,13 +41,6 @@ const HomeScreen = ({ route, navigation }) => {
     () => ['1%', '24%', '37%', '50%', headerFullHeight],
     [],
   );
-
-  const countries: filterType[] = [
-    { nm: '최신순', cd: 'recent' },
-    { nm: '가격순', cd: 'price' },
-    { nm: '마감임박순', cd: 'i_dl' },
-    { nm: '시간임박순', cd: 't_dl' },
-  ];
 
   const handleSheetChange = useCallback((index: number) => {
     console.log('handleSheetChange', index);
@@ -74,7 +58,11 @@ const HomeScreen = ({ route, navigation }) => {
   const renderItem = useCallback(
     (item: any, index: number) => (
       <Pressable key={index} onPress={() => navigation.navigate('TradeScreen')}>
-        <Item data={item} index={index} listLength={ITEM_LIST.length - 1} />
+        <Item
+          data={item}
+          index={index}
+          listLength={PURCHASE_ITEM_LIST.length - 1}
+        />
       </Pressable>
     ),
     [],
@@ -134,13 +122,13 @@ const HomeScreen = ({ route, navigation }) => {
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
               zoomControl={false}
-              center={{ ...PIN_DATA[selectedPin || 0], zoom: 16 }}
+              center={{ ...PINS[selectedPin || 0], zoom: 16 }}
               onTouch={() => {
                 listSheetRef.current?.snapToIndex(1);
               }}
               // onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
             >
-              {PIN_DATA.map((pin, index) => (
+              {PINS.map((pin, index) => (
                 <CustomMarker
                   key={pin.id}
                   coordinate={pin}
@@ -170,7 +158,7 @@ const HomeScreen = ({ route, navigation }) => {
               <SelectBox
                 value={selectValue}
                 onChange={setSelectValue}
-                options={countries}
+                options={sortOptions}
                 defaultValue={selectValue}
               />
             </View>
@@ -182,7 +170,7 @@ const HomeScreen = ({ route, navigation }) => {
                 // paddingTop: 20,
               }}
             >
-              {ITEM_LIST.map(renderItem)}
+              {PURCHASE_ITEM_LIST.map(renderItem)}
             </BottomSheetScrollView>
           </BottomSheet>
         </Container>

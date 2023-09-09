@@ -18,8 +18,17 @@ export interface College extends Coordinate {
   address: string;
 }
 
-export interface filterType {
+export interface SortType {
   cd: string;
   nm: string;
 }
 
+export interface PurchaseItemType {
+  title: string;
+  place: string;
+  time: string;
+  price: number;
+  n: number;
+  person: number;
+  isLike: boolean;
+}

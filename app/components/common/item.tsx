@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/native';
-import { itemType } from '@assets/mock/item-list';
+import { itemType } from '~/assets/mock/purchase-item-list';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { formatPrice } from 'assets/util/format';
 import { Vibration } from 'react-native';

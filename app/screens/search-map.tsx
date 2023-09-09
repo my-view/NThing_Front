@@ -7,34 +7,23 @@ import {
   Alert,
 } from 'react-native';
 import styled from '@emotion/native';
-import NaverMapView, { Marker, Polygon } from 'react-native-nmap';
+import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from '@components/nmap/marker';
-import Search from '@assets/image/Search.svg';
-import Down from '@assets/image/Down.svg';
-import Left from '@assets/image/Left.svg';
-import Close from '@assets/image/Close.svg';
 import { Header } from '~/components/common/header';
 import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import { SelectBox } from '@components/common/select';
-import { Icon, IconButton } from '@components/common/button';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-  BottomSheetScrollView,
-} from '@gorhom/bottom-sheet';
+import { Icon } from '@components/common/button';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Item } from '@components/common/item';
 import { CLSButton } from '@components/nmap/current-location-search';
-import {
-  GestureHandlerRootView,
-  PanGestureHandler,
-  TapGestureHandler,
-} from 'react-native-gesture-handler';
-import { ITEM_LIST } from '@assets/mock/item-list';
-import { filterType } from '~/types/common';
-import getDistanceFromLatLonInKm from '~/assets/util/map';
-import { Text } from 'react-native-svg';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { PURCHASE_ITEM_LIST } from '~/assets/mock/purchase-item-list';
+import { Coordinate } from 'types/common';
+import getDistanceFromLatLonInKm from 'assets/util/map';
 import { theme } from '~/../theme';
+import { defaultSortOption, sortOptions } from 'assets/util/constants';
+import { PINS } from 'assets/mock/pins';
 
 const SearchMapScreen = ({ route, navigation }: any) => {
   console.log('SearchMapScreen', route);
@@ -42,31 +31,18 @@ const SearchMapScreen = ({ route, navigation }: any) => {
   const { keyword } = route.params.params;
 
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
-  const PIN_DATA = [
-    { id: 1, latitude: 37.564362, longitude: 126.977011 },
-    { id: 2, latitude: 37.565051, longitude: 126.978567 },
-    { id: 3, latitude: 37.565383, longitude: 126.976292 },
-  ];
-  const [testCo, setTestCo] = useState([PIN_DATA[0], PIN_DATA[1], PIN_DATA[2]]);
-  // center={{ ...PIN_DATA[selectedPin || 0], zoom: 16 }}
+  const [testCo, setTestCo] = useState([PINS[0], PINS[1], PINS[2]]);
+  // center={{ ...PINS[selectedPin || 0], zoom: 16 }}
 
   // console.warn(testCo);
-  const [currentLocation, setCurrentLocation] = useState({
+  const [currentLocation, setCurrentLocation] = useState<Coordinate>({
+    id: 1,
     latitude: 37.53815725,
     longitude: 126.9307627,
   });
 
-  const [selectValue, setSelectValue] = useState({
-    nm: '최신순',
-    cd: 'recent',
-  });
+  const [selectedSort, setSelectSort] = useState(defaultSortOption);
   const [mapView, setMapView] = useState(false);
-  const countries: filterType[] = [
-    { nm: '최신순', cd: 'recent' },
-    { nm: '가격순', cd: 'price' },
-    { nm: '마감임박순', cd: 'i_dl' },
-    { nm: '시간임박순', cd: 't_dl' },
-  ];
 
   const listSheetRef = React.useRef<BottomSheet>(null);
   const headerFullHeight = windowHeight - 76;
@@ -90,7 +66,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
         key={index}
         data={item}
         index={index}
-        listLength={ITEM_LIST.length - 1}
+        listLength={PURCHASE_ITEM_LIST.length - 1}
       />
     ),
     [],
@@ -169,7 +145,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
               zoomControl={false}
-              center={{ ...PIN_DATA[selectedPin || 0], zoom: 16 }}
+              center={{ ...PINS[selectedPin || 0], zoom: 16 }}
               onTouch={() => {
                 listSheetRef.current?.snapToIndex(1);
               }}
@@ -196,9 +172,9 @@ const SearchMapScreen = ({ route, navigation }: any) => {
                 image={require('../assets/image/csl-button.png')}
                 width={153}
                 height={36}
-                coordinate={PIN_DATA[0]}
+                coordinate={PINS[0]}
               /> */}
-              {PIN_DATA.map((pin, index) => (
+              {PINS.map((pin, index) => (
                 <CustomMarker
                   key={pin.id}
                   coordinate={pin}
@@ -209,11 +185,6 @@ const SearchMapScreen = ({ route, navigation }: any) => {
                   isSelected={index === selectedPin}
                 />
               ))}
-              {/* <Polygon
-                coordinates={[...testCo] || []}
-                color={`rgba(0, 0, 0, 0.5)`}
-                onClick={() => console.warn('onClick! polygon')}
-              /> */}
               <CustomMarker coordinate={currentLocation} />
             </NaverMapView>
           </View>
@@ -234,10 +205,10 @@ const SearchMapScreen = ({ route, navigation }: any) => {
               }}
             >
               <SelectBox
-                value={selectValue}
-                onChange={setSelectValue}
-                options={countries}
-                defaultValue={selectValue}
+                value={selectedSort}
+                onChange={setSelectSort}
+                options={sortOptions}
+                defaultValue={selectedSort}
               />
             </View>
             <BottomSheetScrollView
@@ -246,7 +217,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
                 paddingBottom: 120,
               }}
             >
-              {ITEM_LIST.map(renderItem)}
+              {PURCHASE_ITEM_LIST.map(renderItem)}
             </BottomSheetScrollView>
           </BottomSheet>
         </Container>

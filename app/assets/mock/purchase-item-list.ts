@@ -1,14 +1,6 @@
-export interface itemType {
-  title: string;
-  place: string;
-  time: string;
-  price: number;
-  n: number;
-  person: number;
-  isLike: boolean;
-}
+import { PurchaseItemType } from 'types/common';
 
-export const ITEM_LIST: itemType[] = [
+export const PURCHASE_ITEM_LIST: PurchaseItemType[] = [
   {
     title: '휴지 사실 분',
     place: '서울대학교 인문대학',
