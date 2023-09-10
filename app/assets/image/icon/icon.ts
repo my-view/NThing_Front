@@ -24,6 +24,7 @@ export { default as S_MyPage } from '@assets/image/icon/S_MyPage.svg';
 export { default as S_Search } from '@assets/image/icon/S_Search.svg';
 export { default as S_Share } from '@assets/image/icon/S_Share.svg';
 export { default as S_Down } from '@assets/image/icon/S_Down.svg';
+export { default as S_Caution } from '@assets/image/icon/S_Caution.svg';
 
 // Fill Icon
 export { default as F_School } from '@assets/image/icon/F_School.svg';

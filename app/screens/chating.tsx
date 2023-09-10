@@ -9,46 +9,25 @@ import {
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
+import { CustomHeader } from '~/components/common/header';
 
 const ChatingScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <Container>
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <Text>채팅이오</Text>
-        </View>
-        <SocialLoginWrap>
-          <SocialSubTitle>sns로 간편 로그인</SocialSubTitle>
-          <ButtonWrap>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigation.navigate('universityScreen');
-              }}
-            >
-              <Image source={require('../assets/image/naver-btn.png')} />
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigation.navigate('universityScreen');
-              }}
-            >
-              <Image source={require('../assets/image/kakao-btn.png')} />
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigation.navigate('MainScreen');
-              }}
-            >
-              <Image source={require('../assets/image/google-btn.png')} />
-            </TouchableWithoutFeedback>
-          </ButtonWrap>
-          <LaterLogin>나중에 로그인하기</LaterLogin>
-        </SocialLoginWrap>
-      </Container>
+      <CustomHeader
+        title='채팅'
+        // useLeftButton={false}
+        navigation={navigation}
+        bottomBorder={false}
+        // renderRightButton={() => {
+        //   return (
+        //     <Pressable onPress={() => console.log('123')}>
+        //       <Text>rightButton</Text>
+        //     </Pressable>
+        //   );
+        // }}
+      />
+      <Container></Container>
     </SafeAreaView>
   );
 };

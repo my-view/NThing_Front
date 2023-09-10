@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
 import { getWidthRatio } from 'assets/util/layout';
 import { Icon } from './button';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, Pressable } from 'react-native';
 import { Font13W500, Font15W500, Font16W600 } from 'components/common/text';
 import { theme } from './../../../theme';
 
@@ -35,12 +35,20 @@ export const CustomHeader = ({
       }}
     >
       {defaultUseLeftBtn && (
-        <TouchableOpacity
+        <Pressable
           onPress={navigation.goBack}
           style={{ position: 'absolute', left: getWidthRatio(20) }}
         >
-          <Icon name='S_Left' color={theme.palette.black} size={24} />
-        </TouchableOpacity>
+          {({ pressed }) => (
+            <View
+              style={{
+                opacity: pressed ? 0.3 : 1,
+              }}
+            >
+              <Icon name='S_Left' color={theme.palette.black} size={24} />
+            </View>
+          )}
+        </Pressable>
       )}
       <Font16W600>{title}</Font16W600>
       {renderRightButton && (
