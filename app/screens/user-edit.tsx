@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Alert } from 'react-native';
+import { SafeAreaView, View, Alert, Button } from 'react-native';
 import { Row } from 'components/common/layout';
 import styled from '@emotion/native';
 import { Font14W600, Font12W400 } from '../components/common/text';
@@ -8,8 +8,18 @@ import { Icon, RoundedButton } from '~/components/common/button';
 import { Input, InputLabel } from 'components/common/input';
 import { ShadowBottom } from 'components/common/bottom-box';
 import { theme } from '~/../theme';
+import { NT_Input } from 'components/common/input';
+
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+
 const MyPageEditScreen = ({ navigation }: any) => {
   const [input, setInput] = useState('띵띵이');
+
   return (
     <>
       <SafeAreaView
@@ -48,12 +58,21 @@ const MyPageEditScreen = ({ navigation }: any) => {
 
         <InfoEditBox>
           <BoxTitle>닉네임</BoxTitle>
-          <Input
+          <NT_Input
+            wrapStyle={
+              {
+                // backgroundColor: 'blue',
+                // paddingVertical: 8,
+              }
+            }
+            // inputProps={{ keyboardType: 'numeric', maxLength: 12 }}
             value={input}
-            onChangeText={(text) => setInput(text.trim())}
+            onChangeText={(text) => setInput(text)}
             placeholder='사용할 닉네임을 입력해주세요.'
-            // autoFocus
+            error={input.length > 12 ? true : false}
+            // disabled={true}
           />
+
           <InputLabel>
             한글, 영어, 숫자만 사용할 수 있어요. (최대 12자)
           </InputLabel>
