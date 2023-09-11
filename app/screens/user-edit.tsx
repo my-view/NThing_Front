@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Alert, Button } from 'react-native';
+import { SafeAreaView, View, Alert } from 'react-native';
 import { Row } from 'components/common/layout';
 import styled from '@emotion/native';
-import { Font14W600, Font12W400 } from '../components/common/text';
-import { CustomHeader } from '~/components/common/header';
-import { Icon, RoundedButton } from '~/components/common/button';
-import { Input, InputLabel } from 'components/common/input';
+import { Font14W600, Font12W400 } from 'components/common/text';
+import { CustomHeader } from 'components/common/header';
+import { RoundedButton } from 'components/common/button';
+import { Icon } from 'components/common/icon';
+import { InputLabel } from 'components/common/input';
 import { ShadowBottom } from 'components/common/bottom-box';
 import { theme } from '~/../theme';
 import { NT_Input } from 'components/common/input';
-
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
 
 const MyPageEditScreen = ({ navigation }: any) => {
   const [input, setInput] = useState('띵띵이');

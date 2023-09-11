@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { formatPrice } from 'assets/util/format';
 import { Vibration } from 'react-native';
-import { Icon, IconButton } from '@components/common/button';
+import { Icon, IconButton } from 'components/common/icon';
 import Animated, { Keyframe } from 'react-native-reanimated';
 import { theme } from '~/../theme';
 import { PurchaseItemType } from 'types/common';

@@ -7,7 +7,7 @@ import { Header } from '~/components/common/header';
 import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import { SelectBox } from '@components/common/select';
-import { Icon } from '@components/common/button';
+import { Icon } from '@components/common/icon';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Item } from '@components/common/item';
 import { CLSButton } from '@components/nmap/current-location-search';

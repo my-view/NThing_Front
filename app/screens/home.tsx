@@ -12,9 +12,9 @@ import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Item } from '@components/common/item';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { PURCHASE_ITEM_LIST } from '~/assets/mock/purchase-item-list';
+import { PURCHASE_ITEM_LIST } from 'assets/mock/purchase-item-list';
 import { theme } from '~/../theme';
-import { Icon } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 import { PINS } from 'assets/mock/pins';
 import { sortOptions } from 'assets/util/constants';
 

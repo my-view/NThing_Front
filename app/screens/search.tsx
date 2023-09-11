@@ -7,7 +7,7 @@ import { theme } from '~/../theme';
 import { Font18W600 } from 'components/common/text';
 import { getHeightRatio, getWidthRatio } from 'assets/util/layout';
 import { Tag } from 'components/common/tag';
-import { Icon } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 import { getStorage, setStorage } from 'assets/util/storage';
 
 const SearchScreen = ({ route, navigation }) => {

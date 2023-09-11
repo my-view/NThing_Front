@@ -12,13 +12,14 @@ import { Font13W500, Font15W500 } from 'components/common/text';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { BtnSize, Button, Icon } from 'components/common/button';
+import { BtnSize, Button } from 'components/common/button';
 import {
   Asset,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
 import { CustomHeader } from 'components/common/header';
+import { Icon } from 'components/common/icon';
 
 const TradeRegistScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');

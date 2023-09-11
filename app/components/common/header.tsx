@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
 import { getWidthRatio } from 'assets/util/layout';
-import { Icon } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 import { View, Pressable } from 'react-native';
 import { Font16W600 } from 'components/common/text';
 import { theme } from '~/../theme';

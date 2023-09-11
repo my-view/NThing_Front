@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/native';
-import { Font13W400 } from './text';
+import { Font13W400 } from 'components/common/text';
 import { ViewProps } from 'react-native';
 import { TextStyle, ViewStyle } from 'react-native/types';
 import { theme } from '~/../theme';
-import { Icon } from './button';
+import { Icon } from 'components/common/icon';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,

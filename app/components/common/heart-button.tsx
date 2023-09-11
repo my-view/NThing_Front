@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Icon, IconButton } from '@components/common/button';
+import { Icon, IconButton } from '@components/common/icon';
 import { theme } from '~/../theme';
 
 export const HeartButton: React.FC<{

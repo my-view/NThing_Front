@@ -22,7 +22,8 @@ import {
 } from 'components/common/text';
 import { Header } from 'components/common/header';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { Button, Icon } from 'components/common/button';
+import { Button } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 import { theme } from '~/../theme';
 import { getStatusBarHeight } from 'react-native-safearea-height';
 import Swiper from 'react-native-swiper';

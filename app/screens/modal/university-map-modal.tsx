@@ -6,7 +6,7 @@ import { getWidthRatio } from 'assets/util/layout';
 import { Font18W600 } from 'components/common/text';
 import { theme } from '~/../theme';
 import { CustomMarker } from 'components/nmap/marker';
-import { Icon } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 
 const UniversityMapModal = ({ navigation, route }) => {
   const { latitude, longitude } = route.params;

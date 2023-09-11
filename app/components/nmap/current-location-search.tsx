@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { Font14W400 } from '../common/text';
-import { Icon, IconButton } from '../common/button';
+import { Font14W400 } from 'components/common/text';
+import { Icon, IconButton } from 'components/common/icon';
 import { theme } from '~/../theme';
 /**
  * 현재위치검색 버튼 current-location-search

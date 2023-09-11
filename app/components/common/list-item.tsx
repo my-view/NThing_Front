@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row } from 'components/common/layout';
-import { Icon } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 import {
   Text,
   Pressable,
@@ -76,7 +76,7 @@ export const ListItem: React.FC<{ data: MenuListType }> = ({ data }) => {
                 >
                   <Row>
                     <Icon
-                      name={`${data.icon}`}
+                      name={data.icon}
                       size={20}
                       color={theme.palette.black}
                     />

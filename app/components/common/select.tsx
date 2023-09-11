@@ -3,7 +3,7 @@ import { View, StyleProp, ViewStyle, TextStyle, Animated } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { SortType } from 'types/common';
 import { theme } from '~/../theme';
-import { Icon } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 
 /** DropDown 버튼 스타일 */
 const defaultButtonStyle = {

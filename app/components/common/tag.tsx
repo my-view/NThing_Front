@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { Pressable } from 'react-native';
-import { Icon } from 'components/common/button';
+import { Icon } from 'components/common/icon';
 
 export const Tag: React.FCC<{ onSelect: () => void; onDelete: () => void }> = ({
   onSelect,
