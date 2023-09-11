@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { TouchableOpacity, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import { Font13W600, Font16W600 } from 'components/common/text';
 import { SvgProps } from 'react-native-svg';
 import * as icons from '@assets/image/icon/icon';
@@ -16,16 +16,18 @@ export const Button: React.FCC<{ onPress: () => void; size?: BtnSize }> = ({
   children,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Pressable onPress={onPress}>
       <Container size={size}>
         <ButtonTitle>{children}</ButtonTitle>
       </Container>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
+export type IconName = keyof typeof icons;
+
 type IconProps = SvgProps & {
-  name: keyof typeof icons;
+  name: IconName;
   size?: number;
 };
 

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  useWindowDimensions,
-  Pressable,
-  Alert,
-} from 'react-native';
+import { SafeAreaView, View, Pressable, Alert } from 'react-native';
 import { Row } from 'components/common/layout';
 import styled from '@emotion/native';
 import {
@@ -14,63 +8,59 @@ import {
   Font12W600,
   Font16W600,
   Font16W700,
-} from '../components/common/text';
-import { CustomHeader } from '~/components/common/header';
-import { DecodeTokenState } from '~/state/user';
+} from 'components/common/text';
+import { CustomHeader } from 'components/common/header';
+import { DecodeTokenState } from 'state/user';
 import { useRecoilValue } from 'recoil';
-import { Icon } from '~/components/common/button';
-import { ListItem } from '~/components/common/list-item';
-import { Divider } from '~/components/common/divider';
+import { Icon } from 'components/common/button';
+import { ListItem } from 'components/common/list-item';
+import { Divider } from 'components/common/divider';
 import { theme } from '~/../theme';
+import { MenuListType } from 'types/common';
+
+const tradeHistoryMenuList: MenuListType[] = [
+  {
+    id: 1,
+    title: '찜한 거래',
+    icon: 'S_Heart',
+    navigate: 'heartTrade',
+  },
+  {
+    id: 2,
+    title: '내가 연 거래',
+    icon: 'S_Buy',
+    navigate: 'MyTrade',
+  },
+  {
+    id: 3,
+    title: '참여한 거래',
+    icon: 'S_Sell',
+    navigate: 'JoinTrade',
+  },
+];
+
+const csMenuList: MenuListType[] = [
+  {
+    id: 1,
+    title: '공지사항',
+    icon: 'S_Notice',
+    navigate: 'Notice',
+  },
+  {
+    id: 2,
+    title: '1:1 문의',
+    icon: 'S_HeadSet',
+    navigate: 'OneByOne',
+  },
+  {
+    id: 3,
+    title: 'FAQ',
+    icon: 'S_OnebyOne',
+    navigate: 'FAG',
+  },
+];
 
 const MyPageScreen = ({ navigation }: any) => {
-  type menuListType = {
-    id: number;
-    title: string;
-    icon: string;
-    navigate: string;
-  };
-  const tradeHistoryMenuList: menuListType[] = [
-    {
-      id: 1,
-      title: '찜한 거래',
-      icon: 'S_Heart',
-      navigate: 'heartTrade',
-    },
-    {
-      id: 2,
-      title: '내가 연 거래',
-      icon: 'S_Buy',
-      navigate: 'MyTrade',
-    },
-    {
-      id: 3,
-      title: '참여한 거래',
-      icon: 'S_Sell',
-      navigate: 'JoinTrade',
-    },
-  ];
-  const csMenuList: menuListType[] = [
-    {
-      id: 1,
-      title: '공지사항',
-      icon: 'S_Notice',
-      navigate: 'Notice',
-    },
-    {
-      id: 2,
-      title: '1:1 문의',
-      icon: 'S_HeadSet',
-      navigate: 'OneByOne',
-    },
-    {
-      id: 3,
-      title: 'FAQ',
-      icon: 'S_OnebyOne',
-      navigate: 'FAG',
-    },
-  ];
-
   const isLoginUser = useRecoilValue(DecodeTokenState);
   return (
     <SafeAreaView
@@ -90,11 +80,7 @@ const MyPageScreen = ({ navigation }: any) => {
         // }}
       />
       <Container>
-        <View
-          style={{
-            paddingHorizontal: 20,
-          }}
-        >
+        <View style={{ paddingHorizontal: 20 }}>
           <UserInfoWrap>
             <UserInfo>
               {isLoginUser ? (
@@ -141,12 +127,12 @@ const MyPageScreen = ({ navigation }: any) => {
         </View>
 
         <MenuTitle>거래 내역</MenuTitle>
-        {tradeHistoryMenuList.map((el: menuListType, i) => (
+        {tradeHistoryMenuList.map((el: MenuListType, i) => (
           <ListItem key={i} data={el} />
         ))}
         <ListDivider />
         <MenuTitle>고객센터</MenuTitle>
-        {csMenuList.map((el: menuListType, i) => (
+        {csMenuList.map((el: MenuListType, i) => (
           <ListItem key={i} data={el} />
         ))}
       </Container>

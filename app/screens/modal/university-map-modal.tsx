@@ -1,13 +1,12 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import NaverMapView from 'react-native-nmap';
-import Close from 'assets/image/Close.svg';
 import styled from '@emotion/native';
 import { getWidthRatio } from 'assets/util/layout';
 import { Font18W600 } from 'components/common/text';
 import { theme } from '~/../theme';
 import { CustomMarker } from 'components/nmap/marker';
-import { Icon } from '~/components/common/button';
+import { Icon } from 'components/common/button';
 
 const UniversityMapModal = ({ navigation, route }) => {
   const { latitude, longitude } = route.params;
@@ -22,9 +21,9 @@ const UniversityMapModal = ({ navigation, route }) => {
               위치가 맞지 않다면 다시 검색해주세요!
             </Text>
           </View>
-          <TouchableOpacity onPress={navigation.goBack}>
+          <Pressable onPress={navigation.goBack}>
             <Icon name={'S_Close'} size={16} color={theme.palette.black} />
-          </TouchableOpacity>
+          </Pressable>
         </ModalHeader>
         <NaverMapView
           style={{ width: '100%', aspectRatio: '4/3' }}
@@ -35,7 +34,7 @@ const UniversityMapModal = ({ navigation, route }) => {
         >
           <CustomMarker coordinate={pin} />
         </NaverMapView>
-        <TouchableOpacity
+        <Pressable
           style={{ marginTop: 20 }}
           onPress={() => {
             navigation.goBack();
@@ -52,7 +51,7 @@ const UniversityMapModal = ({ navigation, route }) => {
           >
             네, 맞습니다
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </ModalContent>
     </ModalBackground>
   );

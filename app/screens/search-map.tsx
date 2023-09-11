@@ -1,11 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-  Dimensions,
-  Alert,
-} from 'react-native';
+import { SafeAreaView, View, Dimensions, Alert, Pressable } from 'react-native';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from '@components/nmap/marker';
@@ -121,7 +115,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
       <GestureHandlerRootView>
         <Container>
           <Header>
-            <TouchableOpacity
+            <Pressable
               onPress={() =>
                 navigation.navigate('SearchScreen', {
                   keyword: keyword,
@@ -129,13 +123,13 @@ const SearchMapScreen = ({ route, navigation }: any) => {
               }
             >
               <Icon name={'S_Left'} size={24} color={theme.palette.black} />
-            </TouchableOpacity>
+            </Pressable>
             <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
-            <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+            <Pressable onPress={() => navigation.navigate('HomeScreen')}>
               <View style={{ width: 24 }}>
                 <Icon name={'S_Close'} size={16} color={theme.palette.black} />
               </View>
-            </TouchableOpacity>
+            </Pressable>
           </Header>
           <View style={{ height: '100%' }}>
             <CLSWrap>

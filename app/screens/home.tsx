@@ -1,11 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-  Dimensions,
-} from 'react-native';
+import { Pressable, SafeAreaView, View, Dimensions } from 'react-native';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -80,7 +74,7 @@ const HomeScreen = ({ route, navigation }) => {
         <Container>
           {keyword ? (
             <Header>
-              <TouchableOpacity
+              <Pressable
                 onPress={() =>
                   navigation.navigate('SearchScreen', {
                     keyword: keyword,
@@ -88,9 +82,9 @@ const HomeScreen = ({ route, navigation }) => {
                 }
               >
                 <Icon name={'S_Left'} size={24} fill={theme.palette.black} />
-              </TouchableOpacity>
+              </Pressable>
               <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
-              <TouchableOpacity
+              <Pressable
                 onPress={() =>
                   navigation.setParams({
                     keyword: '',
@@ -100,7 +94,7 @@ const HomeScreen = ({ route, navigation }) => {
                 <View style={{ width: 24 }}>
                   <Icon name={'S_Close'} size={16} fill={theme.palette.black} />
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             </Header>
           ) : (
             <Header>
@@ -110,11 +104,9 @@ const HomeScreen = ({ route, navigation }) => {
                   <Icon name={'S_Down'} size={16} color={theme.palette.black} />
                 </Row>
               </Pressable>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('SearchScreen')}
-              >
+              <Pressable onPress={() => navigation.navigate('SearchScreen')}>
                 <Icon name={'S_Search'} size={24} color={theme.palette.black} />
-              </TouchableOpacity>
+              </Pressable>
             </Header>
           )}
           <View style={{ height: '100%', paddingBottom: 160 }}>

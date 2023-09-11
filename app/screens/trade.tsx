@@ -5,7 +5,6 @@ import {
   Pressable,
   StatusBar,
   Text,
-  TouchableOpacity,
   useWindowDimensions,
   View,
 } from 'react-native';
@@ -150,16 +149,16 @@ const TradeScreen = ({ navigation }) => {
           borderBottomWidth: 0,
         }}
       >
-        <TouchableOpacity onPress={navigation.goBack}>
+        <Pressable onPress={navigation.goBack}>
           <Icon name={'S_Left'} size={24} color={theme.palette.white} />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+        <Pressable
           onPress={() => {
             // 공유하기
           }}
         >
           <Icon name={'S_Share'} size={24} color={theme.palette.white} />
-        </TouchableOpacity>
+        </Pressable>
       </Header>
       <ShadowBottom>
         <Row

@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-  Pressable,
-} from 'react-native';
+import { Image, SafeAreaView, Text, View, Pressable } from 'react-native';
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
@@ -113,19 +106,17 @@ const RootScreen = ({ navigation }: any) => {
         <SocialLoginWrap>
           <SocialSubTitle>sns로 간편 로그인</SocialSubTitle>
           <ButtonWrap>
-            <TouchableWithoutFeedback
-              onPress={() => naverLogin(naverLoginKeys)}
-            >
+            <Pressable onPress={() => naverLogin(naverLoginKeys)}>
               <Image source={require('../assets/image/naver-btn.png')} />
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => kakaoLogin()}>
+            </Pressable>
+            <Pressable onPress={() => kakaoLogin()}>
               <Image source={require('../assets/image/kakao-btn.png')} />
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
+            </Pressable>
+            <Pressable
               onPress={() => googleLogin().then((token) => setToken(token))}
             >
               <Image source={require('../assets/image/google-btn.png')} />
-            </TouchableWithoutFeedback>
+            </Pressable>
           </ButtonWrap>
           <Pressable onPress={() => navigation.navigate('MainScreen')}>
             <LaterLogin>나중에 로그인하기</LaterLogin>

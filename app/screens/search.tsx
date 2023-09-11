@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/native';
-import { SafeAreaView, TouchableOpacity } from 'react-native';
+import { Pressable, SafeAreaView } from 'react-native';
 import { KeywordInput } from 'components/main/keyword';
 import { Header } from 'components/common/header';
 import { theme } from '~/../theme';
@@ -42,9 +42,9 @@ const SearchScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <Header>
-        <TouchableOpacity onPress={navigation.goBack}>
+        <Pressable onPress={navigation.goBack}>
           <Icon name={'S_Left'} size={24} color={theme.palette.black} />
-        </TouchableOpacity>
+        </Pressable>
         <KeywordInput
           value={searchKeyword}
           onChangeText={(text) => setSearchKeyword(text)}
@@ -54,9 +54,9 @@ const SearchScreen = ({ route, navigation }) => {
           placeholder='검색어를 입력해주세요'
           placeholderTextColor={theme.palette.gray03}
         />
-        <TouchableOpacity onPress={() => search(searchKeyword)}>
+        <Pressable onPress={() => search(searchKeyword)}>
           <Icon name={'S_Search'} size={24} color={theme.palette.black} />
-        </TouchableOpacity>
+        </Pressable>
       </Header>
       <Container>
         <Font18W600>최근 검색어</Font18W600>

@@ -1,3 +1,5 @@
+import { IconName } from 'components/common/button';
+
 export interface WithIdName {
   id: number;
   name: string;
@@ -32,3 +34,10 @@ export interface PurchaseItemType {
   person: number;
   isLike: boolean;
 }
+
+export type MenuListType = {
+  id: number;
+  title: string;
+  icon: IconName;
+  navigate: string;
+};

@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from '@emotion/native';
-import Close from '@assets/image/Close.svg';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
-import { Pressable, TouchableOpacity } from 'react-native';
-import { Icon } from './button';
+import { Pressable } from 'react-native';
+import { Icon } from 'components/common/button';
+
 export const Tag: React.FCC<{ onSelect: () => void; onDelete: () => void }> = ({
   onSelect,
   onDelete,
@@ -12,14 +12,14 @@ export const Tag: React.FCC<{ onSelect: () => void; onDelete: () => void }> = ({
 }) => {
   console.log('Tag');
   return (
-    <TouchableOpacity onPress={onSelect}>
+    <Pressable onPress={onSelect}>
       <TagBox>
         <TagText>{children}</TagText>
         <Pressable onPress={onDelete}>
           <Icon name='S_Close' size={12} color={theme.palette.gray03} />
         </Pressable>
       </TagBox>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

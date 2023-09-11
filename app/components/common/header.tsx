@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
 import { getWidthRatio } from 'assets/util/layout';
-import { Icon } from './button';
-import { Text, TouchableOpacity, View, Pressable } from 'react-native';
-import { Font13W500, Font15W500, Font16W600 } from 'components/common/text';
-import { theme } from './../../../theme';
+import { Icon } from 'components/common/button';
+import { View, Pressable } from 'react-native';
+import { Font16W600 } from 'components/common/text';
+import { theme } from '~/../theme';
 
 type HeaderType = {
   title: string;
@@ -29,22 +29,14 @@ export const CustomHeader = ({
   const defaultUseBottomBorder = bottomBorder ?? true;
 
   return (
-    <HeaderWrap
-      style={{
-        borderBottomWidth: defaultUseBottomBorder ? 1 : 0,
-      }}
-    >
+    <HeaderWrap style={{ borderBottomWidth: defaultUseBottomBorder ? 1 : 0 }}>
       {defaultUseLeftBtn && (
         <Pressable
           onPress={navigation.goBack}
           style={{ position: 'absolute', left: getWidthRatio(20) }}
         >
           {({ pressed }) => (
-            <View
-              style={{
-                opacity: pressed ? 0.3 : 1,
-              }}
-            >
+            <View style={{ opacity: pressed ? 0.3 : 1 }}>
               <Icon name='S_Left' color={theme.palette.black} size={24} />
             </View>
           )}
@@ -56,13 +48,6 @@ export const CustomHeader = ({
           {renderRightButton()}
         </View>
       )}
-      {/* <TouchableOpacity
-          onPress={navigation.goBack}
-          style={{ position: 'absolute', right: getWidthRatio(20) }}
-        >
-          <Text>123123123</Text>
-        </TouchableOpacity>
-       */}
     </HeaderWrap>
   );
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { TouchableOpacity } from 'react-native';
+import { Pressable } from 'react-native';
 import { WithIdName } from 'types/common';
-import { getHeightRatio } from '~/assets/util/layout';
+import { getHeightRatio } from 'assets/util/layout';
 
 export const Autocomplete: React.FC<{
   data: WithIdName[];
@@ -11,11 +11,11 @@ export const Autocomplete: React.FC<{
   return (
     <OptionContainer>
       {data.map((item) => (
-        <TouchableOpacity key={item.id} onPress={() => onSelect(item.id)}>
+        <Pressable key={item.id} onPress={() => onSelect(item.id)}>
           <OptionWrapper>
             <OptionName>{item.name}</OptionName>
           </OptionWrapper>
-        </TouchableOpacity>
+        </Pressable>
       ))}
     </OptionContainer>
   );

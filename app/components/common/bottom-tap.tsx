@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, Pressable } from 'react-native';
 import styled from '@emotion/native';
 
 export const MyTabBar = ({ state, descriptors, navigation }) => {
@@ -38,7 +38,7 @@ export const MyTabBar = ({ state, descriptors, navigation }) => {
         };
 
         return (
-          <TouchableOpacity
+          <Pressable
             key={index}
             accessibilityRole='button'
             accessibilityState={isFocused ? { selected: true } : {}}
@@ -48,7 +48,7 @@ export const MyTabBar = ({ state, descriptors, navigation }) => {
             style={{ flex: 1 }}
           >
             <MenuText>{label}</MenuText>
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>

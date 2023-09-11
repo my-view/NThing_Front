@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
-import { CustomHeader } from '~/components/common/header';
+import { CustomHeader } from 'components/common/header';
 
 const ChatingScreen = ({ navigation }: any) => {
   return (
