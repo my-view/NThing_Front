@@ -1,60 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/native';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { formatPrice } from 'assets/util/format';
-import { Vibration } from 'react-native';
-import { Icon, IconButton } from 'components/common/icon';
-import Animated, { Keyframe } from 'react-native-reanimated';
-import { theme } from '~/../theme';
 import { PurchaseItemType } from 'types/common';
-
-const enteringAnimation = new Keyframe({
-  0: {
-    originX: -10,
-    originY: 30,
-    opacity: 0,
-  },
-  50: {
-    originX: -10,
-    originY: -30,
-    opacity: 1,
-  },
-  100: {
-    opacity: 0,
-  },
-}).duration(1000);
-
-const enteringAnimation2 = new Keyframe({
-  0: {
-    originX: 20,
-    originY: 20,
-    opacity: 0,
-  },
-  50: {
-    originX: 20,
-    originY: -20,
-    opacity: 1,
-  },
-  100: {
-    opacity: 0,
-  },
-}).duration(800);
-
-const enteringAnimation3 = new Keyframe({
-  0: {
-    originX: 10,
-    originY: 40,
-    opacity: 0,
-  },
-  50: {
-    originX: 10,
-    originY: -10,
-    opacity: 1,
-  },
-  100: {
-    opacity: 0,
-  },
-}).duration(500);
+import { HeartButton } from './heart-button';
 
 export const Item = ({
   data,
@@ -77,16 +26,6 @@ export const Item = ({
     const { lines } = event.nativeEvent;
     setLineCount(lines.length);
   };
-
-  const [like, setLike] = useState<boolean>(isLike);
-  const handleLikeButton = () => {
-    console.log('handleLikeButton');
-    setLike(!like);
-  };
-
-  useEffect(() => {
-    if (like) Vibration.vibrate(10 * 1000);
-  }, [like]);
 
   return (
     <>
@@ -114,42 +53,7 @@ export const Item = ({
             </PricePersonBox>
           </InfoBox>
         </ItemBox>
-        {like ? (
-          <IconButton onPress={handleLikeButton}>
-            <Icon name='F_Heart' size={20} color={theme.palette.error} />
-            <Animated.View
-              entering={enteringAnimation}
-              style={{
-                position: 'absolute',
-                zIndex: 9999,
-              }}
-            >
-              <Icon name='F_Heart' size={16} color={theme.palette.error} />
-            </Animated.View>
-            <Animated.View
-              entering={enteringAnimation2}
-              style={{
-                position: 'absolute',
-                zIndex: 9999,
-              }}
-            >
-              <Icon name='F_Heart' size={18} color={theme.palette.error} />
-            </Animated.View>
-            <Animated.View
-              entering={enteringAnimation3}
-              style={{
-                position: 'absolute',
-                zIndex: 9999,
-              }}
-            >
-              <Icon name='F_Heart' size={12} color={theme.palette.error} />
-            </Animated.View>
-          </IconButton>
-        ) : (
-          <IconButton onPress={handleLikeButton}>
-            <Icon name='S_Heart' size={20} color={'#000'} />
-          </IconButton>
-        )}
+        <HeartButton isLike={isLike} />
       </Box>
       <Divider
         style={{
