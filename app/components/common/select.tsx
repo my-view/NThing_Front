@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleProp, ViewStyle, TextStyle, Animated } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { SortType } from 'types/common';
@@ -71,19 +71,9 @@ const defaultDropDownStyle: StyleProp<ViewStyle> = {
   height: 146,
 };
 
-export const SelectBox: React.FCC<{
-  value: SortType;
-  defaultValue: SortType;
-  options: SortType[];
-  onChange: React.Dispatch<React.SetStateAction<SortType>>;
-}> = ({ defaultValue, options, onChange, value }) => {
-  const spinValue = useRef(new Animated.Value(1)).current;
+const AnimatedArrow: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const [deg, setDeg] = useState<string>('0deg');
-
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['180deg', deg],
-  });
+  const spinValue = useRef(new Animated.Value(1)).current;
 
   const open = () => {
     Animated.timing(spinValue, {
@@ -91,7 +81,6 @@ export const SelectBox: React.FCC<{
       duration: 150,
       useNativeDriver: true,
     }).start();
-
     setDeg('360deg');
   };
 
@@ -104,6 +93,32 @@ export const SelectBox: React.FCC<{
     setDeg('0deg');
   };
 
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['180deg', deg],
+  });
+
+  useEffect(() => {
+    if (isOpen) close();
+    else open();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  return (
+    <View style={{ marginRight: 10 }}>
+      <Animated.View style={[{ transform: [{ rotate: spin }] }]}>
+        <Icon name='S_Down' size={14} color={theme.palette.black} />
+      </Animated.View>
+    </View>
+  );
+};
+
+export const SelectBox: React.FCC<{
+  defaultValue: SortType;
+  options: SortType[];
+  onChange: React.Dispatch<React.SetStateAction<SortType>>;
+  margin?: number; // marginRight: 33(3글자) or 10(4글자)
+}> = ({ defaultValue, options, onChange, margin }) => {
   return (
     <SelectDropdown
       defaultButtonText={`${defaultValue.nm}`}
@@ -112,12 +127,8 @@ export const SelectBox: React.FCC<{
       onSelect={(selectedItem) => {
         onChange(selectedItem);
       }}
-      buttonTextAfterSelection={(selectedItem) => {
-        return selectedItem.nm;
-      }}
-      rowTextForSelection={(item) => {
-        return item.nm;
-      }}
+      buttonTextAfterSelection={(selectedItem) => selectedItem.nm}
+      rowTextForSelection={(item) => item.nm}
       buttonStyle={{ ...defaultButtonStyle }}
       buttonTextStyle={{ ...defaultTextStyle }}
       rowStyle={{ ...defaultRowStyle }}
@@ -126,26 +137,7 @@ export const SelectBox: React.FCC<{
       dropdownOverlayColor='transparent'
       selectedRowTextStyle={{ ...defaultSelectedRowTextStyle }}
       showsVerticalScrollIndicator={false}
-      renderDropdownIcon={(isOpened) => {
-        if (isOpened) {
-          close();
-        } else {
-          open();
-        }
-        return (
-          <View
-            style={{
-              marginRight: value.nm.length >= 4 ? 10 : 33,
-              // marginRight: 33, //3글자
-              // marginRight: 10, // 4글자
-            }}
-          >
-            <Animated.View style={[{ transform: [{ rotate: spin }] }]}>
-              <Icon name='S_Down' size={14} color={theme.palette.black} />
-            </Animated.View>
-          </View>
-        );
-      }}
+      renderDropdownIcon={(isOpen) => <AnimatedArrow isOpen={isOpen} />}
     />
   );
 };
