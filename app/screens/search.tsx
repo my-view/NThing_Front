@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/native';
-import { Pressable, SafeAreaView } from 'react-native';
+import { Pressable, SafeAreaView, View } from 'react-native';
 import { KeywordInput } from 'components/main/keyword';
 import { Header } from 'components/common/header';
 import { theme } from '~/../theme';
@@ -9,6 +9,7 @@ import { getHeightRatio, getWidthRatio } from 'assets/util/layout';
 import { Tag } from 'components/common/tag';
 import { Icon } from 'components/common/icon';
 import { getStorage, setStorage } from 'assets/util/storage';
+import { CategoryIconButton } from '~/components/common/button';
 
 const SearchScreen = ({ route, navigation }) => {
   const [searchKeyword, setSearchKeyword] = useState(route.params.keyword);
@@ -39,6 +40,13 @@ const SearchScreen = ({ route, navigation }) => {
     });
   }, []);
 
+  const test = [
+    { icon: 'F_Delivery', navigation: '', title: '배달', id: 1 },
+    { icon: 'F_Dress', navigation: '', title: '의류', id: 1 },
+    { icon: 'F_Food', navigation: '', title: '식품', id: 1 },
+    { icon: 'F_Necessity', navigation: '', title: '생필품', id: 1 },
+    { icon: 'F_Etc', navigation: '', title: '기타', id: 1 },
+  ];
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <Header>
@@ -59,7 +67,7 @@ const SearchScreen = ({ route, navigation }) => {
         </Pressable>
       </Header>
       <Container>
-        <Font18W600>최근 검색어</Font18W600>
+        <SectionTitle>최근 검색어</SectionTitle>
         <KeywordContainer>
           {latestKeywords.map((item) => (
             <Tag
@@ -80,6 +88,12 @@ const SearchScreen = ({ route, navigation }) => {
             </Tag>
           ))}
         </KeywordContainer>
+        <SectionTitle>카테고리</SectionTitle>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', rowGap: 28 }}>
+          {test.map((info, i) => (
+            <CategoryIconButton key={i} categoryInfo={info} />
+          ))}
+        </View>
       </Container>
     </SafeAreaView>
   );
@@ -88,6 +102,10 @@ const SearchScreen = ({ route, navigation }) => {
 const Container = styled.View`
   padding: ${getHeightRatio(30)} ${getWidthRatio(20)};
   gap: 16px;
+`;
+
+const SectionTitle = styled(Font18W600)`
+  margin-bottom: 18px;
 `;
 
 const KeywordContainer = styled.View`

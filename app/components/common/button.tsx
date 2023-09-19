@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { Pressable } from 'react-native';
-import { Font13W600, Font16W600 } from 'components/common/text';
+import { Pressable, ViewStyle } from 'react-native';
+import { Font13W600, Font16W600, Font12W500 } from 'components/common/text';
+import { Icon } from './icon';
+import { MenuListType } from '~/types/common';
 
 export enum BtnSize {
   SMALL = '6px 12px',
@@ -43,7 +45,7 @@ export const RoundedButton = ({
   onPress,
   disabled,
 }: RoundedButtonType) => {
-  const DefaultButtonStyle = {
+  const DefaultButtonStyle: ViewStyle = {
     width: '100%',
     paddingVertical: 20,
     borderRadius: 4,
@@ -71,4 +73,27 @@ const RoundedButtonText = styled(Font16W600)`
   text-align: center;
   font-weight: 500;
   color: white;
+`;
+
+export const CategoryIconButton: React.FC<{ categoryInfo: MenuListType }> = ({
+  categoryInfo,
+}) => {
+  console.log('categoryInfo', categoryInfo);
+  return (
+    <CategoryButtonWrap>
+      <Icon
+        name={`${categoryInfo.icon}`}
+        size={30}
+        style={{ marginBottom: 10 }}
+      />
+      <Font12W500>{categoryInfo.title}</Font12W500>
+    </CategoryButtonWrap>
+  );
+};
+
+const CategoryButtonWrap = styled.Pressable`
+  align-items: center;
+  justify-content: center;
+  /* background-color: gray; */
+  width: 25%;
 `;

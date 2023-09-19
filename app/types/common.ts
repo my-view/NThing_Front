@@ -1,4 +1,4 @@
-import { IconName } from 'components/common/button';
+import { IconName } from '~/components/common/icon';
 
 export interface WithIdName {
   id: number;

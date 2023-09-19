@@ -34,3 +34,9 @@ export { default as F_TradeRegist } from '@assets/image/icon/F_TradeRegist.svg';
 export { default as F_Chat } from '@assets/image/icon/F_Chat.svg';
 export { default as F_Home } from '@assets/image/icon/F_Home.svg';
 export { default as F_MyPage } from '@assets/image/icon/F_MyPage.svg';
+// Category Icon ** Not Allow Color Change
+export { default as F_Delivery } from '@assets/image/icon/F_Delivery.svg';
+export { default as F_Dress } from '@assets/image/icon/F_Dress.svg';
+export { default as F_Food } from '@assets/image/icon/F_Food.svg';
+export { default as F_Necessity } from '@assets/image/icon/F_Necessity.svg';
+export { default as F_Etc } from '@assets/image/icon/F_Etc.svg';
