@@ -137,7 +137,7 @@ export const SelectBox: React.FCC<{
       dropdownOverlayColor='transparent'
       selectedRowTextStyle={{ ...defaultSelectedRowTextStyle }}
       showsVerticalScrollIndicator={false}
-      renderDropdownIcon={AnimatedArrow}
+      renderDropdownIcon={(isOpen) => <AnimatedArrow isOpen={isOpen} />}
     />
   );
 };
