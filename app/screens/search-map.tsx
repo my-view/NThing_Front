@@ -199,7 +199,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
               }}
             >
               <SelectBox
-                value={selectedSort}
+                margin={selectedSort.nm.length >= 4 ? 10 : 33}
                 onChange={setSelectSort}
                 options={sortOptions}
                 defaultValue={selectedSort}

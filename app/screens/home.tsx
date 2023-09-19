@@ -148,7 +148,7 @@ const HomeScreen = ({ route, navigation }) => {
               }}
             >
               <SelectBox
-                value={selectValue}
+                margin={selectValue.nm.length >= 4 ? 10 : 33}
                 onChange={setSelectValue}
                 options={sortOptions}
                 defaultValue={selectValue}
