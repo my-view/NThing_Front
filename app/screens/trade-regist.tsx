@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import styled from '@emotion/native';
-import { Font13W500, Font15W500 } from 'components/common/text';
+import { Font13W500, Font13W600, Font15W500 } from 'components/common/text';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
@@ -21,10 +21,22 @@ import {
 import { CustomHeader } from 'components/common/header';
 import { Icon } from 'components/common/icon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { AnimatedArrow } from 'components/common/animated-arrow';
+import { DateTimePicker } from 'components/common/date-time-picker';
+import { TradeDate } from 'types/common';
+
+const initialDate = {
+  day: 0,
+  hour: new Date().getHours() + 1,
+  minute: 0,
+  full: '',
+};
 
 const TradeRegistScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [images, setImages] = useState<Asset[]>([]);
+  const [date, setDate] = useState<TradeDate>(initialDate);
+  const [isDateOpen, setIsDateOpen] = useState(true);
   const [description, setDescription] = useState('');
 
   const selectImages = async () => {
@@ -110,26 +122,31 @@ const TradeRegistScreen = ({ navigation }) => {
               onChangeText={(text) => setTitle(text)}
             />
           </Box>
-          <Box>
-            <Font15W500>거래 희망 장소</Font15W500>
-            <Pressable
-              onPress={() => {
-                navigation.navigate('UniversityMapModal');
-              }}
-            >
+          <Pressable onPress={() => navigation.navigate('UniversityMapModal')}>
+            <Box>
+              <Font15W500>거래 희망 장소</Font15W500>
               <Icon name={'S_Add'} size={16} color={theme.palette.black} />
-            </Pressable>
-          </Box>
-          <Box>
-            <Font15W500>거래 날짜&시간</Font15W500>
-            <Pressable
-              onPress={() => {
-                navigation.navigate('UniversityMapModal');
-              }}
-            >
-              <Icon name={'S_Add'} size={16} color={theme.palette.black} />
-            </Pressable>
-          </Box>
+            </Box>
+          </Pressable>
+          <Pressable onPress={() => setIsDateOpen((prev) => !prev)}>
+            <Box style={{ borderBottomWidth: isDateOpen ? 0 : 1 }}>
+              <Row style={{ flex: 1, justifyContent: 'space-between' }}>
+                <Font15W500>거래 날짜&시간</Font15W500>
+                <Font13W600 style={{ color: theme.palette.primary }}>
+                  {date.full}
+                </Font13W600>
+              </Row>
+              <AnimatedArrow isOpen={isDateOpen} />
+            </Box>
+          </Pressable>
+          {isDateOpen && (
+            <Box style={{ justifyContent: 'center', gap: 20 }}>
+              <DateTimePicker
+                defaultDate={date}
+                updateDate={(newDate) => setDate(newDate)}
+              />
+            </Box>
+          )}
           <Box>
             <Font15W500>N띵</Font15W500>
           </Box>
