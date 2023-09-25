@@ -10,6 +10,15 @@ import { Tag } from 'components/common/tag';
 import { Icon } from 'components/common/icon';
 import { getStorage, setStorage } from 'assets/util/storage';
 import { CategoryIconButton } from '~/components/common/button';
+import { MenuListType } from '~/types/common';
+
+const categoryItemList: MenuListType[] = [
+  { icon: 'F_Delivery', navigate: '', title: '배달', id: 1 },
+  { icon: 'F_Dress', navigate: '', title: '의류', id: 1 },
+  { icon: 'F_Food', navigate: '', title: '식품', id: 1 },
+  { icon: 'F_Necessity', navigate: '', title: '생필품', id: 1 },
+  { icon: 'F_Etc', navigate: '', title: '기타', id: 1 },
+];
 
 const SearchScreen = ({ route, navigation }) => {
   const [searchKeyword, setSearchKeyword] = useState(route.params.keyword);
@@ -40,13 +49,6 @@ const SearchScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  const test = [
-    { icon: 'F_Delivery', navigation: '', title: '배달', id: 1 },
-    { icon: 'F_Dress', navigation: '', title: '의류', id: 1 },
-    { icon: 'F_Food', navigation: '', title: '식품', id: 1 },
-    { icon: 'F_Necessity', navigation: '', title: '생필품', id: 1 },
-    { icon: 'F_Etc', navigation: '', title: '기타', id: 1 },
-  ];
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <Header>
@@ -89,8 +91,15 @@ const SearchScreen = ({ route, navigation }) => {
           ))}
         </KeywordContainer>
         <SectionTitle>카테고리</SectionTitle>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', rowGap: 28 }}>
-          {test.map((info, i) => (
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            rowGap: 20,
+            gap: 10,
+          }}
+        >
+          {categoryItemList.map((info, i) => (
             <CategoryIconButton key={i} categoryInfo={info} />
           ))}
         </View>

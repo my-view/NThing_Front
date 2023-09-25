@@ -1,10 +1,16 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { Pressable, ViewStyle } from 'react-native';
+import { Pressable, ViewStyle, View } from 'react-native';
 import { Font13W600, Font16W600, Font12W500 } from 'components/common/text';
 import { Icon } from './icon';
 import { MenuListType } from '~/types/common';
-
+import Animated from 'react-native-reanimated';
+import {
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+import { usePressableAnimated } from '~/hooks/animated/usePressableAnimated';
+import { navigationRef } from './../../../RootNavigation';
 export enum BtnSize {
   SMALL = '6px 12px',
   MEDIUM = '11.5px 18px',
@@ -78,15 +84,40 @@ const RoundedButtonText = styled(Font16W600)`
 export const CategoryIconButton: React.FC<{ categoryInfo: MenuListType }> = ({
   categoryInfo,
 }) => {
-  console.log('categoryInfo', categoryInfo);
+  const { pan, animatedStyles } = usePressableAnimated();
+
   return (
-    <CategoryButtonWrap>
-      <Icon
-        name={`${categoryInfo.icon}`}
-        size={30}
-        style={{ marginBottom: 10 }}
-      />
-      <Font12W500>{categoryInfo.title}</Font12W500>
+    <CategoryButtonWrap
+      onPress={() => {
+        navigationRef.current.navigate('SearchMapScreen', {
+          screen: 'SearchMapScreen',
+          params: {
+            keyword: categoryInfo.title,
+            isCategory: true,
+          },
+        });
+      }}
+    >
+      <GestureHandlerRootView>
+        <GestureDetector gesture={pan}>
+          <Animated.View style={[animatedStyles]}>
+            <View
+              style={{
+                justifyContent: 'center',
+              }}
+            >
+              <Icon
+                name={`${categoryInfo.icon}`}
+                size={30}
+                style={{ marginBottom: 10 }}
+              />
+              <Font12W500 style={{ textAlign: 'center' }}>
+                {categoryInfo.title}
+              </Font12W500>
+            </View>
+          </Animated.View>
+        </GestureDetector>
+      </GestureHandlerRootView>
     </CategoryButtonWrap>
   );
 };
@@ -95,5 +126,7 @@ const CategoryButtonWrap = styled.Pressable`
   align-items: center;
   justify-content: center;
   /* background-color: gray; */
-  width: 25%;
+  width: 76px;
+  height: 60px;
+  /* height: 50%; */
 `;
