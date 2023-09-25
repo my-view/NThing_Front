@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56" fill="none">
+  <rect x="2.99985" y="3" width="50" height="50" rx="4" fill="#45505E"/>
+  <circle cx="27.9998" cy="28" r="21" fill="#8BB5ED"/>
+  <circle cx="27.9998" cy="28" r="7" fill="#86A3C9"/>
+  <circle cx="28" cy="28" r="3" fill="#45505E"/>
+  <mask id="mask0_1_1034" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="7" width="43" height="42">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M27.9998 49C39.5978 49 48.9998 39.598 48.9998 28C48.9998 16.402 39.5978 7 27.9998 7C16.4018 7 6.99982 16.402 6.99982 28C6.99982 39.598 16.4018 49 27.9998 49ZM27.9998 35C31.8658 35 34.9998 31.866 34.9998 28C34.9998 24.134 31.8658 21 27.9998 21C24.1338 21 20.9998 24.134 20.9998 28C20.9998 31.866 24.1338 35 27.9998 35Z" fill="#8BB5ED"/>
+  </mask>
+  <g mask="url(#mask0_1_1034)">
+    <path d="M45.4996 14L32.4996 23.5L33.9996 26.5L49.4996 21.5L45.4996 14Z" fill="#B8D5FB"/>
+    <path d="M9.00023 38.9997L22.0001 30.5L21.5001 29L7.00022 35.4996L9.00023 38.9997Z" fill="#B8D5FB"/>
+    <path d="M10.9999 41.5001L23.0362 31.5002L23.0364 30.5692L9.92135 40.0029L10.9999 41.5001Z" fill="#B8D5FB"/>
+    <path d="M14.6323 11.1691L42.3675 46.8309" stroke="#B8D5FB" stroke-width="0.4"/>
+  </g>
+</svg>

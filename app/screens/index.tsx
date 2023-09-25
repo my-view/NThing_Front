@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Image, SafeAreaView, Text, View, Pressable } from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  Text,
+  View,
+  Pressable,
+  DevSettings,
+} from 'react-native';
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
@@ -96,6 +103,10 @@ const RootScreen = ({ navigation }: any) => {
     navigation.navigate('MainScreen');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serviceToken]);
+
+  DevSettings.addMenuItem('Go Search Page', () => {
+    navigation.navigate('SearchScreen');
+  });
 
   return (
     <SafeAreaView>

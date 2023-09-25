@@ -20,7 +20,7 @@ import { defaultSortOption, sortOptions } from 'assets/util/constants';
 import { PINS } from 'assets/mock/pins';
 
 const SearchMapScreen = ({ route, navigation }: any) => {
-  console.log('SearchMapScreen', route);
+  console.log('SearchMapScreen>>>>>', route.params);
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params.params;
 
@@ -124,7 +124,15 @@ const SearchMapScreen = ({ route, navigation }: any) => {
             >
               <Icon name={'S_Left'} size={24} color={theme.palette.black} />
             </Pressable>
-            <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
+            {route.params.params.isCategory ? (
+              <KeywordBox
+                style={{ lineHeight: 36, color: `${theme.palette.primary}` }}
+              >
+                {`# ${keyword}`}
+              </KeywordBox>
+            ) : (
+              <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
+            )}
             <Pressable onPress={() => navigation.navigate('HomeScreen')}>
               <View style={{ width: 24 }}>
                 <Icon name={'S_Close'} size={16} color={theme.palette.black} />
