@@ -1,3 +1,4 @@
+// https://velog.io/@mayinjanuary/React-Native-navigation-without-navigation-prop#3-%EA%B7%B8%EB%9F%BC-%EC%9D%B4%EC%A0%9C-apptsx-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-navigation-%EC%9D%B4-%EA%B0%80%EB%8A%A5%ED%95%A9%EB%8B%88%EB%8B%A4
 import * as React from 'react';
 
 /**

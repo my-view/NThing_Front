@@ -1,5 +1,5 @@
 import { IconName } from '~/components/common/icon';
-
+import { chatStatus } from '~/components/common/chat-item';
 export interface WithIdName {
   id: number;
   name: string;
@@ -40,4 +40,12 @@ export type MenuListType = {
   title: string;
   icon: IconName;
   navigate: string;
+};
+
+export type ChatListType = {
+  id: number;
+  title: string;
+  last_message: string;
+  navigate: string;
+  trade_status: keyof typeof chatStatus;
 };

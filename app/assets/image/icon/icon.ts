@@ -40,3 +40,9 @@ export { default as F_Dress } from '@assets/image/icon/F_Dress.svg';
 export { default as F_Food } from '@assets/image/icon/F_Food.svg';
 export { default as F_Necessity } from '@assets/image/icon/F_Necessity.svg';
 export { default as F_Etc } from '@assets/image/icon/F_Etc.svg';
+// Chat Status Icon ** Not Allow Color Change
+export { default as F_Expect } from '@assets/image/icon/F_Expect.svg';
+export { default as F_Recruit } from '@assets/image/icon/F_Recruit.svg';
+export { default as F_Cancel } from '@assets/image/icon/F_Cancel.svg';
+export { default as F_Complete } from '@assets/image/icon/F_Complete.svg';
+
