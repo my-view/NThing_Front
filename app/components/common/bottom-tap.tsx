@@ -3,7 +3,6 @@ import { View, Pressable } from 'react-native';
 import styled from '@emotion/native';
 
 export const MyTabBar = ({ state, descriptors, navigation }) => {
-  console.log('state', state);
   return (
     <View style={{ flexDirection: 'row' }}>
       {state.routes.map((route, index) => {

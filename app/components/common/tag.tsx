@@ -10,7 +10,6 @@ export const Tag: React.FCC<{ onSelect: () => void; onDelete: () => void }> = ({
   onDelete,
   children,
 }) => {
-  console.log('Tag');
   return (
     <Pressable onPress={onSelect}>
       <TagBox>

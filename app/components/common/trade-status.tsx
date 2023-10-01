@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row } from 'components/common/layout';
 import { Text } from 'react-native';
-import { Icon } from 'components/common/icon';
+import { Icon, IconName } from 'components/common/icon';
 import { ChatListType } from 'types/common';
 
 export enum chatStatus {
@@ -11,53 +11,49 @@ export enum chatStatus {
   COMPLETE = '거래완료',
 }
 
-export const TradeStaus: React.FCC<{
-  data: ChatListType;
-}> = ({ data }) => {
-  console.log('TradeStaus', data);
+// 타입변환을 위한 함수
+function capitalizeFirstLetter(str: string) {
+  // 첫 글자를 대문자로 변환
+  const firstLetter = str.charAt(0).toUpperCase();
 
-  /**
-   * 타입변환을 위한 함수
-   */
-  function capitalizeFirstLetter(str: string) {
-    // 첫 글자를 대문자로 변환
-    const firstLetter = str.charAt(0).toUpperCase();
+  // 나머지 글자를 소문자로 변환
+  const restOfString = str.slice(1).toLowerCase();
 
-    // 나머지 글자를 소문자로 변환
-    const restOfString = str.slice(1).toLowerCase();
+  // 변환된 문자열을 합쳐서 반환
+  return `F_${firstLetter + restOfString}` as IconName;
+}
 
-    // 변환된 문자열을 합쳐서 반환
-    return `F_${firstLetter + restOfString}`;
+type colorChipType = {
+  color: '#34C185' | '#F44F48' | '#8F95A2' | '';
+  backgroundColor: '#EFFDF7' | '#FFF3F2' | '#F7F8FB' | '';
+};
+
+const convertChatStatusColor = (status: string) => {
+  const colorChip: colorChipType = {
+    color: '',
+    backgroundColor: '',
+  };
+  switch (status) {
+    case 'EXPECT':
+      colorChip.color = '#34C185';
+      colorChip.backgroundColor = '#EFFDF7';
+      break;
+    case 'RECRUIT':
+      colorChip.color = '#F44F48';
+      colorChip.backgroundColor = '#FFF3F2';
+      break;
+    default:
+      colorChip.color = '#8F95A2';
+      colorChip.backgroundColor = '#F7F8FB';
+      break;
   }
 
-  type colorChipType = {
-    color: '#34C185' | '#F44F48' | '#8F95A2' | '';
-    backgroundColor: '#EFFDF7' | '#FFF3F2' | '#F7F8FB' | '';
-  };
+  return colorChip;
+};
 
-  const convertChatStatusColor = (status: string) => {
-    const colorChip: colorChipType = {
-      color: '',
-      backgroundColor: '',
-    };
-    switch (status) {
-      case 'EXPECT':
-        colorChip.color = '#34C185';
-        colorChip.backgroundColor = '#EFFDF7';
-        break;
-      case 'RECRUIT':
-        colorChip.color = '#F44F48';
-        colorChip.backgroundColor = '#FFF3F2';
-        break;
-      default:
-        colorChip.color = '#8F95A2';
-        colorChip.backgroundColor = '#F7F8FB';
-        break;
-    }
-
-    return colorChip;
-  };
-
+export const TradeStaus: React.FC<{
+  data: ChatListType;
+}> = ({ data }) => {
   return (
     <Row
       style={[

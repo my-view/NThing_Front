@@ -23,8 +23,6 @@ export const CustomHeader = ({
   renderRightButton,
   bottomBorder,
 }: HeaderType) => {
-  console.log('useLeftButton', !!useLeftButton);
-
   const defaultUseLeftBtn = useLeftButton ?? true;
   const defaultUseBottomBorder = bottomBorder ?? true;
 
