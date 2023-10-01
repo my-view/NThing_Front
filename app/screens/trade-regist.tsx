@@ -25,9 +25,11 @@ import { AnimatedArrow } from 'components/common/animated-arrow';
 import { DateTimePicker } from 'components/common/date-time-picker';
 import { TradeDate } from 'types/common';
 
+const nowHour = new Date().getHours();
+
 const initialDate = {
-  day: 0,
-  hour: new Date().getHours() + 1,
+  day: nowHour < 23 ? 0 : 1,
+  hour: nowHour < 23 ? nowHour + 1 : 0,
   minute: 0,
   full: '',
 };
