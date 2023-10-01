@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
   Alert,
-  Image,
   Pressable,
   SafeAreaView,
+  ScrollView,
   TextInput,
   View,
 } from 'react-native';
@@ -24,6 +24,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { AnimatedArrow } from 'components/common/animated-arrow';
 import { DateTimePicker } from 'components/common/date-time-picker';
 import { TradeDate } from 'types/common';
+import { PreviewImage } from '~/components/trade-regist/preview-image';
 
 const nowHour = new Date().getHours();
 
@@ -50,7 +51,9 @@ const TradeRegistScreen = ({ navigation }) => {
     if (assets)
       setImages((prev) => [
         ...prev,
-        ...assets.filter((item) => !prev.find((image) => image.id === item.id)),
+        ...assets.filter(
+          (item) => !prev.find((image) => image.fileName === item.fileName),
+        ),
       ]);
   };
 
@@ -64,7 +67,7 @@ const TradeRegistScreen = ({ navigation }) => {
   };
 
   // console.log(images[0]?.base64);
-
+  // console.log(images);
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#FFFFFF', position: 'relative' }}
@@ -75,42 +78,47 @@ const TradeRegistScreen = ({ navigation }) => {
         // bottomBorder={false}
       />
       <KeyboardAwareScrollView extraHeight={204}>
-        <Container>
-          <ImageContainer>
-            {images.length < 10 && (
-              <Pressable
-                onPress={() =>
-                  Alert.alert('사진을 올려주세요.', '', [
-                    {
-                      text: '갤러리에서 선택하기',
-                      onPress: selectImages,
-                    },
-                    {
-                      text: '카메라로 촬영하기',
-                      onPress: takePhoto,
-                    },
-                    { text: '취소', onPress: () => null, style: 'cancel' },
-                  ])
-                }
-              >
-                <ImageUploader>
-                  <Icon
-                    size={24}
-                    name={'F_Camera'}
-                    color={theme.palette.gray03}
-                  />
-                  <GraySmallText>{images.length}/10</GraySmallText>
-                </ImageUploader>
-              </Pressable>
-            )}
+        <Row style={{ paddingTop: 20 }}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }}
+          >
+            <Pressable
+              onPress={() => {
+                if (images.length >= 10) return;
+                Alert.alert('사진을 올려주세요.', '', [
+                  {
+                    text: '갤러리에서 선택하기',
+                    onPress: selectImages,
+                  },
+                  {
+                    text: '카메라로 촬영하기',
+                    onPress: takePhoto,
+                  },
+                  { text: '취소', onPress: () => null, style: 'cancel' },
+                ]);
+              }}
+            >
+              <ImageUploader>
+                <Icon size={24} name='F_Camera' color={theme.palette.gray03} />
+                <GraySmallText>{images.length}/10</GraySmallText>
+              </ImageUploader>
+            </Pressable>
             {images.map((image) => (
-              <Image
+              <PreviewImage
                 key={image.fileName}
-                style={{ width: 72, height: 72 }}
-                source={{ uri: image.uri }}
+                image={image}
+                onDelete={(deleting) =>
+                  setImages((prev) =>
+                    prev.filter((item) => item.fileName !== deleting.fileName),
+                  )
+                }
               />
             ))}
-          </ImageContainer>
+          </ScrollView>
+        </Row>
+        <Container>
           {/* 키보드 내용 가림 */}
 
           <Box>
@@ -186,22 +194,17 @@ const TradeRegistScreen = ({ navigation }) => {
   );
 };
 
-const Container = styled.ScrollView`
-  padding: 20px 20px 120px;
+const Container = styled.View`
+  padding: 10px 20px 120px;
   height: 100%;
   background-color: ${(p) => p.theme.palette.white};
-`;
-
-const ImageContainer = styled(Row)`
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-  gap: 12px;
 `;
 
 const ImageUploader = styled.View`
   width: 72px;
   height: 72px;
   padding: 20px 0 13px;
+  margin-top: 10px;
   align-items: center;
   justify-content: space-between;
   background-color: ${(p) => p.theme.palette.gray01}66;
