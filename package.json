@@ -59,6 +59,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-web": "^0.19.8",
+    "react-native-wheely": "^0.6.0",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7"
   },

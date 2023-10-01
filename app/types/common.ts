@@ -1,5 +1,6 @@
-import { IconName } from '~/components/common/icon';
-import { chatStatus } from '~/components/common/chat-item';
+import { IconName } from 'components/common/icon';
+import { chatStatus } from 'components/common/chat-item';
+
 export interface WithIdName {
   id: number;
   name: string;
@@ -49,3 +50,10 @@ export type ChatListType = {
   navigate: string;
   trade_status: keyof typeof chatStatus;
 };
+
+export interface TradeDate {
+  day: number;
+  hour: number;
+  minute: number;
+  full: string;
+}
