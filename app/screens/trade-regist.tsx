@@ -4,6 +4,7 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -24,7 +25,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { AnimatedArrow } from 'components/common/animated-arrow';
 import { DateTimePicker } from 'components/common/date-time-picker';
 import { TradeDate } from 'types/common';
-import { PreviewImage } from '~/components/trade-regist/preview-image';
+import { PreviewImage } from 'components/trade-regist/preview-image';
+import { Input } from 'components/common/input';
+import { formatPrice } from 'assets/util/format';
 
 const nowHour = new Date().getHours();
 
@@ -40,6 +43,11 @@ const TradeRegistScreen = ({ navigation }) => {
   const [images, setImages] = useState<Asset[]>([]);
   const [date, setDate] = useState<TradeDate>(initialDate);
   const [isDateOpen, setIsDateOpen] = useState(true);
+  const [nThing, setNThing] = useState({
+    denominator: '',
+    numerator: '',
+  });
+  const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
 
   const selectImages = async () => {
@@ -157,11 +165,63 @@ const TradeRegistScreen = ({ navigation }) => {
               />
             </Box>
           )}
-          <Box>
+          <Box style={{ paddingVertical: 12 }}>
             <Font15W500>N띵</Font15W500>
+            <Row style={{ gap: 6 }}>
+              <NThingInput
+                placeholder='n'
+                maxLength={2}
+                value={nThing.numerator}
+                onChangeText={(text) =>
+                  setNThing((prev) => {
+                    return { ...prev, numerator: text };
+                  })
+                }
+              />
+              <NThingText>개로 나눠,</NThingText>
+              <NThingInput
+                placeholder='m'
+                maxLength={2}
+                value={nThing.denominator}
+                onChangeText={(text) =>
+                  setNThing((prev) => {
+                    return { ...prev, denominator: text };
+                  })
+                }
+              />
+              <NThingText>개 가질래요</NThingText>
+            </Row>
           </Box>
           <Box>
             <Font15W500>가격</Font15W500>
+            <Row style={{ gap: 6 }}>
+              <NThingText>개당</NThingText>
+              <NThingText>
+                <Text style={{ color: theme.palette.primary }}>
+                  {formatPrice(
+                    Math.ceil(Number(price) / Number(nThing.numerator || 1)),
+                  ) || 0}
+                </Text>
+                원
+              </NThingText>
+              <Row style={{ position: 'relative' }}>
+                <NThingInput
+                  style={{
+                    fontSize: 13,
+                    paddingRight: 26,
+                    minWidth: 96,
+                    textAlign: 'right',
+                  }}
+                  placeholder='0'
+                  maxLength={7}
+                  value={price}
+                  onChangeText={(text) => setPrice(text)}
+                />
+                <Font13W600 style={{ position: 'absolute', right: 9 }}>
+                  원
+                </Font13W600>
+              </Row>
+            </Row>
           </Box>
           <ColumnBox>
             <Font15W500>글 내용</Font15W500>
@@ -223,6 +283,15 @@ const Box = styled(Row)`
   justify-content: space-between;
   border-bottom-width: 1px;
   border-bottom-color: ${(p) => p.theme.palette.gray01};
+`;
+
+const NThingInput = styled(Input)`
+  padding: 9.5px 15.5px;
+  font-size: 15px;
+`;
+
+const NThingText = styled(Font13W600)`
+  color: ${(p) => p.theme.palette.gray02};
 `;
 
 const ColumnBox = styled.View`

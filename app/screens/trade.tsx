@@ -49,8 +49,8 @@ const MOCK_DATA = {
   latitude: 123.213512123,
   longitude: 546.465151515,
   date: '2023-08-25 14:00:00',
-  denominator: 2,
-  numerator: 4,
+  denominator: 2, // 분자 (가질 개수)
+  numerator: 4, // 분모 (나누는 수)
   status: false,
   price: 4000,
   place: '서울대 정문 앞',
