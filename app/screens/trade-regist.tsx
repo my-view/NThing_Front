@@ -28,6 +28,12 @@ import { TradeDate } from 'types/common';
 import { PreviewImage } from 'components/trade-regist/preview-image';
 import { Input } from 'components/common/input';
 import { formatPrice } from 'assets/util/format';
+import { Coord } from 'react-native-nmap';
+
+interface TradePlace {
+  coord?: Coord;
+  description: string;
+}
 
 const nowHour = new Date().getHours();
 
@@ -41,6 +47,10 @@ const initialDate = {
 const TradeRegistScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [images, setImages] = useState<Asset[]>([]);
+  const [place, setPlace] = useState<TradePlace>({
+    coord: undefined,
+    description: '',
+  });
   const [date, setDate] = useState<TradeDate>(initialDate);
   const [isDateOpen, setIsDateOpen] = useState(true);
   const [nThing, setNThing] = useState({
@@ -140,7 +150,14 @@ const TradeRegistScreen = ({ navigation }) => {
               onChangeText={(text) => setTitle(text)}
             />
           </Box>
-          <Pressable onPress={() => navigation.navigate('UniversityMapModal')}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate('TradeMapModal', {
+                place,
+                updatePlace: (updated: TradePlace) => setPlace(updated),
+              })
+            }
+          >
             <Box>
               <Font15W500>거래 희망 장소</Font15W500>
               <Icon name={'S_Add'} size={16} color={theme.palette.black} />

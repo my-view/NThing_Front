@@ -1,3 +1,16 @@
+diff --git a/node_modules/react-native-nmap/index.tsx b/node_modules/react-native-nmap/index.tsx
+index 84ae33e..061e366 100644
+--- a/node_modules/react-native-nmap/index.tsx
++++ b/node_modules/react-native-nmap/index.tsx
+@@ -93,7 +93,7 @@ export interface NaverMapViewProps {
+         latitude: number;
+         longitude: number;
+         zoom: number;
+-        contentsRegion: [Coord, Coord, Coord, Coord, Coord];
++        contentRegion: [Coord, Coord, Coord, Coord, Coord];
+         coveringRegion: [Coord, Coord, Coord, Coord, Coord];
+     }) => void;
+     onMapClick?: (event: {
 diff --git a/node_modules/react-native-nmap/ios/reactNativeNMap/RCTConvert+NMFMapView.m b/node_modules/react-native-nmap/ios/reactNativeNMap/RCTConvert+NMFMapView.m
 index 802de2f..3164456 100644
 --- a/node_modules/react-native-nmap/ios/reactNativeNMap/RCTConvert+NMFMapView.m
