@@ -165,7 +165,7 @@ const TradeRegistScreen = ({ navigation }) => {
               />
             </Box>
           )}
-          <Box style={{ paddingVertical: 12 }}>
+          <InputBox>
             <Font15W500>N띵</Font15W500>
             <Row style={{ gap: 6 }}>
               <NThingInput
@@ -191,8 +191,8 @@ const TradeRegistScreen = ({ navigation }) => {
               />
               <NThingText>개 가질래요</NThingText>
             </Row>
-          </Box>
-          <Box>
+          </InputBox>
+          <InputBox>
             <Font15W500>가격</Font15W500>
             <Row style={{ gap: 6 }}>
               <NThingText>개당</NThingText>
@@ -222,7 +222,7 @@ const TradeRegistScreen = ({ navigation }) => {
                 </Font13W600>
               </Row>
             </Row>
-          </Box>
+          </InputBox>
           <ColumnBox>
             <Font15W500>글 내용</Font15W500>
             <TextInput
@@ -283,6 +283,10 @@ const Box = styled(Row)`
   justify-content: space-between;
   border-bottom-width: 1px;
   border-bottom-color: ${(p) => p.theme.palette.gray01};
+`;
+
+const InputBox = styled(Box)`
+  padding: 12px 4px;
 `;
 
 const NThingInput = styled(Input)`
