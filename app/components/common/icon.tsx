@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { SvgProps } from 'react-native-svg';
+import { SvgProps, SvgXml } from 'react-native-svg';
 import * as icons from '@assets/image/icon/icon';
+import { Animated } from 'react-native';
 
 export type IconName = keyof typeof icons;
 
@@ -33,3 +34,24 @@ export function Icon({
 }
 
 export const IconButton = styled.Pressable``;
+
+interface AnimatedIconProps {
+  color: string;
+  xml: string;
+  size: number;
+}
+
+class ClassIcon extends React.Component<AnimatedIconProps> {
+  render() {
+    return (
+      <SvgXml
+        xml={this.props.xml}
+        width={this.props.size}
+        height={this.props.size}
+        color={this.props.color}
+      />
+    );
+  }
+}
+
+export const AnimatedIcon = Animated.createAnimatedComponent(ClassIcon);
