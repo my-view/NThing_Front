@@ -34,6 +34,8 @@ export { default as F_TradeRegist } from '@assets/image/icon/F_TradeRegist.svg';
 export { default as F_Chat } from '@assets/image/icon/F_Chat.svg';
 export { default as F_Home } from '@assets/image/icon/F_Home.svg';
 export { default as F_MyPage } from '@assets/image/icon/F_MyPage.svg';
+export { default as F_Pin } from '@assets/image/icon/F_Pin.svg';
+export { default as F_Clock } from '@assets/image/icon/F_Clock.svg';
 // Category Icon ** Not Allow Color Change
 export { default as F_Delivery } from '@assets/image/icon/F_Delivery.svg';
 export { default as F_Dress } from '@assets/image/icon/F_Dress.svg';
@@ -45,4 +47,3 @@ export { default as F_Expect } from '@assets/image/icon/F_Expect.svg';
 export { default as F_Recruit } from '@assets/image/icon/F_Recruit.svg';
 export { default as F_Cancel } from '@assets/image/icon/F_Cancel.svg';
 export { default as F_Complete } from '@assets/image/icon/F_Complete.svg';
-

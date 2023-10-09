@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Animated,
   Image,
   Platform,
   Pressable,
@@ -11,7 +12,6 @@ import {
 import styled from '@emotion/native';
 import {
   Font10W600,
-  Font12W500,
   Font12W600,
   Font13W400,
   Font15W600,
@@ -23,14 +23,20 @@ import {
 import { Header } from 'components/common/header';
 import { ShadowBottom } from 'components/common/bottom-box';
 import { Button } from 'components/common/button';
-import { Icon } from 'components/common/icon';
+import { AnimatedIcon, Icon } from 'components/common/icon';
 import { theme } from '~/../theme';
 import { getStatusBarHeight } from 'react-native-safearea-height';
 import Swiper from 'react-native-swiper';
 import { HeartButton } from 'components/common/heart-button';
 import { Row } from 'components/common/layout';
-import { formatDate, formatPrice } from 'assets/util/format';
-import moment from 'moment';
+import {
+  formatElapsedTime,
+  formatKorDate,
+  formatPrice,
+} from 'assets/util/format';
+import { useAnimatedHeader } from 'hooks/animated/useAnimatedHeader';
+import { leftXml } from 'assets/image/icon/left.svg';
+import { shareXml } from 'assets/image/icon/share.svg';
 
 const EXAMPLE_IMAGE_PATH = '../assets/image/item-example.png';
 
@@ -45,10 +51,10 @@ const MOCK_DATA = {
   title: '휴지 나눠서 사실 분',
   images: [],
   description:
-    '펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분',
+    '펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분',
   latitude: 123.213512123,
   longitude: 546.465151515,
-  date: '2023-08-25 14:00:00',
+  date: '2023-08-25 12:00:00',
   denominator: 2, // 분자 (가질 개수)
   numerator: 4, // 분모 (나누는 수)
   status: false,
@@ -65,17 +71,17 @@ const TradeScreen = ({ navigation }) => {
   const [tradeDetail, setTradeDetail] = useState(MOCK_DATA);
   const [comment, setComment] = useState('');
   const { width } = useWindowDimensions();
-
   const statusBarHeight =
-    Platform.OS === 'ios' ? getStatusBarHeight(true) : StatusBar.currentHeight;
+    Platform.OS === 'ios'
+      ? getStatusBarHeight(true)
+      : StatusBar.currentHeight || 0;
+  const { scrollY, backgroundColor, color, border } = useAnimatedHeader(
+    width - statusBarHeight - 56, // 56은 헤더 높이
+  );
 
   useEffect(() => {
-    // 안드로이드에서만 가능??
-    // StatusBar.setTranslucent(true);
     StatusBar.setBarStyle('light-content');
-    return () => {
-      StatusBar.setBarStyle('dark-content');
-    };
+    return () => StatusBar.setBarStyle('dark-content');
   }, []);
 
   useEffect(() => {
@@ -90,7 +96,15 @@ const TradeScreen = ({ navigation }) => {
   if (!tradeDetail) return null;
   return (
     <View style={{ flex: 1, position: 'relative' }}>
-      <ScrollContainer>
+      <ScrollContainer
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          {
+            useNativeDriver: false,
+          },
+        )}
+        scrollEventThrottle={16}
+      >
         <Swiper
           height={width}
           dot={<Dot style={{ opacity: 0.4 }} />}
@@ -117,16 +131,19 @@ const TradeScreen = ({ navigation }) => {
                 {tradeDetail.category_name}
               </GrayFont>
             </Pressable>
-            <GrayFont>{` · ${formatDate(tradeDetail.updated_at)} 전`}</GrayFont>
+            <GrayFont>{` · ${formatElapsedTime(
+              tradeDetail.updated_at,
+            )} 전`}</GrayFont>
           </SubInfoWrapper>
-          <Row style={{ gap: 17, alignItems: 'flex-start', marginBottom: 8 }}>
-            <Font12W600>거래 장소</Font12W600>
-            <View style={{ gap: 7 }}>
-              <Font12W500>{tradeDetail.place}</Font12W500>
-              <Font12W500>
-                {moment(tradeDetail.date).format('yyyy.MM.DD. hh:mm')}
-              </Font12W500>
-            </View>
+          <Row style={{ gap: 17, alignItems: 'flex-start', marginBottom: 20 }}>
+            <TagBox>
+              <Icon name='F_Pin' size={12} />
+              <TagText>{tradeDetail.place}</TagText>
+            </TagBox>
+            <TagBox>
+              <Icon name='F_Clock' size={12} />
+              <TagText>{formatKorDate(tradeDetail.date)}</TagText>
+            </TagBox>
           </Row>
           <Font16W500 style={{ lineHeight: 24 }}>
             {tradeDetail.description}
@@ -141,26 +158,26 @@ const TradeScreen = ({ navigation }) => {
           />
         </CommentBox>
       </ScrollContainer>
-      <Header
+      <AnimatedHeader
         style={{
           position: 'absolute',
           width: '100%',
           top: statusBarHeight,
-          backgroundColor: 'transparent',
-          borderBottomWidth: 0,
+          backgroundColor,
+          borderBottomWidth: border,
         }}
       >
         <Pressable onPress={navigation.goBack}>
-          <Icon name={'S_Left'} size={24} color={theme.palette.white} />
+          <AnimatedIcon xml={leftXml} size={24} color={color} />
         </Pressable>
         <Pressable
           onPress={() => {
             // 공유하기
           }}
         >
-          <Icon name={'S_Share'} size={24} color={theme.palette.white} />
+          <AnimatedIcon xml={shareXml} size={24} color={color} />
         </Pressable>
-      </Header>
+      </AnimatedHeader>
       <ShadowBottom>
         <Row
           style={{ flex: 1, justifyContent: 'space-between', marginBottom: 20 }}
@@ -242,6 +259,17 @@ const GrayFont = styled(Font13W400)`
   color: ${(p) => p.theme.palette.gray03};
 `;
 
+const TagBox = styled(Row)`
+  padding: 7px 8px 7px 10px;
+  gap: 4px;
+  background-color: #f6f6f6;
+  border-radius: 4px;
+`;
+
+const TagText = styled(Font12W600)`
+  color: ${(p) => p.theme.palette.gray04};
+`;
+
 const CommentBox = styled.View`
   padding: 20px 20px 65px;
   gap: 30px;
@@ -253,5 +281,7 @@ const CommentInput = styled.TextInput`
   border-radius: 4px;
   color: ${(p) => p.theme.palette.gray03};
 `;
+
+const AnimatedHeader = Animated.createAnimatedComponent(Header);
 
 export default TradeScreen;
