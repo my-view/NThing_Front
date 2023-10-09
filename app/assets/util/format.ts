@@ -1,7 +1,9 @@
+import moment from 'moment';
+
 export const formatPrice = (price: number) =>
   price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-export const formatDate = (date: string) => {
+export const formatElapsedTime = (date: string) => {
   const past = new Date(date);
   const now = new Date();
   const diffSec = Math.floor((now.getTime() - past.getTime()) / 1000);
@@ -14,4 +16,14 @@ export const formatDate = (date: string) => {
   if (diffDay < 7) return `${diffDay}일`;
   const diffWeek = Math.floor(diffDay / 7);
   return `${diffWeek}주`;
+};
+
+export const formatKorDate = (_date: string) => {
+  const date = new Date(_date);
+  const onlyDate = moment(date).format('YY.MM.DD');
+  const amPm = date.getHours() >= 12 ? '오후' : '오전';
+  const time = moment(date).format(
+    `h시${date.getMinutes() > 0 ? ' mm분' : ''}`,
+  );
+  return `${onlyDate} ${amPm} ${time}`;
 };

@@ -11,7 +11,6 @@ import {
 import styled from '@emotion/native';
 import {
   Font10W600,
-  Font12W500,
   Font12W600,
   Font13W400,
   Font15W600,
@@ -29,8 +28,11 @@ import { getStatusBarHeight } from 'react-native-safearea-height';
 import Swiper from 'react-native-swiper';
 import { HeartButton } from 'components/common/heart-button';
 import { Row } from 'components/common/layout';
-import { formatDate, formatPrice } from 'assets/util/format';
-import moment from 'moment';
+import {
+  formatElapsedTime,
+  formatKorDate,
+  formatPrice,
+} from 'assets/util/format';
 
 const EXAMPLE_IMAGE_PATH = '../assets/image/item-example.png';
 
@@ -45,10 +47,10 @@ const MOCK_DATA = {
   title: '휴지 나눠서 사실 분',
   images: [],
   description:
-    '펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분',
+    '펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분',
   latitude: 123.213512123,
   longitude: 546.465151515,
-  date: '2023-08-25 14:00:00',
+  date: '2023-08-25 12:00:00',
   denominator: 2, // 분자 (가질 개수)
   numerator: 4, // 분모 (나누는 수)
   status: false,
@@ -64,18 +66,32 @@ const MOCK_DATA = {
 const TradeScreen = ({ navigation }) => {
   const [tradeDetail, setTradeDetail] = useState(MOCK_DATA);
   const [comment, setComment] = useState('');
+  const [scroll, setScroll] = useState(0);
+  const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
 
   const statusBarHeight =
-    Platform.OS === 'ios' ? getStatusBarHeight(true) : StatusBar.currentHeight;
+    Platform.OS === 'ios'
+      ? getStatusBarHeight(true)
+      : StatusBar.currentHeight || 0;
+  const iconColor = isTransparent ? theme.palette.white : theme.palette.black;
+  const HEADER_HEIGHT = 56;
 
   useEffect(() => {
-    // 안드로이드에서만 가능??
-    // StatusBar.setTranslucent(true);
+    if (isTransparent && scroll > width - statusBarHeight - HEADER_HEIGHT) {
+      setIsTransparent(false);
+      return StatusBar.setBarStyle('dark-content');
+    }
+    if (!isTransparent && scroll < width - statusBarHeight - HEADER_HEIGHT) {
+      setIsTransparent(true);
+      return StatusBar.setBarStyle('light-content');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scroll]);
+
+  useEffect(() => {
     StatusBar.setBarStyle('light-content');
-    return () => {
-      StatusBar.setBarStyle('dark-content');
-    };
+    return () => StatusBar.setBarStyle('dark-content');
   }, []);
 
   useEffect(() => {
@@ -89,10 +105,19 @@ const TradeScreen = ({ navigation }) => {
 
   if (!tradeDetail) return null;
   return (
-    <View style={{ flex: 1, position: 'relative' }}>
-      <ScrollContainer>
+    <View
+      style={{
+        flex: 1,
+        position: 'relative',
+        paddingTop: isTransparent ? 0 : statusBarHeight,
+      }}
+    >
+      <ScrollContainer
+        onScroll={(e) => setScroll(e.nativeEvent.contentOffset.y)}
+        scrollEventThrottle={16}
+      >
         <Swiper
-          height={width}
+          height={isTransparent ? width : width - statusBarHeight}
           dot={<Dot style={{ opacity: 0.4 }} />}
           activeDot={<Dot />}
           paginationStyle={{ gap: 8 }}
@@ -117,16 +142,19 @@ const TradeScreen = ({ navigation }) => {
                 {tradeDetail.category_name}
               </GrayFont>
             </Pressable>
-            <GrayFont>{` · ${formatDate(tradeDetail.updated_at)} 전`}</GrayFont>
+            <GrayFont>{` · ${formatElapsedTime(
+              tradeDetail.updated_at,
+            )} 전`}</GrayFont>
           </SubInfoWrapper>
-          <Row style={{ gap: 17, alignItems: 'flex-start', marginBottom: 8 }}>
-            <Font12W600>거래 장소</Font12W600>
-            <View style={{ gap: 7 }}>
-              <Font12W500>{tradeDetail.place}</Font12W500>
-              <Font12W500>
-                {moment(tradeDetail.date).format('yyyy.MM.DD. hh:mm')}
-              </Font12W500>
-            </View>
+          <Row style={{ gap: 17, alignItems: 'flex-start', marginBottom: 20 }}>
+            <TagBox>
+              <Icon name='F_Pin' size={12} />
+              <TagText>{tradeDetail.place}</TagText>
+            </TagBox>
+            <TagBox>
+              <Icon name='F_Clock' size={12} />
+              <TagText>{formatKorDate(tradeDetail.date)}</TagText>
+            </TagBox>
           </Row>
           <Font16W500 style={{ lineHeight: 24 }}>
             {tradeDetail.description}
@@ -146,19 +174,21 @@ const TradeScreen = ({ navigation }) => {
           position: 'absolute',
           width: '100%',
           top: statusBarHeight,
-          backgroundColor: 'transparent',
-          borderBottomWidth: 0,
+          backgroundColor: isTransparent
+            ? 'rgba(255, 255, 255, 0)'
+            : theme.palette.white,
+          borderBottomWidth: isTransparent ? 0 : 1,
         }}
       >
         <Pressable onPress={navigation.goBack}>
-          <Icon name={'S_Left'} size={24} color={theme.palette.white} />
+          <Icon name='S_Left' size={24} color={iconColor} />
         </Pressable>
         <Pressable
           onPress={() => {
             // 공유하기
           }}
         >
-          <Icon name={'S_Share'} size={24} color={theme.palette.white} />
+          <Icon name='S_Share' size={24} color={iconColor} />
         </Pressable>
       </Header>
       <ShadowBottom>
@@ -240,6 +270,17 @@ const SubInfoWrapper = styled(Row)`
 
 const GrayFont = styled(Font13W400)`
   color: ${(p) => p.theme.palette.gray03};
+`;
+
+const TagBox = styled(Row)`
+  padding: 7px 8px 7px 10px;
+  gap: 4px;
+  background-color: #f6f6f6;
+  border-radius: 4px;
+`;
+
+const TagText = styled(Font12W600)`
+  color: ${(p) => p.theme.palette.gray04};
 `;
 
 const CommentBox = styled.View`
