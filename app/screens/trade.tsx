@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Animated,
   Image,
   Platform,
   Pressable,
@@ -34,7 +33,6 @@ import {
   formatKorDate,
   formatPrice,
 } from 'assets/util/format';
-import { useAnimatedHeader } from 'hooks/animated/useAnimatedHeader';
 import { leftXml } from 'assets/image/icon/left.svg';
 import { shareXml } from 'assets/image/icon/share.svg';
 
@@ -75,17 +73,21 @@ const TradeScreen = ({ navigation }) => {
     Platform.OS === 'ios'
       ? getStatusBarHeight(true)
       : StatusBar.currentHeight || 0;
-  const {
-    scrollY,
-    backgroundColor,
-    color,
-    border,
-    paddingTop,
-    minusPaddingTop,
-  } = useAnimatedHeader(
-    width - statusBarHeight - 56, // 56은 헤더 높이
-    statusBarHeight,
-  );
+  const [scroll, setScroll] = useState(0);
+  const [isTransparent, setIsTransparent] = useState(true);
+  const iconColor = isTransparent ? theme.palette.white : theme.palette.black;
+
+  useEffect(() => {
+    if (isTransparent && scroll > width - statusBarHeight - 56) {
+      setIsTransparent(false);
+      return StatusBar.setBarStyle('dark-content');
+    }
+    if (!isTransparent && scroll < width - statusBarHeight - 56) {
+      setIsTransparent(true);
+      return StatusBar.setBarStyle('light-content');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scroll]);
 
   useEffect(() => {
     StatusBar.setBarStyle('light-content');
@@ -103,20 +105,19 @@ const TradeScreen = ({ navigation }) => {
 
   if (!tradeDetail) return null;
   return (
-    <Animated.View style={{ flex: 1, position: 'relative', paddingTop }}>
-      {/* <StatusBar backgroundColor={'white'} translucent={false} /> */}
+    <View
+      style={{
+        flex: 1,
+        position: 'relative',
+        paddingTop: isTransparent ? 0 : statusBarHeight,
+      }}
+    >
       <ScrollContainer
-        style={{ paddingTop: minusPaddingTop }}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          {
-            useNativeDriver: false,
-          },
-        )}
+        onScroll={(e) => setScroll(e.nativeEvent.contentOffset.y)}
         scrollEventThrottle={16}
       >
         <Swiper
-          height={width}
+          height={isTransparent ? width : width - statusBarHeight}
           dot={<Dot style={{ opacity: 0.4 }} />}
           activeDot={<Dot />}
           paginationStyle={{ gap: 8 }}
@@ -168,26 +169,28 @@ const TradeScreen = ({ navigation }) => {
           />
         </CommentBox>
       </ScrollContainer>
-      <AnimatedHeader
+      <Header
         style={{
           position: 'absolute',
           width: '100%',
           top: statusBarHeight,
-          backgroundColor,
-          borderBottomWidth: border,
+          backgroundColor: isTransparent
+            ? 'rgba(255, 255, 255, 0)'
+            : theme.palette.white,
+          borderBottomWidth: isTransparent ? 0 : 1,
         }}
       >
         <Pressable onPress={navigation.goBack}>
-          <AnimatedIcon xml={leftXml} size={24} color={color} />
+          <AnimatedIcon xml={leftXml} size={24} color={iconColor} />
         </Pressable>
         <Pressable
           onPress={() => {
             // 공유하기
           }}
         >
-          <AnimatedIcon xml={shareXml} size={24} color={color} />
+          <AnimatedIcon xml={shareXml} size={24} color={iconColor} />
         </Pressable>
-      </AnimatedHeader>
+      </Header>
       <ShadowBottom>
         <Row
           style={{ flex: 1, justifyContent: 'space-between', marginBottom: 20 }}
@@ -224,7 +227,7 @@ const TradeScreen = ({ navigation }) => {
           </Button>
         </Row>
       </ShadowBottom>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -235,7 +238,7 @@ const Dot = styled.View`
   border-radius: 6px;
 `;
 
-const ScrollContainer = styled(Animated.ScrollView)`
+const ScrollContainer = styled.ScrollView`
   flex: 1;
   background-color: ${(p) => p.theme.palette.white};
   margin-bottom: 80px;
@@ -291,7 +294,5 @@ const CommentInput = styled.TextInput`
   border-radius: 4px;
   color: ${(p) => p.theme.palette.gray03};
 `;
-
-const AnimatedHeader = Animated.createAnimatedComponent(Header);
 
 export default TradeScreen;
