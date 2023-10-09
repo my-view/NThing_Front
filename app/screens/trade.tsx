@@ -75,8 +75,16 @@ const TradeScreen = ({ navigation }) => {
     Platform.OS === 'ios'
       ? getStatusBarHeight(true)
       : StatusBar.currentHeight || 0;
-  const { scrollY, backgroundColor, color, border } = useAnimatedHeader(
+  const {
+    scrollY,
+    backgroundColor,
+    color,
+    border,
+    paddingTop,
+    minusPaddingTop,
+  } = useAnimatedHeader(
     width - statusBarHeight - 56, // 56은 헤더 높이
+    statusBarHeight,
   );
 
   useEffect(() => {
@@ -95,8 +103,10 @@ const TradeScreen = ({ navigation }) => {
 
   if (!tradeDetail) return null;
   return (
-    <View style={{ flex: 1, position: 'relative' }}>
+    <Animated.View style={{ flex: 1, position: 'relative', paddingTop }}>
+      {/* <StatusBar backgroundColor={'white'} translucent={false} /> */}
       <ScrollContainer
+        style={{ paddingTop: minusPaddingTop }}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           {
@@ -214,7 +224,7 @@ const TradeScreen = ({ navigation }) => {
           </Button>
         </Row>
       </ShadowBottom>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -225,7 +235,7 @@ const Dot = styled.View`
   border-radius: 6px;
 `;
 
-const ScrollContainer = styled.ScrollView`
+const ScrollContainer = styled(Animated.ScrollView)`
   flex: 1;
   background-color: ${(p) => p.theme.palette.white};
   margin-bottom: 80px;
