@@ -22,8 +22,8 @@ export const CustomPicker: React.FC<{
         backgroundColor: 'white',
         borderRadius: 0,
         borderColor: theme.palette.gray01,
-        borderBottomWidth: 1.4,
-        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderTopWidth: 0.7,
       }}
     />
   );
