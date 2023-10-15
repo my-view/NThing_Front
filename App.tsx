@@ -9,9 +9,10 @@ import { theme } from './theme';
 import 'react-native-gesture-handler';
 import axios, { HeadersDefaults } from 'axios';
 import { navigationRef } from './RootNavigation';
+import SimpleSnackbarUI from '~/components/common/toast';
+import { useApiError } from '~/hooks/useApiError';
 
 const Stack = createNativeStackNavigator();
-const queryClient = new QueryClient();
 
 axios.defaults.baseURL = 'https://75c6-1-225-155-14.ngrok-free.app';
 
@@ -24,12 +25,26 @@ function RootNavigator() {
 }
 
 export default function App() {
+  const { errorHandler } = useApiError();
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        onError: errorHandler,
+      },
+      mutations: {
+        onError: errorHandler,
+      },
+    },
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <NavigationContainer ref={navigationRef}>
             <RootNavigator />
+            <SimpleSnackbarUI.Portal />
           </NavigationContainer>
         </RecoilRoot>
       </QueryClientProvider>
