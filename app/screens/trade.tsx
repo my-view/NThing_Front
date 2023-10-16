@@ -199,40 +199,36 @@ const TradeScreen = ({ navigation }) => {
         </Pressable>
       </Header>
       <ShadowBottom>
-        <Row
-          style={{ flex: 1, justifyContent: 'space-between', marginBottom: 20 }}
-        >
-          <Row style={{ gap: 20 }}>
-            <HeartButton isLike={true} />
-            <View style={{ gap: 2 }}>
-              <Font10W600>1개당</Font10W600>
-              <Row style={{ gap: 10 }}>
-                <Font18W600>{formatPrice(tradeDetail.price)}원</Font18W600>
-                <View
-                  style={{
-                    height: 10,
-                    width: 2,
-                    backgroundColor: theme.palette.gray02,
-                    borderRadius: 2,
-                  }}
-                />
-                <Font18W600>
-                  <Text style={{ color: theme.palette.primary }}>
-                    {tradeDetail.denominator}
-                  </Text>
-                  /{tradeDetail.numerator}명
-                </Font18W600>
-              </Row>
-            </View>
-          </Row>
-          <Button
-            onPress={() => {
-              // post 요청
-            }}
-          >
-            참여하기
-          </Button>
+        <Row style={{ gap: 20 }}>
+          <HeartButton isLike={true} />
+          <View style={{ gap: 2 }}>
+            <Font10W600>1개당</Font10W600>
+            <Row style={{ gap: 10 }}>
+              <Font18W600>{formatPrice(tradeDetail.price)}원</Font18W600>
+              <View
+                style={{
+                  height: 10,
+                  width: 2,
+                  backgroundColor: theme.palette.gray02,
+                  borderRadius: 2,
+                }}
+              />
+              <Font18W600>
+                <Text style={{ color: theme.palette.primary }}>
+                  {tradeDetail.denominator}
+                </Text>
+                /{tradeDetail.numerator}명
+              </Font18W600>
+            </Row>
+          </View>
         </Row>
+        <Button
+          onPress={() => {
+            // post 요청
+          }}
+        >
+          참여하기
+        </Button>
       </ShadowBottom>
     </View>
   );

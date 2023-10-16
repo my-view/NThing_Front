@@ -10,6 +10,7 @@ import TradeScreen from 'screens/trade';
 import MyPageEditScreen from 'screens/user-edit';
 import TradeMapModal from 'screens/modal/trade-map-modal';
 import ChatingScreen from 'screens/chatingScreen';
+import TradeRegistScreen from 'screens/trade-regist';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,7 @@ const RootStackScreen = () => {
           options={{ animation: 'none' }}
           initialParams={{ keyword: '' }}
         />
+        <Stack.Screen name='TradeRegistScreen' component={TradeRegistScreen} />
         <Stack.Screen name='TradeScreen' component={TradeScreen} />
         <Stack.Screen name='MyPageEditScreen' component={MyPageEditScreen} />
       </Stack.Group>

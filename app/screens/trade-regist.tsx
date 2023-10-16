@@ -13,7 +13,7 @@ import { Font13W500, Font13W600, Font15W500 } from 'components/common/text';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { BtnSize, Button } from 'components/common/button';
+import { Button } from 'components/common/button';
 import {
   Asset,
   launchCamera,
@@ -259,12 +259,11 @@ const TradeRegistScreen = ({ navigation }) => {
           <InformText>{`내가 구하고자 하는 인원의 수를 적으면\n가격이 자동으로 계산돼요`}</InformText>
         </View>
         <Button
-          size={BtnSize.SMALL}
           onPress={() => {
             // post 요청
           }}
         >
-          등록
+          등록하기
         </Button>
       </ShadowBottom>
     </SafeAreaView>

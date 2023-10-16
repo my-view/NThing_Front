@@ -147,11 +147,9 @@ const InformationBox = styled(Row)`
   margin-top: 12px;
   align-items: flex-end;
   gap: 8px;
-  margin-bottom: 12px;
 `;
 
 const ApplyButtonWrap = styled.View`
   background: white;
   width: 100%;
-  padding-top: 8px;
 `;

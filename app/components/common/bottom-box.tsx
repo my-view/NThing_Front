@@ -19,6 +19,6 @@ const BottomBox = styled.View`
 
 const Content = styled(Row)`
   justify-content: space-between;
-  padding: 12px 20px;
+  padding: 12px 20px 32px;
   background-color: ${(p) => p.theme.palette.white};
 `;
