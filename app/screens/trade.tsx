@@ -138,7 +138,17 @@ const TradeScreen = ({ navigation }) => {
           <TradeInfoBox>
             <Font18W700>{tradeDetail.title}</Font18W700>
             <SubInfoWrapper>
-              <Pressable>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('SearchMapScreen', {
+                    screen: 'SearchMapScreen',
+                    params: {
+                      keyword: tradeDetail.category_name,
+                      isCategory: true,
+                    },
+                  })
+                }
+              >
                 <GrayFont style={{ textDecorationLine: 'underline' }}>
                   {tradeDetail.category_name}
                 </GrayFont>
