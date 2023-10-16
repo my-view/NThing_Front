@@ -6,18 +6,27 @@ const BaseText = styled.Text`
   font-weight: 400;
 `;
 
+export const Font10W400 = styled(BaseText)`
+  font-weight: 400;
+  font-size: 10px;
+`;
+
 export const Font10W600 = styled(BaseText)`
   font-weight: 600;
   font-size: 10px;
 `;
 
-export const Font10W400 = styled(BaseText)`
-  font-weight: 400;
-  font-size: 10px;
-`;
-export const Font11W600 = styled(BaseText)`
-  font-weight: 600;
+export const Font11 = styled(BaseText)`
   font-size: 11px;
+  line-height: 11px;
+`;
+
+export const Font11W500 = styled(Font11)`
+  font-weight: 500;
+`;
+
+export const Font11W600 = styled(Font11)`
+  font-weight: 600;
 `;
 
 export const Font12W400 = styled(BaseText)`

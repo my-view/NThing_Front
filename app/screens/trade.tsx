@@ -15,7 +15,6 @@ import {
   Font13W400,
   Font15W600,
   Font16W500,
-  Font16W600,
   Font18W600,
   Font18W700,
 } from 'components/common/text';
@@ -33,6 +32,8 @@ import {
   formatKorDate,
   formatPrice,
 } from 'assets/util/format';
+import { Comments } from 'components/trade/comments';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const EXAMPLE_IMAGE_PATH = '../assets/image/item-example.png';
 
@@ -65,7 +66,6 @@ const MOCK_DATA = {
 
 const TradeScreen = ({ navigation }) => {
   const [tradeDetail, setTradeDetail] = useState(MOCK_DATA);
-  const [comment, setComment] = useState('');
   const [scroll, setScroll] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
@@ -130,44 +130,41 @@ const TradeScreen = ({ navigation }) => {
             />
           ))}
         </Swiper>
-        <ManagerInfoBox>
-          <ProfileImage>{/* TODO: image 넣기 */}</ProfileImage>
-          <Font15W600>{tradeDetail.manager}</Font15W600>
-        </ManagerInfoBox>
-        <TradeInfoBox>
-          <Font18W700>{tradeDetail.title}</Font18W700>
-          <SubInfoWrapper>
-            <Pressable>
-              <GrayFont style={{ textDecorationLine: 'underline' }}>
-                {tradeDetail.category_name}
-              </GrayFont>
-            </Pressable>
-            <GrayFont>{` · ${formatElapsedTime(
-              tradeDetail.updated_at,
-            )} 전`}</GrayFont>
-          </SubInfoWrapper>
-          <Row style={{ gap: 17, alignItems: 'flex-start', marginBottom: 20 }}>
-            <TagBox>
-              <Icon name='F_Pin' size={12} />
-              <TagText>{tradeDetail.place}</TagText>
-            </TagBox>
-            <TagBox>
-              <Icon name='F_Clock' size={12} />
-              <TagText>{formatKorDate(tradeDetail.date)}</TagText>
-            </TagBox>
-          </Row>
-          <Font16W500 style={{ lineHeight: 24 }}>
-            {tradeDetail.description}
-          </Font16W500>
-        </TradeInfoBox>
-        <CommentBox>
-          <Font16W600>댓글(0)</Font16W600>
-          <CommentInput
-            value={comment}
-            onChangeText={(v) => setComment(v)}
-            placeholder='댓글을 입력해주세요'
-          />
-        </CommentBox>
+        <KeyboardAwareScrollView>
+          <ManagerInfoBox>
+            <ProfileImage>{/* TODO: image 넣기 */}</ProfileImage>
+            <Font15W600>{tradeDetail.manager}</Font15W600>
+          </ManagerInfoBox>
+          <TradeInfoBox>
+            <Font18W700>{tradeDetail.title}</Font18W700>
+            <SubInfoWrapper>
+              <Pressable>
+                <GrayFont style={{ textDecorationLine: 'underline' }}>
+                  {tradeDetail.category_name}
+                </GrayFont>
+              </Pressable>
+              <GrayFont>{` · ${formatElapsedTime(
+                tradeDetail.updated_at,
+              )} 전`}</GrayFont>
+            </SubInfoWrapper>
+            <Row
+              style={{ gap: 17, alignItems: 'flex-start', marginBottom: 20 }}
+            >
+              <TagBox>
+                <Icon name='F_Pin' size={12} />
+                <TagText>{tradeDetail.place}</TagText>
+              </TagBox>
+              <TagBox>
+                <Icon name='F_Clock' size={12} />
+                <TagText>{formatKorDate(tradeDetail.date)}</TagText>
+              </TagBox>
+            </Row>
+            <Font16W500 style={{ lineHeight: 24 }}>
+              {tradeDetail.description}
+            </Font16W500>
+          </TradeInfoBox>
+          <Comments />
+        </KeyboardAwareScrollView>
       </ScrollContainer>
       <Header
         style={{
@@ -281,18 +278,6 @@ const TagBox = styled(Row)`
 
 const TagText = styled(Font12W600)`
   color: ${(p) => p.theme.palette.gray04};
-`;
-
-const CommentBox = styled.View`
-  padding: 20px 20px 65px;
-  gap: 30px;
-`;
-
-const CommentInput = styled.TextInput`
-  padding: 14px;
-  background-color: ${(p) => p.theme.palette.gray01}4D;
-  border-radius: 4px;
-  color: ${(p) => p.theme.palette.gray03};
 `;
 
 export default TradeScreen;
