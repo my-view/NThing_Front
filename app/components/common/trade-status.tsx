@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import { Icon, IconName } from 'components/common/icon';
 import { ChatListType } from 'types/common';
 
-export enum chatStatus {
+export const enum chatStatus {
   EXPECT = '거래예정',
   RECRUIT = '모집중',
   CANCEL = '거래취소',
@@ -33,6 +33,7 @@ const convertChatStatusColor = (status: string) => {
     color: '',
     backgroundColor: '',
   };
+
   switch (status) {
     case 'EXPECT':
       colorChip.color = '#34C185';

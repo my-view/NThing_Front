@@ -11,6 +11,15 @@ export const Font10W600 = styled(BaseText)`
   font-size: 10px;
 `;
 
+export const Font10W400 = styled(BaseText)`
+  font-weight: 400;
+  font-size: 10px;
+`;
+export const Font11W600 = styled(BaseText)`
+  font-weight: 600;
+  font-size: 11px;
+`;
+
 export const Font12W400 = styled(BaseText)`
   font-size: 12px;
   line-height: 12px;

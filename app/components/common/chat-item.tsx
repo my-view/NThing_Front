@@ -7,6 +7,7 @@ import { ChatListType } from 'types/common';
 import { Font12W500, Font14W600 } from './text';
 import { MiddleDot, DotSize } from './divider';
 import { TradeStaus } from './trade-status';
+import { navigationRef } from '../../../RootNavigation';
 
 export enum chatStatus {
   EXPECT = '거래예정',
@@ -24,7 +25,9 @@ export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
         borderBottomColor: '#E1E5EC',
       }}
     >
-      <Pressable>
+      <Pressable
+        onPress={() => navigationRef.current.navigate('ChatingScreen')}
+      >
         <Animated.View>
           <Row
             style={{

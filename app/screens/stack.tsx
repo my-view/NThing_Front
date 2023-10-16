@@ -9,6 +9,7 @@ import SearchMapScreen from 'screens/search-map';
 import TradeScreen from 'screens/trade';
 import MyPageEditScreen from 'screens/user-edit';
 import TradeMapModal from 'screens/modal/trade-map-modal';
+import ChatingScreen from 'screens/chatingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ const RootStackScreen = () => {
         <Stack.Screen name='RootScreen' component={RootScreen} />
         <Stack.Screen name='MainScreen' component={MainScreen} />
         <Stack.Screen name='UniversityScreen' component={UniversityScreen} />
+        <Stack.Screen name='ChatingScreen' component={ChatingScreen} />
         <Stack.Screen
           name='SearchScreen'
           component={SearchScreen}
