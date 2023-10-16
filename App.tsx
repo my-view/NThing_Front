@@ -25,15 +25,15 @@ function RootNavigator() {
 }
 
 export default function App() {
-  const { errorHandler } = useApiError();
+  const { handleError } = useApiError();
 
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        onError: errorHandler,
+        onError: handleError,
       },
       mutations: {
-        onError: errorHandler,
+        onError: handleError,
       },
     },
   });

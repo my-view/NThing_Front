@@ -12,7 +12,7 @@ interface handlerType {
   };
 }
 
-export const useApiError = (handler: handlerType) => {
+export const useApiError = (handler?: handlerType) => {
   const defaultErrorHandler = () => {
     console.log('defaultErrorHandler');
   };

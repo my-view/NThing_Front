@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeScreen from './home';
-import ChatingScreen from './chating';
+import ChatingListScreen from './chatingList';
 import MyPageScreen from './my-page';
 import TradeRegistScreen from './trade-regist';
 import styled from '@emotion/native';
@@ -70,7 +70,7 @@ const MainScreen = () => {
           component={TradeRegistScreen}
         />
         <Tab.Screen
-          name='ChatingScreen'
+          name='ChatingListScreen'
           options={{
             tabBarLabel: ({ focused, color }) => <MenuText>채팅</MenuText>,
             tabBarIcon: ({ color, focused }) =>
@@ -80,7 +80,7 @@ const MainScreen = () => {
                 <S_Chat width={24} height={24} color={'#000000'} />
               ),
           }}
-          component={ChatingScreen}
+          component={ChatingListScreen}
         />
         <Tab.Screen
           name='MyPageScreen'

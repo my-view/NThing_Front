@@ -105,7 +105,7 @@ const RootScreen = ({ navigation }: any) => {
   }, [serviceToken]);
 
   DevSettings.addMenuItem('Go Search Page', () => {
-    navigation.navigate('SearchScreen');
+    navigation.navigate('ChatingScreen');
   });
 
   return (
