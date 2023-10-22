@@ -14,7 +14,7 @@ import { useApiError } from '~/hooks/useApiError';
 
 const Stack = createNativeStackNavigator();
 
-axios.defaults.baseURL = 'https://75c6-1-225-155-14.ngrok-free.app';
+axios.defaults.baseURL = 'http://kkookkss.synology.me/20024';
 
 function RootNavigator() {
   return (

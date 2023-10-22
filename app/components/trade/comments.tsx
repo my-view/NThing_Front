@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from '@emotion/native';
-import { View, Text, useWindowDimensions } from 'react-native';
+import { View, Text, useWindowDimensions, TextInput } from 'react-native';
 import { Font11, Font16W600 } from 'components/common/text';
 import { Icon, IconButton } from 'components/common/icon';
 import { Row } from 'components/common/layout';
@@ -12,53 +12,51 @@ const initialComment = {
   id: 1,
   nickname: '띵띵이',
   content: '',
-  is_locked: false,
+  is_private: false,
   created_at: '2023-10-10T18:30:22',
   parent_id: 0,
 };
 
 export const Comments = () => {
   const { width } = useWindowDimensions();
+  const commentInput = useRef<TextInput>(null);
   const [newComment, setNewComment] = useState(initialComment);
   const [replyTo, setReplyTo] = useState('');
   const [comments, setComments] = useState<CommentType[]>([]);
   const sendComment = () => {
-    if (!newComment.content.trim()) return;
+    const content = newComment.content.trim();
+    if (!content) return;
     // 댓글 생성 POST
-    setComments((prev) => [...prev, newComment]);
+    setComments((prev) => [...prev, { ...newComment, content }]);
     setNewComment(initialComment);
+    setReplyTo('');
+  };
+  const reply = (parent_id: number, nickname: string) => {
+    setNewComment({ ...initialComment, parent_id });
+    setReplyTo(nickname);
+    commentInput.current?.focus();
   };
   return (
     <CommentContainer>
-      <View style={{ gap: 20, paddingHorizontal: 20 }}>
-        <Font16W600>댓글({comments.length})</Font16W600>
-        {comments.length > 0 &&
-          comments.map((comment) => (
-            <>
-              <Comment
-                data={comment}
-                onPressReply={(parent_id, nickname) => {
-                  setNewComment({ ...initialComment, parent_id });
-                  setReplyTo(nickname);
-                }}
-              />
-              {comment.replies?.length > 0 && (
-                <View style={{ marginLeft: 34, gap: 20 }}>
-                  {comment.replies.map((item) => (
-                    <Comment
-                      data={item}
-                      onPressReply={(parent_id, nickname) => {
-                        setNewComment({ ...initialComment, parent_id });
-                        setReplyTo(nickname);
-                      }}
-                    />
-                  ))}
-                </View>
-              )}
-            </>
+      <Font16W600 style={{ paddingHorizontal: 20 }}>
+        댓글({comments.length})
+      </Font16W600>
+      {comments.length > 0 && (
+        <View style={{ gap: 24, paddingHorizontal: 20 }}>
+          {comments.map((comment) => (
+            <View key={comment.id} style={{ gap: 24 }}>
+              <Comment data={comment} onPressReply={reply} />
+              {comment.replies?.length > 0 &&
+                comment.replies.map((item) => (
+                  <ReplyCard key={item.id}>
+                    <Comment data={item} onPressReply={reply} />
+                  </ReplyCard>
+                ))}
+            </View>
           ))}
-      </View>
-      <View style={{ position: 'relative', padding: 20 }}>
+        </View>
+      )}
+      <View style={{ position: 'relative', padding: 20, paddingTop: 10 }}>
         {replyTo && (
           <ReplyBar style={{ width }}>
             <Font11 style={{ color: theme.palette.gray03 }}>
@@ -77,6 +75,7 @@ export const Comments = () => {
         )}
         <InputWrapper>
           <CommentInput
+            ref={commentInput}
             value={newComment.content}
             onChangeText={(v) =>
               setNewComment((prev) => {
@@ -89,17 +88,25 @@ export const Comments = () => {
             <IconButton
               onPress={() =>
                 setNewComment((prev) => {
-                  return { ...prev, is_locked: !prev.is_locked };
+                  return { ...prev, is_private: !prev.is_private };
                 })
               }
             >
               <Icon
-                name={newComment.is_locked ? 'S_Lock' : 'S_Unlock'}
+                name={newComment.is_private ? 'S_Lock' : 'S_Unlock'}
                 size={24}
               />
             </IconButton>
             <IconButton onPress={sendComment}>
-              <Icon name='F_Send' size={24} />
+              <Icon
+                name='F_Send'
+                size={24}
+                color={
+                  newComment.content
+                    ? theme.palette.gray06
+                    : theme.palette.gray03
+                }
+              />
             </IconButton>
           </Row>
         </InputWrapper>
@@ -110,7 +117,7 @@ export const Comments = () => {
 
 const CommentContainer = styled.View`
   padding-top: 20px;
-  gap: 18px;
+  gap: 30px;
 `;
 
 const ReplyBar = styled(Row)`
@@ -119,8 +126,8 @@ const ReplyBar = styled(Row)`
   height: 29px;
   padding: 0 20px;
   justify-content: space-between;
-  background: #f6f7fa;
-  border-top-color: #d3d3d3;
+  background-color: #f6f7f9;
+  border-top-color: #e8e8e8;
   border-top-width: 0.8px;
 `;
 
@@ -134,4 +141,11 @@ const CommentInput = styled.TextInput`
   background-color: ${(p) => p.theme.palette.gray01}4D;
   border-radius: 4px;
   color: ${(p) => p.theme.palette.gray03};
+`;
+
+const ReplyCard = styled.View`
+  margin-left: 10px;
+  padding: 14px 16px 20px;
+  background-color: ${(p) => p.theme.palette.gray01}33;
+  border-radius: 8px;
 `;
