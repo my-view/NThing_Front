@@ -1,10 +1,38 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { SafeAreaView, View, ImageStyle, StyleSheet, Text } from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  ImageStyle,
+  StyleSheet,
+  Text,
+  Platform,
+} from 'react-native';
 import { CustomHeader } from 'components/common/header';
-import { GiftedChat, GiftedAvatar, Bubble } from 'react-native-gifted-chat';
+import {
+  GiftedChat,
+  GiftedAvatar,
+  Bubble,
+  Message,
+} from 'react-native-gifted-chat';
 import { formatKorDate } from '~/assets/util/format';
 import { Font10W400, Font11W600, Font15W500 } from '~/components/common/text';
 import { theme } from '~/../theme';
+import { NT_Messages } from '../components/chat/customBubble';
+import initialMessages from '../assets/mock/messages';
+import {
+  renderInputToolbar,
+  renderActions,
+  renderComposer,
+  renderSend,
+} from '../components/chat/inputToolBar';
+import {
+  renderAvatar,
+  renderBubble,
+  renderSystemMessage,
+  renderMessage,
+  renderMessageText,
+  renderCustomView,
+} from '../components/chat/container';
 
 interface Reply {
   title: string;
@@ -39,70 +67,59 @@ export interface IMessage {
   quickReplies?: QuickReplies;
 }
 const ChatingScreen = ({ navigation }: any) => {
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  // const [messages, setMessages] = useState<IMessage[]>([]);
 
-  console.log('messages-------', messages);
+  // // console.log('messages-------', messages);
+
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: 1,
+  //       text: 'This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT',
+  //       createdAt: new Date(),
+  //       sent: true,
+  //       user: {
+  //         _id: 31232,
+  //         name: 'React Native',
+  //       },
+  //     },
+  //     {
+  //       _id: 2,
+  //       text: 'This is a quick reply. Do you love Gifted Chat? (checkbox)',
+  //       createdAt: new Date(),
+  //       sent: true,
+  //       user: {
+  //         _id: 31232,
+  //         name: 'React Native',
+  //       },
+  //     },
+  //     {
+  //       _id: 3,
+  //       text: 'This is a quick reply. Do you love Gifted Chat? (checkbox)',
+  //       createdAt: new Date(),
+  //       sent: true,
+  //       user: {
+  //         _id: 124123,
+  //         name: 'React',
+  //       },
+  //     },
+  //   ]);
+  // }, []);
+
+  // const onSend = useCallback((messages = []) => {
+  //   setMessages((previousMessages) =>
+  //     GiftedChat.append(previousMessages, messages),
+  //   );
+  // }, []);
+  const [text, setText] = useState('');
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT',
-        createdAt: new Date(),
-        sent: true,
-        user: {
-          _id: 31232,
-          name: 'React Native',
-        },
-      },
-      {
-        _id: 2,
-        text: 'This is a quick reply. Do you love Gifted Chat? (checkbox)',
-        createdAt: new Date(),
-        sent: true,
-        user: {
-          _id: 31232,
-          name: 'React Native',
-        },
-      },
-    ]);
+    setMessages(initialMessages.reverse());
   }, []);
 
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages),
-    );
-  }, []);
-
-  const styles = {
-    left: StyleSheet.create({
-      container: {
-        marginRight: 8,
-      },
-      onTop: {
-        alignSelf: 'flex-start',
-      },
-      onBottom: {},
-      image: {
-        height: 36,
-        width: 36,
-        borderRadius: 18,
-      },
-    }),
-    right: StyleSheet.create({
-      container: {
-        marginLeft: 8,
-      },
-      onTop: {
-        alignSelf: 'flex-start',
-      },
-      onBottom: {},
-      image: {
-        height: 36,
-        width: 36,
-        borderRadius: 18,
-      },
-    }),
+  const onSend = (newMessages = []) => {
+    setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
   };
 
   const formatCreateAt = (date: Date | string) => {
@@ -112,56 +129,6 @@ const ChatingScreen = ({ navigation }: any) => {
     const min = convertCreateDate[3];
     console.log('convertCreateDate', convertCreateDate);
     return `${anteMeridiem} ${hour} ${min}`;
-  };
-
-  const renderBubble = (props) => {
-    const {
-      currentMessage: { text: currText },
-    } = props;
-    // if (currText.indexOf('[x]') === -1) {
-    //   return <Bubble {...props} />;
-    // }
-    console.log('renderBubble---', props);
-
-    return (
-      <Bubble
-        renderUsername={(props) => {
-          return <Text>{props.currentMessage.user.name}</Text>;
-        }}
-        {...props}
-        wrapperStyle={{
-          left: {
-            backgroundColor: '#fff',
-            maxWidth: 192,
-            borderWidth: 1,
-            borderColor: '#E4E4E4',
-            paddingHorizontal: 14,
-            paddingVertical: 11,
-            borderTopLeftRadius: 4,
-            borderTopRightRadius: 20,
-            borderBottomRightRadius: 20,
-            borderBottomLeftRadius: 20,
-          },
-          right: {
-            paddingHorizontal: 14,
-            paddingVertical: 11,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 4,
-            borderBottomRightRadius: 20,
-            borderBottomLeftRadius: 20,
-            backgroundColor: theme.palette.primary,
-          },
-        }}
-        timeTextStyle={{
-          left: {
-            color: '#000',
-          },
-          right: {
-            color: '#000',
-          },
-        }}
-      />
-    );
   };
 
   return (
@@ -187,8 +154,9 @@ const ChatingScreen = ({ navigation }: any) => {
           flex: 1,
         }}
       >
-        <GiftedChat
+        {/* <GiftedChat
           showAvatarForEveryMessage={false}
+          showUserAvatar={false}
           renderAvatarOnTop={true}
           messages={messages}
           user={{
@@ -309,7 +277,12 @@ const ChatingScreen = ({ navigation }: any) => {
           //     </View>
           //   );
           // }}
-          renderBubble={renderBubble}
+          // renderBubble={renderBubble}
+          renderMessage={renderMessage}
+          // renderUsername={(props) => {
+          //   console.log('renderUsername-----', renderUsername);
+          //   return props.currentMessage.user.name;
+          // }}
           // renderUsername={(prop) => {
           //   console.log('--renderUsername--', prop);
 
@@ -328,6 +301,45 @@ const ChatingScreen = ({ navigation }: any) => {
           //     </View>
           //   );
           // }}
+        /> */}
+        <GiftedChat
+          messages={messages}
+          text={text}
+          onInputTextChanged={setText}
+          onSend={onSend}
+          user={{
+            _id: 1,
+            name: 'Aaron',
+            avatar: 'https://placeimg.com/150/150/any',
+          }}
+          alignTop
+          alwaysShowSend
+          scrollToBottom
+          showUserAvatar={false}
+          renderAvatarOnTop
+          // renderUsernameOnMessage
+          bottomOffset={26}
+          onPressAvatar={console.log}
+          renderInputToolbar={renderInputToolbar}
+          renderActions={renderActions}
+          renderComposer={renderComposer}
+          renderSend={renderSend}
+          renderAvatar={renderAvatar}
+          // renderSystemMessage={renderSystemMessage} // 공지 메세지
+          renderBubble={renderBubble}
+          renderMessage={renderMessage}
+          // renderMessageText={renderMessageText}
+          // renderMessageImage
+          // renderCustomView={renderCustomView}
+          // isCustomViewBottom
+          messagesContainerStyle={{ backgroundColor: 'white' }}
+          parsePatterns={(linkStyle) => [
+            {
+              pattern: /#(\w+)/,
+              style: linkStyle,
+              onPress: (tag) => console.log(`Pressed on hashtag: ${tag}`),
+            },
+          ]}
         />
       </View>
     </SafeAreaView>
