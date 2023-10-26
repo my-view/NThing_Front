@@ -262,7 +262,7 @@ const ProfileImage = styled.View`
 `;
 
 const TradeInfoBox = styled.View`
-  padding: 20px 20px 15px;
+  padding: 20px 20px 50px;
   border-bottom-width: 8px;
   border-bottom-color: ${(p) => p.theme.palette.gray01}66;
 `;
