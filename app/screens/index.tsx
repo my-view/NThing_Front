@@ -47,9 +47,11 @@ const kakaoLogin = async () => {
     postLogin('kakao', {
       id_token: accessToken,
     }).then((res) => {
-      console.log('res', res);
+      console.log('kakaoRes', res);
+      setStorage('NT-AUTH-TOKEN', res.token);
     });
   } catch (e) {
+    console.log('error', e);
     console.warn(e);
   }
 };
@@ -149,7 +151,7 @@ const SocialLoginWrap = styled(View)`
 
 const SocialSubTitle = styled(Font16W500)`
   margin-bottom: 30px;
-  // font-family: ${(props) => props.theme.font[500]};
+
   // color: ${(props) => props.theme.palette.primary};
 `;
 

@@ -5,10 +5,13 @@ import { Input } from 'components/common/input';
 import { getHeightRatio } from 'assets/util/layout';
 import { College } from 'types/common';
 import { Autocomplete } from 'components/common/autocomplete';
+import { useCollege } from '~/hooks/college';
 
 const UniversityScreen = ({ navigation }) => {
   const [input, setInput] = useState('');
   const [colleges, setColleges] = useState<College[]>([]);
+
+  const { setsearchForm, collegeList } = useCollege();
 
   useEffect(() => {
     if (!input.length) return;
@@ -71,6 +74,9 @@ const UniversityScreen = ({ navigation }) => {
         latitude: 35.2446753071785,
       },
     ]);
+
+    setsearchForm({ search_keyword: input });
+    setColleges(collegeList);
 
     // TODO: 디바운스 적용?
     // 실제 데이터

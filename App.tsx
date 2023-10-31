@@ -7,14 +7,17 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
 import 'react-native-gesture-handler';
-import axios, { HeadersDefaults } from 'axios';
+import axios from 'axios';
 import { navigationRef } from './RootNavigation';
 import SimpleSnackbarUI from '~/components/common/toast';
 import { useApiError } from '~/hooks/useApiError';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
+const tokenData = AsyncStorage.getItem('NT-AUTH-TOKEN');
 
 axios.defaults.baseURL = 'http://kkookkss.synology.me/20024';
+axios.defaults.headers.common.Authorization = `jwt ${tokenData}`;
 
 function RootNavigator() {
   return (
