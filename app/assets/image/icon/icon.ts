@@ -26,6 +26,7 @@ export { default as S_Share } from '@assets/image/icon/S_Share.svg';
 export { default as S_Down } from '@assets/image/icon/S_Down.svg';
 export { default as S_Lock } from '@assets/image/icon/S_Lock.svg';
 export { default as S_Unlock } from '@assets/image/icon/S_Unlock.svg';
+export { default as S_Caution } from '@assets/image/icon/S_Caution.svg';
 
 // Fill Icon
 export { default as F_School } from '@assets/image/icon/F_School.svg';
