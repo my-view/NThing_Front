@@ -10,6 +10,8 @@ export interface stringType {
   title: string;
 }
 
+export type SocialLoginRoute = 'google' | 'kakao' | 'naver';
+
 export interface Coordinate {
   id: number;
   latitude: number;

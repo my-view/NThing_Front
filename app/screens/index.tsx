@@ -16,6 +16,8 @@ import * as KakaoLogin from '@react-native-seoul/kakao-login';
 import auth from '@react-native-firebase/auth';
 import { postLogin } from 'api/login';
 import { getStorage, setStorage } from 'assets/util/storage';
+import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
+import { SocialLoginRoute } from 'types/common';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -27,7 +29,13 @@ const naverLoginKeys = {
 const googleWebClientId =
   '141023294009-g5k49bh6cmk0re3c94mnu9esi4ep3gcc.apps.googleusercontent.com';
 
-const TOKEN_STORAGE_KEY = 'token';
+const getServiceToken = async (social: SocialLoginRoute, idToken: string) =>
+  postLogin(social, {
+    id_token: idToken,
+  }).then(({ data }) => {
+    console.log('응답', { data });
+    return data.token as string;
+  });
 
 const naverLogin = async (props: NaverLoginRequest) => {
   try {
@@ -44,12 +52,8 @@ const kakaoLogin = async () => {
     console.log('카카오 토큰', accessToken);
     // const res = await KakaoLogin.getProfile();
     // console.log('카카오 정뵤', res);
-    postLogin('kakao', {
-      id_token: accessToken,
-    }).then((res) => {
-      console.log('kakaoRes', res);
-      setStorage('NT-AUTH-TOKEN', res.token);
-    });
+    const token = await getServiceToken('kakao', accessToken);
+    return token;
   } catch (e) {
     console.log('error', e);
     console.warn(e);
@@ -68,14 +72,8 @@ const googleLogin = async () => {
       .signInWithCredential(googleCredential)
       .then(({ user }) => user.getIdToken());
     // console.log('새로 받은 토큰', firebaseToken);
-    // TODO: 이 부분은 따로 함수를 빼서 소셜로그인 공통으로 사용하게 될 듯
-    const token = await postLogin('google', { id_token: firebaseToken }).then(
-      ({ data }) => {
-        // console.log('서버 토큰', data.token);
-        return data.token;
-      },
-    );
-    return token as string;
+    const token = await getServiceToken('google', firebaseToken);
+    return token;
   } catch (e) {
     console.warn(e);
   }
@@ -122,7 +120,9 @@ const RootScreen = ({ navigation }: any) => {
             <Pressable onPress={() => naverLogin(naverLoginKeys)}>
               <Image source={require('../assets/image/naver-btn.png')} />
             </Pressable>
-            <Pressable onPress={() => kakaoLogin()}>
+            <Pressable
+              onPress={() => kakaoLogin().then((token) => setToken(token))}
+            >
               <Image source={require('../assets/image/kakao-btn.png')} />
             </Pressable>
             <Pressable

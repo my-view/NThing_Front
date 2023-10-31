@@ -10,3 +10,5 @@ export const sortOptions: SortType[] = [
   { nm: '마감임박순', cd: 'i_dl' },
   { nm: '시간임박순', cd: 't_dl' },
 ];
+
+export const TOKEN_STORAGE_KEY = 'NT-AUTH-TOKEN';

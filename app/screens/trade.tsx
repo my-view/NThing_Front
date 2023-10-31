@@ -34,6 +34,8 @@ import {
 } from 'assets/util/format';
 import { Comments } from 'components/trade/comments';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { getStorage } from 'assets/util/storage';
+import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 
 const EXAMPLE_IMAGE_PATH = '../assets/image/item-example.png';
 
@@ -95,12 +97,17 @@ const TradeScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    fetch('http://86ef-1-225-155-14.ngrok-free.app/purchase/1')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setTradeDetail(data);
-      });
+    getStorage(TOKEN_STORAGE_KEY).then(({ token }) => {
+      const access_token = token;
+      fetch('http://kkookkss.synology.me/20024/purchase/1', {
+        headers: { Authorization: access_token },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setTradeDetail(data);
+        });
+    });
   }, []);
 
   if (!tradeDetail) return null;
