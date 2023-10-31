@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/native';
 import { Pressable, View } from 'react-native';
 import { Font12W500, Font13W600, Font16W600 } from 'components/common/text';
@@ -11,6 +11,7 @@ import { usePressableAnimated } from '~/hooks/animated/usePressableAnimated';
 import { MenuListType } from '~/types/common';
 import { navigationRef } from '~/../RootNavigation';
 import { Icon } from './icon';
+import { getCategoryListAPI } from '~/api/category';
 
 export enum BtnSize {
   SMALL = '6px 12px',
@@ -85,6 +86,11 @@ const RoundedButtonText = styled(Font16W600)`
 export const CategoryIconButton: React.FC<{ categoryInfo: MenuListType }> = ({
   categoryInfo,
 }) => {
+  useEffect(() => {
+    const categoryList = getCategoryListAPI();
+
+    console.log('categoryList', categoryList);
+  }, []);
   const { pan, animatedStyles } = usePressableAnimated();
 
   return (
