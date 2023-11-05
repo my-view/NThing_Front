@@ -89,7 +89,7 @@ export const CategoryIconButton: React.FC<{ categoryInfo: MenuListType }> = ({
   useEffect(() => {
     const categoryList = getCategoryListAPI();
 
-    console.log('categoryList', categoryList);
+    // console.log('categoryList', categoryList);
   }, []);
   const { pan, animatedStyles } = usePressableAnimated();
 

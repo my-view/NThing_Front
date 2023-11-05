@@ -27,7 +27,7 @@ const HomeScreen = ({ route, navigation }) => {
     cd: 'recent',
   });
 
-  console.log('selectValue---', selectValue);
+  // console.log('selectValue---', selectValue);
   const listSheetRef = React.useRef<BottomSheet>(null);
   const headerFullHeight = windowHeight - 76;
 
@@ -37,7 +37,7 @@ const HomeScreen = ({ route, navigation }) => {
   );
 
   const handleSheetChange = useCallback((index: number) => {
-    console.log('handleSheetChange', index);
+    // console.log('handleSheetChange', index);
   }, []);
 
   useEffect(() => {
@@ -155,7 +155,7 @@ const HomeScreen = ({ route, navigation }) => {
               />
             </View>
             <BottomSheetScrollView
-              onLayout={(e) => console.log(e)}
+              // onLayout={(e) => console.log(e)}
               contentContainerStyle={{
                 paddingHorizontal: 20,
                 paddingBottom: 120,

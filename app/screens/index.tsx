@@ -34,7 +34,7 @@ const getServiceToken = async (social: SocialLoginRoute, idToken: string) =>
     id_token: idToken,
   }).then(({ data }) => {
     console.log('응답', { data });
-    return data.token as string;
+    return data.accessToken as string;
   });
 
 const naverLogin = async (props: NaverLoginRequest) => {
@@ -55,7 +55,6 @@ const kakaoLogin = async () => {
     const token = await getServiceToken('kakao', accessToken);
     return token;
   } catch (e) {
-    console.log('error', e);
     console.warn(e);
   }
 };
