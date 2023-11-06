@@ -50,33 +50,16 @@ export const CustomHeader = ({
         </Pressable>
       )}
       {subTitle ? (
-        <Row
-          style={{
-            gap: 10,
-          }}
-        >
+        <Row style={{ gap: 10 }}>
           <Image
             source={require('../../assets/image/item-example.png')}
             style={{ width: 30, height: 30, borderRadius: 4 }}
           />
-          <View
-            style={{
-              gap: 8,
-            }}
-          >
-            <Font16W600
-              style={{
-                maxWidth: 240,
-              }}
-              numberOfLines={1}
-            >
+          <View style={{ gap: 8 }}>
+            <Font16W600 style={{ maxWidth: 240 }} numberOfLines={1}>
               {title}
             </Font16W600>
-            <Font12W500
-              style={{
-                color: theme.palette.gray03,
-              }}
-            >
+            <Font12W500 style={{ color: theme.palette.gray03 }}>
               {subTitle}
             </Font12W500>
           </View>

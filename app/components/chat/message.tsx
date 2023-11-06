@@ -1,115 +1,106 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Avatar, Day, utils } from 'react-native-gifted-chat';
-import { Bubble } from './container';
+import styled from '@emotion/native';
+import { Row } from 'components/common/layout';
+import {
+  Font10W400,
+  Font11W600,
+  Font12W600,
+  Font15W500,
+} from 'components/common/text';
+import { HostTag } from 'components/common/host-tag';
+import moment from 'moment';
+import { formatKorAmPm } from 'assets/util/format';
+import { IMessage } from 'types/common';
 
-const { isSameUser, isSameDay } = utils;
-
-const CustomMessage = (props) => {
-  const getInnerComponentProps = () => {
-    const { containerStyle, ...componentProps } = props;
-    return {
-      ...componentProps,
-      // position: 'left',
-      isSameUser,
-      isSameDay,
-    };
-  };
-
-  const renderDay = () => {
-    if (props.currentMessage.createdAt) {
-      const dayProps = getInnerComponentProps();
-      if (props.renderDay) {
-        return props.renderDay(dayProps);
-      }
-      return <Day {...dayProps} />;
-    }
-    return null;
-  };
-
-  const renderBubble = () => {
-    const bubbleProps = getInnerComponentProps();
-    if (props.renderBubble) {
-      return props.renderBubble(bubbleProps);
-    }
-    return <Bubble {...bubbleProps} />;
-  };
-
-  const renderAvatar = () => {
-    let extraStyle;
-    if (
-      isSameUser(props.currentMessage, props.previousMessage) &&
-      isSameDay(props.currentMessage, props.previousMessage)
-    ) {
-      // Set the invisible avatar height to 0, but keep the width, padding, etc.
-      extraStyle = { height: 0 };
-    }
-
-    const avatarProps = getInnerComponentProps();
-    return (
-      <Avatar
-        {...avatarProps}
-        imageStyle={{
-          left: [styles.slackAvatar, avatarProps.imageStyle, extraStyle],
-        }}
-      />
-    );
-  };
-
-  const marginBottom = isSameUser(props.currentMessage, props.nextMessage)
-    ? 2
-    : 10;
-
+export const Message: React.FC<{
+  data: IMessage;
+  isSending: boolean;
+  isSameSender: boolean;
+  isHost: boolean;
+  unreadCount?: number;
+}> = ({ data, isSending, isSameSender, isHost, unreadCount = 4 }) => {
   return (
-    <View>
-      {renderDay()}
-      <View style={[styles.container, { marginBottom }, props.containerStyle]}>
-        {renderAvatar()}
-        {renderBubble()}
-      </View>
-    </View>
+    <MessageWrapper isSameSender={isSameSender}>
+      {!isSending && !isSameSender && (
+        <AvatarWrapper>
+          <Avatar source={require('../../assets/image/item-example.png')} />
+          <SenderName>{data.user?.name}</SenderName>
+          {isHost && <HostTag />}
+        </AvatarWrapper>
+      )}
+      <BubbleWrapper isSending={isSending}>
+        <Bubble isSending={isSending}>
+          <MessageText isSending={isSending}>{data.text}</MessageText>
+        </Bubble>
+        <DetailInfoWrapper isSending={isSending}>
+          {unreadCount > 0 && <UnreadCount>{unreadCount}</UnreadCount>}
+          <SendTime>
+            {`${formatKorAmPm(new Date(data.createdAt))} ${moment(
+              data.createdAt,
+            ).format('h:m')}`}
+          </SendTime>
+        </DetailInfoWrapper>
+      </BubbleWrapper>
+    </MessageWrapper>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-start',
-    marginLeft: 8,
-    marginRight: 0,
-  },
-  slackAvatar: {
-    height: 30,
-    width: 30,
-    borderRadius: 30,
-  },
-});
+const MessageWrapper = styled.View<{ isSameSender: boolean }>`
+  margin-top: ${(p) => (p.isSameSender ? '4px' : '16px')};
+  gap: 4px;
+`;
 
-CustomMessage.defaultProps = {
-  renderAvatar: undefined,
-  renderBubble: null,
-  renderDay: null,
-  currentMessage: {},
-  nextMessage: {},
-  previousMessage: {},
-  user: {},
-  containerStyle: {},
-};
+const AvatarWrapper = styled(Row)`
+  gap: 6px;
+`;
 
-CustomMessage.propTypes = {
-  renderAvatar: PropTypes.func,
-  renderBubble: PropTypes.func,
-  renderDay: PropTypes.func,
-  currentMessage: PropTypes.object,
-  nextMessage: PropTypes.object,
-  previousMessage: PropTypes.object,
-  user: PropTypes.object,
-  containerStyle: PropTypes.shape({
-    // left: style,
-    // right: style,
-  }),
-};
+const Avatar = styled.Image`
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+`;
 
-export default CustomMessage;
+const SenderName = styled(Font12W600)``;
+
+const BubbleWrapper = styled(Row)<{ isSending: boolean }>`
+  align-items: flex-end;
+  gap: 4px;
+  ${(p) => p.isSending && 'flex-direction: row-reverse;'}
+`;
+
+const Bubble = styled.View<{ isSending: boolean }>`
+  max-width: 192px;
+  align-self: ${(p) => (p.isSending ? 'flex-end' : 'flex-start')};
+  padding: 11px 14px;
+  background-color: ${(p) =>
+    p.isSending ? p.theme.palette.primary : p.theme.palette.white};
+  border-radius: 20px;
+  ${(p) =>
+    p.isSending
+      ? 'border-bottom-right-radius: 4px;'
+      : 'border-top-left-radius: 4px;'}
+  ${(p) =>
+    !p.isSending &&
+    'border-color: #e4e4e4; border-width: 1px; margin-left: 36px;'}
+`;
+
+const MessageText = styled(Font15W500)<{ isSending: boolean }>`
+  line-height: 20px;
+  color: ${(p) =>
+    p.isSending ? p.theme.palette.white : p.theme.palette.black};
+`;
+
+const SendTime = styled(Font10W400)`
+  color: ${(p) => p.theme.palette.gray03};
+  line-height: 12px;
+`;
+
+const UnreadCount = styled(Font11W600)`
+  color: ${(p) => p.theme.palette.primary};
+  line-height: 12px;
+`;
+
+const DetailInfoWrapper = styled.View<{ isSending: boolean }>`
+  gap: 2px;
+  ${(p) => p.isSending && 'align-items: flex-end;'}
+`;

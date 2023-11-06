@@ -30,7 +30,7 @@ const MainScreen = ({ navigation }) => {
     //   <Tab.Group>
     //     <Tab.Screen name='홈' component={HomeScreen} />
     //     <Tab.Screen name='거래등록' component={TradeRegistScreen} />
-    //     <Tab.Screen name='채팅' component={ChatingScreen} />
+    //     <Tab.Screen name='채팅' component={ChattingScreen} />
     //     <Tab.Screen name='My' component={MyPageScreen} />
     //   </Tab.Group>
     // </Tab.Navigator>
