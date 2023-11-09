@@ -78,3 +78,20 @@ export interface Comment extends BaseComment {
   replies: Comment[];
   is_deleted: boolean;
 }
+
+export interface User {
+  _id?: string | number;
+  name?: string;
+  avatar?: string;
+}
+
+export interface IMessage {
+  _id: string | number;
+  text: string;
+  createdAt: Date | number;
+  user?: User;
+  image?: string;
+  video?: string;
+  sent?: boolean;
+  received?: boolean;
+}

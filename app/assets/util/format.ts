@@ -18,10 +18,14 @@ export const formatElapsedTime = (date: string) => {
   return `${diffWeek}주`;
 };
 
+export const formatKorAmPm = (date: Date) => {
+  return date.getHours() >= 12 ? '오후' : '오전';
+};
+
 export const formatKorDate = (_date: string) => {
   const date = new Date(_date);
   const onlyDate = moment(date).format('YY.MM.DD');
-  const amPm = date.getHours() >= 12 ? '오후' : '오전';
+  const amPm = formatKorAmPm(date);
   const time = moment(date).format(
     `h시${date.getMinutes() > 0 ? ' mm분' : ''}`,
   );

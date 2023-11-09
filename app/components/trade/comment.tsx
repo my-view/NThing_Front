@@ -3,14 +3,10 @@ import styled from '@emotion/native';
 import { Pressable } from 'react-native';
 import { Comment as CommentType } from 'types/common';
 import { Row } from 'components/common/layout';
-import {
-  Font11W500,
-  Font12W500,
-  Font13W600,
-  Font15W500,
-} from 'components/common/text';
+import { Font12W500, Font13W600, Font15W500 } from 'components/common/text';
 import { formatElapsedTime } from 'assets/util/format';
 import { Icon } from 'components/common/icon';
+import { HostTag } from 'components/common/host-tag';
 
 export const Comment: React.FC<{
   data: CommentType;
@@ -23,9 +19,7 @@ export const Comment: React.FC<{
       <Column style={{ flex: 1 }}>
         <Row style={{ gap: 5, marginBottom: -7.5 }}>
           <Font13W600 style={{ lineHeight: 28 }}>{nickname}</Font13W600>
-          <TagWrapper>
-            <TagText>작성자</TagText>
-          </TagWrapper>
+          <HostTag />
           {is_private && <Icon name='S_Lock' size={18} />}
         </Row>
         <Font15W500>{content}</Font15W500>
@@ -56,14 +50,4 @@ const ProfileImage = styled.View`
 
 const GraySmallText = styled(Font12W500)`
   color: ${(p) => p.theme.palette.gray03};
-`;
-
-const TagWrapper = styled.View`
-  padding: 3px 4px;
-  background-color: ${(p) => p.theme.palette.gray01};
-  border-radius: 2px;
-`;
-
-const TagText = styled(Font11W500)`
-  color: ${(p) => p.theme.palette.gray04};
 `;
