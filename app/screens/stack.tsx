@@ -11,6 +11,7 @@ import MyPageEditScreen from 'screens/user-edit';
 import TradeMapModal from 'screens/modal/trade-map-modal';
 import ChatingScreen from 'screens/chatingScreen';
 import TradeRegistScreen from 'screens/trade-regist';
+import InterestTradeScreen from './interest-trade';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,10 @@ const RootStackScreen = () => {
         <Stack.Screen name='TradeRegistScreen' component={TradeRegistScreen} />
         <Stack.Screen name='TradeScreen' component={TradeScreen} />
         <Stack.Screen name='MyPageEditScreen' component={MyPageEditScreen} />
+        <Stack.Screen
+          name='InterestTradeScreen'
+          component={InterestTradeScreen}
+        />
       </Stack.Group>
       <Stack.Group
         screenOptions={{

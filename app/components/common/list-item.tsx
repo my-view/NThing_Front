@@ -20,6 +20,7 @@ import {
 } from 'react-native-gesture-handler';
 import { theme } from '~/../theme';
 import { MenuListType } from 'types/common';
+import { navigationRef } from '../../../RootNavigation';
 
 export const ListItem: React.FC<{ data: MenuListType }> = ({ data }) => {
   const isPressed = useSharedValue(false);
@@ -56,7 +57,9 @@ export const ListItem: React.FC<{ data: MenuListType }> = ({ data }) => {
     <GestureHandlerRootView>
       <GestureDetector gesture={pan}>
         <Animated.View style={[animatedStyles]}>
-          <Pressable>
+          <Pressable
+            onPress={() => navigationRef.current.navigate(`${data.navigate}`)}
+          >
             {({ pressed }) => (
               <Animated.View
                 style={[

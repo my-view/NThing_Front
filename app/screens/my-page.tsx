@@ -21,9 +21,9 @@ import { MenuListType } from 'types/common';
 const tradeHistoryMenuList: MenuListType[] = [
   {
     id: 1,
-    title: '찜한 거래',
+    title: '관심 거래',
     icon: 'S_Heart',
-    navigate: 'heartTrade',
+    navigate: 'InterestTradeScreen',
   },
   {
     id: 2,
