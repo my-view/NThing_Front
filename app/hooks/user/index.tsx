@@ -1,24 +1,23 @@
-import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { getUserInfoAPI } from '~/api/user';
-import { useApiError } from '../useApiError';
+import { getUserInfoAPI } from 'api/user';
+import { useApiError } from 'hooks/useApiError';
+import { userInfoType } from 'types/user';
 
 export function useUser() {
   const { handleError } = useApiError();
-  const [userInfo, setUserInfo] = useState({});
 
-  const getUserInfo = useQuery(['getUserInfo'], getUserInfoAPI, {
-    onSuccess: (res) => {
-      setUserInfo(res);
+  const result = useQuery(['getUserInfo'], getUserInfoAPI, {
+    onSuccess: (res: userInfoType) => {
+      console.log(res);
     },
-
     onError: (err) => {
-      handleError(err.code);
+      console.log('error', err);
+      // handleError(err.code);
     },
     refetchOnWindowFocus: false,
     staleTime: Infinity,
     cacheTime: 0,
   });
 
-  return userInfo;
+  return result;
 }

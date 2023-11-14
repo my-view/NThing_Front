@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createNativeStackNavigator();
 const tokenData = AsyncStorage.getItem('NT-AUTH-TOKEN');
 
-axios.defaults.baseURL = 'https://da73-121-130-216-253.ngrok-free.app';
+axios.defaults.baseURL = 'https://b81e-1-225-155-14.ngrok-free.app';
 axios.defaults.headers.common.Authorization = `jwt ${tokenData}`;
 
 function RootNavigator() {

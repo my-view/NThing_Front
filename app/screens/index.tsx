@@ -18,6 +18,7 @@ import { postLogin } from 'api/login';
 import { getStorage, setStorage } from 'assets/util/storage';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 import { SocialLoginRoute } from 'types/common';
+import { useUser } from 'hooks/user';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -33,8 +34,8 @@ const getServiceToken = async (social: SocialLoginRoute, idToken: string) =>
   postLogin(social, {
     id_token: idToken,
   }).then(({ data }) => {
-    console.log('응답', { data });
-    return data.accessToken as string;
+    console.log('응답', data);
+    return data.data.access_token as string;
   });
 
 const naverLogin = async (props: NaverLoginRequest) => {
@@ -80,7 +81,7 @@ const googleLogin = async () => {
 
 const RootScreen = ({ navigation }: any) => {
   const [serviceToken, setSeviceToken] = useState<string>(); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
-
+  const { data: user } = useUser();
   const setToken = (token?: string) => {
     if (!token) return;
     setSeviceToken(token);
@@ -95,11 +96,12 @@ const RootScreen = ({ navigation }: any) => {
       });
       return;
     }
+    console.log('user', user);
     // 1. serviceToken으로 user 정보 불러옴 (react query)
     // 2-1. 선택한 학교가 없으면 학교 선택 페이지로 이동
     // navigation.navigate('UniversityScreen');
     // 2-2. 학교가 있으면 (학교 정보와 함께?) 홈으로 이동
-    navigation.navigate('MainScreen');
+    // navigation.navigate('MainScreen');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serviceToken]);
 

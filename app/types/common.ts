@@ -79,7 +79,7 @@ export interface Comment extends BaseComment {
   is_deleted: boolean;
 }
 
-export interface User {
+export interface ChatUser {
   _id?: string | number;
   name?: string;
   avatar?: string;
@@ -89,7 +89,7 @@ export interface IMessage {
   _id: string | number;
   text: string;
   createdAt: Date | number;
-  user?: User;
+  user?: ChatUser;
   image?: string;
   video?: string;
   sent?: boolean;
