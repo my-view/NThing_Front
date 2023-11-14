@@ -6,7 +6,7 @@ import { IMessage } from 'types/common';
 export const MessageList: React.FC<{ messages: IMessage[] }> = ({
   messages,
 }) => (
-  <ScrollView style={{ flex: 1, padding: 20 }}>
+  <ScrollView contentContainerStyle={{ padding: 20 }}>
     {messages.map((msg, index, arr) => {
       const prev = arr[index - 1];
       const isSameSender =
