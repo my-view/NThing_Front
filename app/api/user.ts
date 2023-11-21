@@ -1,5 +1,6 @@
-import axios from 'axios';
+import { getRequest } from '~/api/fetcher';
+import { userInfoType } from '~/types/user';
 
-export const getUserInfoAPI = async () => {
-  return await axios.get('/user');
+export const getUserInfoAPI = () => {
+  return getRequest<userInfoType>('/user');
 };

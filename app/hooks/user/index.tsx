@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 import { getUserInfoAPI } from 'api/user';
 import { useApiError } from 'hooks/useApiError';
-import { userInfoType } from 'types/user';
 
 export function useUser() {
   const { handleError } = useApiError();
