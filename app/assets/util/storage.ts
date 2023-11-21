@@ -12,3 +12,5 @@ export const setStorage = async (key: string, value: any) => {
 export const removeStorage = async (key: string) => {
   return await AsyncStorage.removeItem(key);
 };
+
+export const clearStorage = AsyncStorage.clear();

@@ -54,6 +54,7 @@ const kakaoLogin = async () => {
     // const res = await KakaoLogin.getProfile();
     // console.log('카카오 정뵤', res);
     const token = await getServiceToken('kakao', accessToken);
+    console.log('token', token);
     return token;
   } catch (e) {
     console.warn(e);
@@ -101,7 +102,7 @@ const RootScreen = ({ navigation }: any) => {
     // 2-1. 선택한 학교가 없으면 학교 선택 페이지로 이동
     // navigation.navigate('UniversityScreen');
     // 2-2. 학교가 있으면 (학교 정보와 함께?) 홈으로 이동
-    // navigation.navigate('MainScreen');
+    navigation.navigate('MainScreen');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serviceToken]);
 

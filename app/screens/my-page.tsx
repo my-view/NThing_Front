@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Pressable, Alert } from 'react-native';
+import { SafeAreaView, View, Pressable, Alert, Image } from 'react-native';
 import { Row } from 'components/common/layout';
 import styled from '@emotion/native';
 import {
@@ -17,6 +17,8 @@ import { ListItem } from 'components/common/list-item';
 import { Divider } from 'components/common/divider';
 import { theme } from '~/../theme';
 import { MenuListType } from 'types/common';
+import { useUser } from '~/hooks/user';
+import { userInfoType } from '~/types/user';
 
 const tradeHistoryMenuList: MenuListType[] = [
   {
@@ -62,6 +64,12 @@ const csMenuList: MenuListType[] = [
 
 const MyPageScreen = ({ navigation }: any) => {
   const isLoginUser = useRecoilValue(DecodeTokenState);
+
+  const result = useUser();
+
+  const userData: userInfoType = result?.data?.data;
+
+  console.log('userData', userData);
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#FFFFFF', position: 'relative' }}
@@ -83,10 +91,15 @@ const MyPageScreen = ({ navigation }: any) => {
         <View style={{ paddingHorizontal: 20 }}>
           <UserInfoWrap>
             <UserInfo>
-              {isLoginUser ? (
+              {userData ? (
                 <>
-                  <Avatar style={{ backgroundColor: 'green' }} />
-                  <Font20W700>띵띵이</Font20W700>
+                  <Avatar
+                    source={{
+                      uri: userData.profile_image,
+                    }}
+                  />
+
+                  <Font20W700>{userData.nickname}</Font20W700>
                 </>
               ) : (
                 <>
@@ -155,7 +168,7 @@ const UserInfoWrap = styled(Row)`
 
 const UserInfo = styled(Row)``;
 
-const Avatar = styled.View`
+const Avatar = styled.Image`
   width: 48px;
   height: 48px;
   border-radius: 100px;

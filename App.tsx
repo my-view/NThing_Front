@@ -6,18 +6,17 @@ import { RecoilRoot } from 'recoil';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
-import 'react-native-gesture-handler';
 import axios from 'axios';
 import { navigationRef } from './RootNavigation';
 import SimpleSnackbarUI from '~/components/common/toast';
 import { useApiError } from '~/hooks/useApiError';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getStorage } from '~/assets/util/storage';
+import { AppStateComponent } from '~/observers/app-state';
+import 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
-const tokenData = AsyncStorage.getItem('NT-AUTH-TOKEN');
 
-axios.defaults.baseURL = 'https://b81e-1-225-155-14.ngrok-free.app';
-axios.defaults.headers.common.Authorization = `jwt ${tokenData}`;
+axios.defaults.baseURL = 'https://f5e7-121-130-216-253.ngrok-free.app';
 
 function RootNavigator() {
   return (
@@ -26,6 +25,19 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
+axios.interceptors.request.use(
+  async (config) => {
+    const token = await getStorage('NT-AUTH-TOKEN');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export default function App() {
   const { handleError } = useApiError();
@@ -47,6 +59,7 @@ export default function App() {
         <RecoilRoot>
           <NavigationContainer ref={navigationRef}>
             <RootNavigator />
+            <AppStateComponent />
             <SimpleSnackbarUI.Portal />
           </NavigationContainer>
         </RecoilRoot>
