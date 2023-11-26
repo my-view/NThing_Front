@@ -1,6 +1,5 @@
 /* Local files */
 import React, { ReactNode } from 'react';
-import { TouchableHighlight, Pressable } from 'react-native';
 import { BaseText } from '@components/common/text';
 
 interface Props {

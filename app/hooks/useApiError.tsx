@@ -58,7 +58,7 @@ export const useApiError = (handler?: handlerType) => {
       // 공통 에러처리 우선순위 부여
       switch (true) {
         // 컴포넌트에서 handler로 컴포넌트 에러 상황에 맞게 실행시 ... 에러가 안꺼진다..
-        case handler && handler[httpStatus][errorCode]:
+        case handler && !!handler[httpStatus][errorCode]:
           handler[httpStatus][errorCode]();
           break;
 

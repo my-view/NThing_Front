@@ -13,6 +13,7 @@ import { useApiError } from '~/hooks/useApiError';
 import { getStorage } from '~/assets/util/storage';
 import { AppStateComponent } from '~/observers/app-state';
 import 'react-native-gesture-handler';
+import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +29,7 @@ function RootNavigator() {
 
 axios.interceptors.request.use(
   async (config) => {
-    const token = await getStorage('NT-AUTH-TOKEN');
+    const token = await getStorage(TOKEN_STORAGE_KEY);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

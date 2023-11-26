@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import { theme } from '../../../theme';
 
-const BaseText = styled.Text`
+export const BaseText = styled.Text`
   font-family: Pretendard;
   font-weight: 400;
 `;
