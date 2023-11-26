@@ -50,6 +50,7 @@ export const DateTimePicker: React.FC<{
   const [minute, setMinute] = useState(defaultDate.minute);
   useEffect(() => {
     updateDate({
+      now: defaultDate.now,
       day,
       hour,
       minute,
