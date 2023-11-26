@@ -8,7 +8,8 @@ export function useUser() {
 
   const result = useQuery(['getUserInfo'], getUserInfoAPI, {
     onSuccess: (res: userInfoType) => {
-      console.log(res);
+      console.log('@ getUserInfores', res);
+      return res;
     },
     onError: (err) => {
       console.log('error', err);

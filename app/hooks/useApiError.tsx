@@ -17,16 +17,16 @@ export const useApiError = (handler?: handlerType) => {
     console.log('defaultErrorHandler');
   };
   const errorHandler400 = () => {
-    console.log('400');
+    // console.log('400');
   };
   const errorHandler401 = () => {
-    console.log('401');
+    // console.log('401');
   };
   const errorHandler403 = () => {
-    console.log('403');
+    // console.log('403');
   };
   const errorHandler500 = () => {
-    console.log('500');
+    // console.log('500');
   };
 
   const errorStatus: errorStatusType = {
