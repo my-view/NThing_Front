@@ -33,6 +33,7 @@ const today = new Date();
 const dayOfTheWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const days = Array.from({ length: 30 }, (_, index) => {
   const day = new Date();
+  // getDate()는 로컬 시간을 사용하기 때문에 일반 Date 객체를 today로 선언하고 날짜를 뽑아와도 괜찮음
   day.setDate(today.getDate() + index);
   const date =
     index === 0 ? '오늘' : index === 1 ? '내일' : moment(day).format('MM.DD');

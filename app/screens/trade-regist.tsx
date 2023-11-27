@@ -37,12 +37,12 @@ interface TradePlace {
   description: string;
 }
 
-const now = new Date();
-console.log(now);
-const nowHour = now.getHours();
+const offset = 1000 * 60 * 60 * 9;
+const krNow = new Date(new Date().getTime() + offset);
+const nowHour = krNow.getHours();
 
 const initialDate = {
-  now: now,
+  now: krNow,
   day: nowHour < 23 ? 0 : 1,
   hour: nowHour < 23 ? nowHour + 1 : 0,
   minute: 0,
@@ -54,7 +54,7 @@ const getDate = (tradeDate: TradeDate) => {
   moment(date).add(tradeDate.day, 'days');
   moment(date).add(tradeDate.hour, 'hours');
   moment(date).add(tradeDate.minute, 'minutes');
-  return moment().tz('Asia/Seoul');
+  return date;
 };
 
 const TradeRegistScreen = ({ navigation }) => {
@@ -101,6 +101,7 @@ const TradeRegistScreen = ({ navigation }) => {
     if (!title.trim()) throw '글 제목을 입력해주세요.';
     if (!description.trim()) throw '글 내용을 입력해주세요.';
     if (!place.coord) throw '거래 희망 장소를 입력해주세요.';
+    // TODO: 거래 희망 장소 설명 추가해야 함
     // if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
     if (!nThing.denominator || !nThing.numerator)
       throw 'N띵 정보를 입력해주세요.';
@@ -123,7 +124,7 @@ const TradeRegistScreen = ({ navigation }) => {
       form.append('description', description);
       images.forEach((item) => form.append('files', item));
       console.log(form);
-      // await axios.post('/purchase', form);
+      await axios.post('/purchase', form);
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
       console.warn(e);
