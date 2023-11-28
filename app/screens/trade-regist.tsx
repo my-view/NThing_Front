@@ -54,7 +54,7 @@ const getDate = (tradeDate: TradeDate) => {
   moment(date).add(tradeDate.day, 'days');
   moment(date).add(tradeDate.hour, 'hours');
   moment(date).add(tradeDate.minute, 'minutes');
-  return date;
+  return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
 const TradeRegistScreen = ({ navigation }) => {
@@ -62,13 +62,13 @@ const TradeRegistScreen = ({ navigation }) => {
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
     coord: undefined,
-    description: '',
+    description: 'hihi',
   });
   const [date, setDate] = useState<TradeDate>(initialDate);
   const [isDateOpen, setIsDateOpen] = useState(true);
   const [nThing, setNThing] = useState({
-    denominator: '',
-    numerator: '',
+    denominator: '', // 분모
+    numerator: '', // 분자
   });
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -114,6 +114,7 @@ const TradeRegistScreen = ({ navigation }) => {
       validate();
       const form = new FormData();
       form.append('title', title);
+      form.append('category_id', 1);
       form.append('latitude', place.coord?.latitude);
       form.append('longitude', place.coord?.longitude);
       form.append('place', place.description);
@@ -122,9 +123,17 @@ const TradeRegistScreen = ({ navigation }) => {
       form.append('numerator', nThing.numerator);
       form.append('price', price);
       form.append('description', description);
-      images.forEach((item) => form.append('files', item));
-      console.log(form);
-      await axios.post('/purchase', form);
+      images.forEach((item) =>
+        form.append('files', {
+          name: item.fileName,
+          type: item.type,
+          uri: item.uri,
+        }),
+      );
+      await axios
+        .post('/purchase', form)
+        .then((res) => res.data)
+        .then(({ data }) => navigation.replace('TradeScreen', { data }));
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
       console.warn(e);
@@ -235,10 +244,10 @@ const TradeRegistScreen = ({ navigation }) => {
               <NThingInput
                 placeholder='n'
                 maxLength={2}
-                value={nThing.numerator}
+                value={nThing.denominator}
                 onChangeText={(text) =>
                   setNThing((prev) => {
-                    return { ...prev, numerator: text };
+                    return { ...prev, denominator: text };
                   })
                 }
               />
@@ -246,10 +255,10 @@ const TradeRegistScreen = ({ navigation }) => {
               <NThingInput
                 placeholder='m'
                 maxLength={2}
-                value={nThing.denominator}
+                value={nThing.numerator}
                 onChangeText={(text) =>
                   setNThing((prev) => {
-                    return { ...prev, denominator: text };
+                    return { ...prev, numerator: text };
                   })
                 }
               />

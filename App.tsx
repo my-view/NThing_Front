@@ -17,7 +17,7 @@ import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 
 const Stack = createNativeStackNavigator();
 
-axios.defaults.baseURL = 'https://f5e7-121-130-216-253.ngrok-free.app';
+axios.defaults.baseURL = 'https://d3f2-1-225-155-14.ngrok-free.app';
 
 function RootNavigator() {
   return (
