@@ -54,6 +54,7 @@ export type ChatListType = {
 };
 
 export interface TradeDate {
+  now: Date;
   day: number;
   hour: number;
   minute: number;

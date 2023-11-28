@@ -29,19 +29,32 @@ import { PreviewImage } from 'components/trade-regist/preview-image';
 import { Input } from 'components/common/input';
 import { formatPrice } from 'assets/util/format';
 import { Coord } from 'react-native-nmap';
+import axios from 'axios';
+import moment from 'moment';
 
 interface TradePlace {
   coord?: Coord;
   description: string;
 }
 
-const nowHour = new Date().getHours();
+const offset = 1000 * 60 * 60 * 9;
+const krNow = new Date(new Date().getTime() + offset);
+const nowHour = krNow.getHours();
 
 const initialDate = {
+  now: krNow,
   day: nowHour < 23 ? 0 : 1,
   hour: nowHour < 23 ? nowHour + 1 : 0,
   minute: 0,
   full: '',
+};
+
+const getDate = (tradeDate: TradeDate) => {
+  const date = tradeDate.now;
+  moment(date).add(tradeDate.day, 'days');
+  moment(date).add(tradeDate.hour, 'hours');
+  moment(date).add(tradeDate.minute, 'minutes');
+  return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
 const TradeRegistScreen = ({ navigation }) => {
@@ -49,13 +62,13 @@ const TradeRegistScreen = ({ navigation }) => {
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
     coord: undefined,
-    description: '',
+    description: 'hihi',
   });
   const [date, setDate] = useState<TradeDate>(initialDate);
   const [isDateOpen, setIsDateOpen] = useState(true);
   const [nThing, setNThing] = useState({
-    denominator: '',
-    numerator: '',
+    denominator: '', // 분모
+    numerator: '', // 분자
   });
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -82,6 +95,49 @@ const TradeRegistScreen = ({ navigation }) => {
     });
     if (didCancel) return;
     if (assets) setImages((prev) => [...prev, ...assets]);
+  };
+
+  const validate = () => {
+    if (!title.trim()) throw '글 제목을 입력해주세요.';
+    if (!description.trim()) throw '글 내용을 입력해주세요.';
+    if (!place.coord) throw '거래 희망 장소를 입력해주세요.';
+    // TODO: 거래 희망 장소 설명 추가해야 함
+    // if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
+    if (!nThing.denominator || !nThing.numerator)
+      throw 'N띵 정보를 입력해주세요.';
+    if (!price.trim()) throw '가격을 입력해주세요.';
+  };
+
+  const registTrade = async () => {
+    console.log(getDate(date));
+    try {
+      validate();
+      const form = new FormData();
+      form.append('title', title);
+      form.append('category_id', 1);
+      form.append('latitude', place.coord?.latitude);
+      form.append('longitude', place.coord?.longitude);
+      form.append('place', place.description);
+      form.append('date', getDate(date));
+      form.append('denominator', nThing.denominator);
+      form.append('numerator', nThing.numerator);
+      form.append('price', price);
+      form.append('description', description);
+      images.forEach((item) =>
+        form.append('files', {
+          name: item.fileName,
+          type: item.type,
+          uri: item.uri,
+        }),
+      );
+      await axios
+        .post('/purchase', form)
+        .then((res) => res.data)
+        .then(({ data }) => navigation.replace('TradeScreen', { data }));
+    } catch (e) {
+      if (typeof e === 'string') return Alert.alert(e);
+      console.warn(e);
+    }
   };
 
   // console.log(images[0]?.base64);
@@ -188,10 +244,10 @@ const TradeRegistScreen = ({ navigation }) => {
               <NThingInput
                 placeholder='n'
                 maxLength={2}
-                value={nThing.numerator}
+                value={nThing.denominator}
                 onChangeText={(text) =>
                   setNThing((prev) => {
-                    return { ...prev, numerator: text };
+                    return { ...prev, denominator: text };
                   })
                 }
               />
@@ -199,10 +255,10 @@ const TradeRegistScreen = ({ navigation }) => {
               <NThingInput
                 placeholder='m'
                 maxLength={2}
-                value={nThing.denominator}
+                value={nThing.numerator}
                 onChangeText={(text) =>
                   setNThing((prev) => {
-                    return { ...prev, denominator: text };
+                    return { ...prev, numerator: text };
                   })
                 }
               />
@@ -261,6 +317,7 @@ const TradeRegistScreen = ({ navigation }) => {
         <Button
           onPress={() => {
             // post 요청
+            registTrade();
           }}
         >
           등록하기

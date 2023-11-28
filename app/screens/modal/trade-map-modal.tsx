@@ -16,7 +16,7 @@ const TradeMapModal = ({ navigation, route }) => {
     <MapModal
       onClose={navigation.goBack}
       title='장소를 선택해주세요'
-      subTitle='지도를 움직여 선택해주세요!'
+      subTitle='지도를 움직여 거래할 장소를 핀에 맞춰주세요.'
       onComplete={() => {
         navigation.goBack();
         updatePlace({ coord: pin, description });
