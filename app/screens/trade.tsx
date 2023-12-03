@@ -34,44 +34,15 @@ import {
 } from 'assets/util/format';
 import { Comments } from 'components/trade/comments';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { getStorage } from 'assets/util/storage';
-import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
+import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from './stack';
 
-const EXAMPLE_IMAGE_PATH = '../assets/image/item-example.png';
-
-const ITEM_IMAGES = [
-  { id: 1, url: require(EXAMPLE_IMAGE_PATH) },
-  { id: 2, url: require(EXAMPLE_IMAGE_PATH) },
-  { id: 3, url: require(EXAMPLE_IMAGE_PATH) },
-];
-
-const MOCK_DATA = {
-  id: 3,
-  title: '휴지 나눠서 사실 분',
-  images: [],
-  description:
-    '펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분 펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분펩시제로라임 1+1 공동구매 하실분',
-  latitude: 123.213512123,
-  longitude: 546.465151515,
-  date: '2023-08-25 12:00:00',
-  denominator: 2, // 분자 (가질 개수)
-  numerator: 4, // 분모 (나누는 수)
-  status: false,
-  price: 4000,
-  place: '서울대 정문 앞',
-  updated_at: '2023-08-14 09:39:08',
-  manager: '당근토끼',
-  category_id: 1,
-  category_name: '배달',
-  liked: false,
-};
-
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
-const TradeScreen = ({ navigation }: Props) => {
-  const [tradeDetail, setTradeDetail] = useState(MOCK_DATA);
+const TradeScreen = ({ navigation, route }: Props) => {
+  const { preData, id } = route.params;
+  const { data: axiosRes } = usePurchaseDetail(preData.id || id);
   const [scroll, setScroll] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
@@ -100,20 +71,7 @@ const TradeScreen = ({ navigation }: Props) => {
     return () => StatusBar.setBarStyle('dark-content');
   }, []);
 
-  useEffect(() => {
-    getStorage(TOKEN_STORAGE_KEY).then(({ token }) => {
-      const access_token = token;
-      fetch('http://kkookkss.synology.me/20024/purchase/1', {
-        headers: { Authorization: access_token },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setTradeDetail(data);
-        });
-    });
-  }, []);
-
+  const tradeDetail = axiosRes?.data || preData;
   if (!tradeDetail) return null;
   return (
     <View
@@ -133,7 +91,7 @@ const TradeScreen = ({ navigation }: Props) => {
           activeDot={<Dot />}
           paginationStyle={{ gap: 8 }}
         >
-          {ITEM_IMAGES.map((image) => (
+          {tradeDetail.images.map((image) => (
             <Image
               key={image.id}
               source={image.url}
