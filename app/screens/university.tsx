@@ -6,8 +6,13 @@ import { getHeightRatio } from 'assets/util/layout';
 import { College } from 'types/common';
 import { Autocomplete } from 'components/common/autocomplete';
 import { useCollege } from '~/hooks/college';
+import { COLLEGE_MOCK_DATA } from '~/assets/mock/college';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './stack';
 
-const UniversityScreen = ({ navigation }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'UniversityScreen'>;
+
+const UniversityScreen = ({ navigation }: Props) => {
   const [input, setInput] = useState('');
   const [colleges, setColleges] = useState<College[]>([]);
 
@@ -16,64 +21,7 @@ const UniversityScreen = ({ navigation }) => {
   useEffect(() => {
     if (!input.length) return;
     // mock data
-    setColleges([
-      {
-        id: 1,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-      {
-        id: 2,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-      {
-        id: 3,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-      {
-        id: 4,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-      {
-        id: 5,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-      {
-        id: 6,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-      {
-        id: 7,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-      {
-        id: 8,
-        name: '부산대학교',
-        address: '부산',
-        longitude: 129.096871971614,
-        latitude: 35.2446753071785,
-      },
-    ]);
+    // setColleges(COLLEGE_MOCK_DATA);
 
     setsearchForm({ search_keyword: input });
     setColleges(collegeList);

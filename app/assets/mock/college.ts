@@ -1,0 +1,58 @@
+export const COLLEGE_MOCK_DATA = [
+  {
+    id: 1,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+  {
+    id: 2,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+  {
+    id: 3,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+  {
+    id: 4,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+  {
+    id: 5,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+  {
+    id: 6,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+  {
+    id: 7,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+  {
+    id: 8,
+    name: '부산대학교',
+    address: '부산',
+    longitude: 129.096871971614,
+    latitude: 35.2446753071785,
+  },
+];
