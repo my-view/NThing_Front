@@ -24,18 +24,14 @@ import { Icon } from 'components/common/icon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AnimatedArrow } from 'components/common/animated-arrow';
 import { DateTimePicker } from 'components/common/date-time-picker';
-import { TradeDate } from 'types/common';
+import { TradeDate, TradePlace } from 'types/common';
 import { PreviewImage } from 'components/trade-regist/preview-image';
 import { Input } from 'components/common/input';
 import { formatPrice } from 'assets/util/format';
-import { Coord } from 'react-native-nmap';
 import axios from 'axios';
 import moment from 'moment';
-
-interface TradePlace {
-  coord?: Coord;
-  description: string;
-}
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './stack';
 
 const offset = 1000 * 60 * 60 * 9;
 const krNow = new Date(new Date().getTime() + offset);
@@ -57,7 +53,9 @@ const getDate = (tradeDate: TradeDate) => {
   return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
-const TradeRegistScreen = ({ navigation }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'TradeRegistScreen'>;
+
+const TradeRegistScreen = ({ navigation }: Props) => {
   const [title, setTitle] = useState('');
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({

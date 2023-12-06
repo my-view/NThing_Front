@@ -1,5 +1,6 @@
 import { IconName } from 'components/common/icon';
 import { chatStatus } from 'components/common/chat-item';
+import { Coord } from 'react-native-nmap';
 
 export interface WithIdName {
   id: number;
@@ -52,6 +53,11 @@ export type ChatListType = {
   navigate: string;
   trade_status: keyof typeof chatStatus;
 };
+
+export interface TradePlace {
+  coord?: Coord;
+  description: string;
+}
 
 export interface TradeDate {
   now: Date;

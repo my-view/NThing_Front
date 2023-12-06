@@ -36,6 +36,8 @@ import { Comments } from 'components/trade/comments';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getStorage } from 'assets/util/storage';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './stack';
 
 const EXAMPLE_IMAGE_PATH = '../assets/image/item-example.png';
 
@@ -66,7 +68,9 @@ const MOCK_DATA = {
   liked: false,
 };
 
-const TradeScreen = ({ navigation }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
+
+const TradeScreen = ({ navigation }: Props) => {
   const [tradeDetail, setTradeDetail] = useState(MOCK_DATA);
   const [scroll, setScroll] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
@@ -148,11 +152,8 @@ const TradeScreen = ({ navigation }) => {
               <Pressable
                 onPress={() =>
                   navigation.navigate('SearchMapScreen', {
-                    screen: 'SearchMapScreen',
-                    params: {
-                      keyword: tradeDetail.category_name,
-                      isCategory: true,
-                    },
+                    keyword: tradeDetail.category_name,
+                    isCategory: true,
                   })
                 }
               >

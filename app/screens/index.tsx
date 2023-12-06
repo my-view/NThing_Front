@@ -19,6 +19,8 @@ import { getStorage, setStorage } from 'assets/util/storage';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 import { SocialLoginRoute } from 'types/common';
 import { useUser } from 'hooks/user';
+import { RootStackParamList } from './stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -82,7 +84,9 @@ const googleLogin = async () => {
   }
 };
 
-const RootScreen = ({ navigation }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'RootScreen'>;
+
+const RootScreen = ({ navigation }: Props) => {
   const [serviceToken, setSeviceToken] = useState<string>(); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
   const { data: user } = useUser();
   const setToken = (token?: string) => {

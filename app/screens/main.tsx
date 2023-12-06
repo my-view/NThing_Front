@@ -14,11 +14,15 @@ import F_Home from '@assets/image/icon/F_Home.svg';
 import F_MyPage from '@assets/image/icon/F_MyPage.svg';
 import F_Chat from '@assets/image/icon/F_Chat.svg';
 import { MyTabBar } from '@components/common/bottom-tap';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './stack';
 
 const Tab = createBottomTabNavigator();
 
+type Props = NativeStackScreenProps<RootStackParamList, 'MainScreen'>;
+
 // TODO: 탭 4개 목록 map하는 방식으로 리팩토링하기
-const MainScreen = ({ navigation }) => {
+const MainScreen = ({ navigation }: Props) => {
   return (
     // <Tab.Navigator
     //   screenOptions={{

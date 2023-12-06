@@ -12,8 +12,27 @@ import TradeMapModal from 'screens/modal/trade-map-modal';
 import ChatingScreen from 'screens/chatingScreen';
 import TradeRegistScreen from 'screens/trade-regist';
 import InterestTradeScreen from './interest-trade';
+import { TradePlace } from '~/types/common';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  RootScreen: undefined;
+  MainScreen: undefined;
+  UniversityScreen: undefined;
+  ChatingScreen: undefined;
+  SearchScreen: { keyword: string };
+  SearchMapScreen: { keyword: string; isCategory?: boolean };
+  TradeRegistScreen: undefined;
+  TradeScreen: { data?: any; id?: number };
+  MyPageEditScreen: undefined;
+  InterestTradeScreen: undefined;
+  UniversityMapModal: { latitude: number; longitude: number };
+  TradeMapModal: {
+    place: TradePlace;
+    updatePlace: (updated: TradePlace) => void;
+  };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootStackScreen = () => {
   return (
