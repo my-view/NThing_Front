@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/native';
-import { Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 import { Font12W500, Font13W600, Font16W600 } from 'components/common/text';
 import {
   GestureDetector,
@@ -12,6 +12,9 @@ import { MenuListType } from '~/types/common';
 import { navigationRef } from '~/../RootNavigation';
 import { Icon } from './icon';
 import { getCategoryListAPI } from '~/api/category';
+import { useFocusEffect } from '@react-navigation/native';
+
+import { SvgCssUri } from 'react-native-svg';
 
 export enum BtnSize {
   SMALL = '6px 12px',
@@ -83,49 +86,86 @@ const RoundedButtonText = styled(Font16W600)`
   color: white;
 `;
 
-export const CategoryIconButton: React.FC<{ categoryInfo: MenuListType }> = ({
-  categoryInfo,
-}) => {
-  useEffect(() => {
-    const categoryList = getCategoryListAPI();
+export const CategoryIconButton: React.FC<{
+  // categoryInfo: MenuListType;
+}> = () => {
+  const [categoryData, setCategoryData] = useState();
+  const [loading, setLoading] = React.useState(true);
+  const onError = (e: Error) => {
+    console.log(e.message);
+    setLoading(false);
+  };
+  const onLoad = () => {
+    console.log('Svg loaded!');
+    setLoading(false);
+  };
+  useFocusEffect(
+    useCallback(() => {
+      const loadCategoryData = async () => {
+        try {
+          const categoryList = await getCategoryListAPI();
+          setCategoryData(categoryList);
+        } catch (err) {
+          console.log('err', err);
+        }
+      };
+      loadCategoryData();
+    }, []),
+  );
 
-    // console.log('categoryList', categoryList);
-  }, []);
+  console.log('categoryList', categoryData);
+
   const { pan, animatedStyles } = usePressableAnimated();
 
   return (
-    <CategoryButtonWrap
-      onPress={() => {
-        navigationRef.current.navigate('SearchMapScreen', {
-          screen: 'SearchMapScreen',
-          params: {
-            keyword: categoryInfo.title,
-            isCategory: true,
-          },
-        });
-      }}
-    >
-      <GestureHandlerRootView>
-        <GestureDetector gesture={pan}>
-          <Animated.View style={[animatedStyles]}>
-            <View
-              style={{
-                justifyContent: 'center',
-              }}
-            >
-              <Icon
-                name={`${categoryInfo.icon}`}
-                size={30}
-                style={{ marginBottom: 10 }}
-              />
-              <Font12W500 style={{ textAlign: 'center' }}>
-                {categoryInfo.title}
-              </Font12W500>
-            </View>
-          </Animated.View>
-        </GestureDetector>
-      </GestureHandlerRootView>
-    </CategoryButtonWrap>
+    <>
+      {categoryData?.map((el) => (
+        <CategoryButtonWrap
+          id={`${el.id}`}
+          onPress={() => {
+            navigationRef.current.navigate('SearchMapScreen', {
+              screen: 'SearchMapScreen',
+              params: {
+                keyword: el.name,
+                isCategory: true,
+              },
+            });
+          }}
+        >
+          <GestureHandlerRootView>
+            <GestureDetector gesture={pan}>
+              <Animated.View style={[animatedStyles]}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                >
+                  {/* <Icon
+                    name={`${el.image}`}
+                    size={30}
+                    style={{ marginBottom: 10 }}
+                  /> */}
+                  <SvgCssUri
+                    uri={el.image}
+                    height={30}
+                    width={30}
+                    onError={onError}
+                    onLoad={onLoad}
+                  />
+                  {loading && (
+                    <ActivityIndicator size='large' color='#dbdbdb' />
+                  )}
+
+                  <Font12W500 style={{ textAlign: 'center' }}>
+                    {el.name}
+                  </Font12W500>
+                </View>
+              </Animated.View>
+            </GestureDetector>
+          </GestureHandlerRootView>
+        </CategoryButtonWrap>
+      ))}
+    </>
   );
 };
 

@@ -17,8 +17,10 @@ import { theme } from '~/../theme';
 import { Icon } from 'components/common/icon';
 import { PINS } from 'assets/mock/pins';
 import { sortOptions } from 'assets/util/constants';
+import { useMapTrade } from '~/hooks/map';
 
 const HomeScreen = ({ route, navigation }) => {
+  const { centerMapInfo, setCenterMapInfo } = useMapTrade();
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
@@ -114,9 +116,16 @@ const HomeScreen = ({ route, navigation }) => {
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
               zoomControl={false}
-              center={{ ...PINS[selectedPin || 0], zoom: 16 }}
+              center={centerMapInfo}
               onTouch={() => {
                 listSheetRef.current?.snapToIndex(1);
+              }}
+              onCameraChange={(e) => {
+                setCenterMapInfo({
+                  longitude: e.longitude,
+                  latitude: e.latitude,
+                  zoom: e.zoom,
+                });
               }}
               // onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
             >
