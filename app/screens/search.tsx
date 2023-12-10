@@ -99,9 +99,7 @@ const SearchScreen = ({ route, navigation }) => {
             gap: 10,
           }}
         >
-          {categoryItemList.map((info, i) => (
-            <CategoryIconButton key={i} categoryInfo={info} />
-          ))}
+          <CategoryIconButton />
         </View>
       </Container>
     </SafeAreaView>
