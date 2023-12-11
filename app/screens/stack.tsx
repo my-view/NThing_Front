@@ -13,6 +13,7 @@ import ChatingScreen from 'screens/chatingScreen';
 import TradeRegistScreen from 'screens/trade-regist';
 import InterestTradeScreen from 'screens/interest-trade';
 import { TradePlace } from 'types/common';
+import { PurchaseDetail } from 'types/purchase';
 
 export type RootStackParamList = {
   RootScreen: undefined;
@@ -22,7 +23,7 @@ export type RootStackParamList = {
   SearchScreen: { keyword?: string };
   SearchMapScreen: { keyword: string; isCategory?: boolean };
   TradeRegistScreen: undefined;
-  TradeScreen: { data?: any; id?: number };
+  TradeScreen: { data?: PurchaseDetail; id?: number };
   MyPageEditScreen: undefined;
   InterestTradeScreen: undefined;
   UniversityMapModal: { latitude: number; longitude: number };

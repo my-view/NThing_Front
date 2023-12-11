@@ -60,7 +60,7 @@ const TradeRegistScreen = ({ navigation }: Props) => {
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
     coord: undefined,
-    description: 'hihi',
+    description: '장소 임시내용', // TODO: description 받기
   });
   const [date, setDate] = useState<TradeDate>(initialDate);
   const [isDateOpen, setIsDateOpen] = useState(true);

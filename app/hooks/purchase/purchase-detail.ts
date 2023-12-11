@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { useApiError } from 'hooks/useApiError';
 import { getPurchaseDetailAPI } from '~/api/purchase';
 
-export const usePurchaseDetail = (id: number) => {
+export const usePurchaseDetail = (id?: number) => {
   const { handleError } = useApiError();
 
   const result = useQuery(

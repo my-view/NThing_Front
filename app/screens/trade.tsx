@@ -41,8 +41,8 @@ import { RootStackParamList } from './stack';
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
 const TradeScreen = ({ navigation, route }: Props) => {
-  const { preData, id } = route.params;
-  const { data: axiosRes } = usePurchaseDetail(preData.id || id);
+  const { data: preData, id } = route.params;
+  const { data: axiosRes } = usePurchaseDetail(preData?.id || id);
   const [scroll, setScroll] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
@@ -94,7 +94,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
           {tradeDetail.images.map((image) => (
             <Image
               key={image.id}
-              source={image.url}
+              source={{ uri: image.url }}
               style={{ width: '100%', height: width }}
             />
           ))}
