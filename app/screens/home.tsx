@@ -17,9 +17,19 @@ import { theme } from '~/../theme';
 import { Icon } from 'components/common/icon';
 import { PINS } from 'assets/mock/pins';
 import { sortOptions } from 'assets/util/constants';
-import { useMapTrade } from '~/hooks/map';
+import { useMapTrade } from 'hooks/map';
+import { MainScreenParamList } from 'screens/main';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from 'screens/stack';
 
-const HomeScreen = ({ route, navigation }) => {
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
+
+const HomeScreen = ({ route, navigation }: Props) => {
   const { centerMapInfo, setCenterMapInfo } = useMapTrade();
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
@@ -53,7 +63,10 @@ const HomeScreen = ({ route, navigation }) => {
 
   const renderItem = useCallback(
     (item: any, index: number) => (
-      <Pressable key={index} onPress={() => navigation.navigate('TradeScreen')}>
+      <Pressable
+        key={index}
+        onPress={() => navigation.navigate('TradeScreen', { id: 1 })}
+      >
         <Item
           data={item}
           index={index}
@@ -106,7 +119,9 @@ const HomeScreen = ({ route, navigation }) => {
                   <Icon name={'S_Down'} size={16} color={theme.palette.black} />
                 </Row>
               </Pressable>
-              <Pressable onPress={() => navigation.navigate('SearchScreen')}>
+              <Pressable
+                onPress={() => navigation.navigate('SearchScreen', {})}
+              >
                 <Icon name={'S_Search'} size={24} color={theme.palette.black} />
               </Pressable>
             </Header>

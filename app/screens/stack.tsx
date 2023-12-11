@@ -11,15 +11,15 @@ import MyPageEditScreen from 'screens/user-edit';
 import TradeMapModal from 'screens/modal/trade-map-modal';
 import ChatingScreen from 'screens/chatingScreen';
 import TradeRegistScreen from 'screens/trade-regist';
-import InterestTradeScreen from './interest-trade';
-import { TradePlace } from '~/types/common';
+import InterestTradeScreen from 'screens/interest-trade';
+import { TradePlace } from 'types/common';
 
 export type RootStackParamList = {
   RootScreen: undefined;
   MainScreen: undefined;
   UniversityScreen: undefined;
   ChatingScreen: undefined;
-  SearchScreen: { keyword: string };
+  SearchScreen: { keyword?: string };
   SearchMapScreen: { keyword: string; isCategory?: boolean };
   TradeRegistScreen: undefined;
   TradeScreen: { data?: any; id?: number };

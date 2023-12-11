@@ -17,7 +17,15 @@ import { MyTabBar } from '@components/common/bottom-tap';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from './stack';
 
-const Tab = createBottomTabNavigator();
+export type MainScreenParamList = {
+  Home: undefined;
+  HomeScreen: { keyword: string };
+  TradeRegistScreen: undefined;
+  ChatingListScreen: undefined;
+  MyPageScreen: undefined;
+};
+
+const Tab = createBottomTabNavigator<MainScreenParamList>();
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MainScreen'>;
 
