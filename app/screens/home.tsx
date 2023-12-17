@@ -65,7 +65,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
     (item: any, index: number) => (
       <Pressable
         key={index}
-        onPress={() => navigation.navigate('TradeScreen', { id: 1 })}
+        onPress={() => navigation.navigate('TradeScreen', { id: 69 })}
       >
         <Item
           data={item}
