@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -31,7 +31,11 @@ import { formatPrice } from 'assets/util/format';
 import axios from 'axios';
 import moment from 'moment';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from './stack';
+import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { MainScreenParamList } from 'screens/main';
+import { RootStackParamList } from 'screens/stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
 const offset = 1000 * 60 * 60 * 9;
 const krNow = new Date(new Date().getTime() + offset);
@@ -53,9 +57,13 @@ const getDate = (tradeDate: TradeDate) => {
   return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
-type Props = NativeStackScreenProps<RootStackParamList, 'TradeRegistScreen'>;
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<MainScreenParamList, 'TradeRegistScreen'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
-const TradeRegistScreen = ({ navigation }: Props) => {
+const TradeRegistScreen = ({ navigation, route }: Props) => {
+  const { data: trade } = usePurchaseDetail(route.params?.id);
   const [title, setTitle] = useState('');
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
@@ -131,15 +139,20 @@ const TradeRegistScreen = ({ navigation }: Props) => {
       await axios
         .post('/purchase', form)
         .then((res) => res.data)
-        .then(({ data }) => navigation.replace('TradeScreen', { data }));
+        .then(({ data }) => {
+          console.warn(data);
+          navigation.replace('TradeScreen', { data });
+        });
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
       console.warn(e);
     }
   };
 
-  // console.log(images[0]?.base64);
-  // console.log(images);
+  useEffect(() => {
+    // TODO: 수정할 때 원래 저장되어있던 거래글 정보 넣기
+  }, [trade]);
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#FFFFFF', position: 'relative' }}
@@ -192,7 +205,6 @@ const TradeRegistScreen = ({ navigation }: Props) => {
         </Row>
         <Container>
           {/* 키보드 내용 가림 */}
-
           <Box>
             <Font15W500>글 제목</Font15W500>
             <TextInput

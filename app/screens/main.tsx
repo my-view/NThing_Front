@@ -4,7 +4,10 @@ import ChatingListScreen from './chatingList';
 import MyPageScreen from './my-page';
 import TradeRegistScreen from './trade-regist';
 import styled from '@emotion/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  BottomTabScreenProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import S_TradeRegist from '@assets/image/icon/S_TradeRegist.svg';
 import S_Home from '@assets/image/icon/S_Home.svg';
 import S_MyPage from '@assets/image/icon/S_MyPage.svg';
@@ -16,11 +19,12 @@ import F_Chat from '@assets/image/icon/F_Chat.svg';
 import { MyTabBar } from '@components/common/bottom-tap';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from './stack';
+import { CompositeScreenProps } from '@react-navigation/native';
 
 export type MainScreenParamList = {
   Home: undefined;
   HomeScreen: { keyword: string };
-  TradeRegistScreen: undefined;
+  TradeRegistScreen: { id?: number };
   ChatingListScreen: undefined;
   MyPageScreen: undefined;
 };
@@ -28,6 +32,12 @@ export type MainScreenParamList = {
 const Tab = createBottomTabNavigator<MainScreenParamList>();
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MainScreen'>;
+
+// TODO: prop에 무슨 타입 줘야되는지 모르겠음
+// type Props = CompositeScreenProps<
+//   BottomTabScreenProps<MainScreenParamList>,
+//   NativeStackScreenProps<RootStackParamList, 'MainScreen'>
+// >;
 
 // TODO: 탭 4개 목록 map하는 방식으로 리팩토링하기
 const MainScreen = ({ navigation }: Props) => {
@@ -83,7 +93,7 @@ const MainScreen = ({ navigation }: Props) => {
           listeners={() => ({
             tabPress: (e) => {
               e.preventDefault();
-              navigation.navigate('TradeRegistScreen');
+              navigation.navigate('TradeRegistScreen', {});
             },
           })}
         />

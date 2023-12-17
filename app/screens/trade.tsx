@@ -47,6 +47,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
   const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
 
+  console.log(axiosRes);
   const statusBarHeight =
     Platform.OS === 'ios'
       ? getStatusBarHeight(true)
@@ -73,6 +74,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
 
   const tradeDetail = axiosRes?.data || preData;
   if (!tradeDetail) return null;
+
   return (
     <View
       style={{

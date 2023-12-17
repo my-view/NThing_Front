@@ -14,7 +14,7 @@ export const usePurchaseDetail = (id?: number) => {
         return res;
       },
       onError: (err) => {
-        console.log('error', err);
+        console.log('purchase detail error', err);
         // handleError(err.code);
       },
       refetchOnWindowFocus: false,

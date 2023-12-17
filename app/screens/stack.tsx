@@ -10,7 +10,6 @@ import TradeScreen from 'screens/trade';
 import MyPageEditScreen from 'screens/user-edit';
 import TradeMapModal from 'screens/modal/trade-map-modal';
 import ChatingScreen from 'screens/chatingScreen';
-import TradeRegistScreen from 'screens/trade-regist';
 import InterestTradeScreen from 'screens/interest-trade';
 import { TradePlace } from 'types/common';
 import { PurchaseDetail } from 'types/purchase';
@@ -22,7 +21,7 @@ export type RootStackParamList = {
   ChatingScreen: undefined;
   SearchScreen: { keyword?: string };
   SearchMapScreen: { keyword: string; isCategory?: boolean };
-  TradeRegistScreen: undefined;
+  TradeRegistScreen: { id?: number };
   TradeScreen: { data?: PurchaseDetail; id?: number };
   MyPageEditScreen: undefined;
   InterestTradeScreen: undefined;
@@ -64,7 +63,6 @@ const RootStackScreen = () => {
           options={{ animation: 'none' }}
           initialParams={{ keyword: '' }}
         />
-        <Stack.Screen name='TradeRegistScreen' component={TradeRegistScreen} />
         <Stack.Screen name='TradeScreen' component={TradeScreen} />
         <Stack.Screen name='MyPageEditScreen' component={MyPageEditScreen} />
         <Stack.Screen
