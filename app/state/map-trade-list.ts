@@ -10,9 +10,9 @@ export const uniqueListState = selector({
   get: ({ get }) => {
     const originalList = get(mapTradeState);
 
-    const uniqueList = originalList.filter(
-        (item, index, self) => index === self.findIndex((i) => i.id === item.id)
-    );
-    return uniqueList;
-    }
+    // const uniqueList = originalList.filter(
+    //   (item, index, self) => index === self.findIndex((i) => i.id === item.id),
+    // );
+    // return uniqueList;
+  },
 });
