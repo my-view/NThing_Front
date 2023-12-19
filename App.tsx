@@ -15,6 +15,10 @@ import { AppStateComponent } from '~/observers/app-state';
 import 'react-native-gesture-handler';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 
+if (__DEV__) {
+  import('./reactron.config').then(() => console.log('Reactotron Configured'));
+}
+
 const Stack = createNativeStackNavigator();
 
 axios.defaults.baseURL = 'https://422c-121-130-216-253.ngrok-free.app';
