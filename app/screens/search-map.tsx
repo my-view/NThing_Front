@@ -18,11 +18,21 @@ import getDistanceFromLatLonInKm from 'assets/util/map';
 import { theme } from '~/../theme';
 import { defaultSortOption, sortOptions } from 'assets/util/constants';
 import { PINS } from 'assets/mock/pins';
+import { RootStackParamList } from 'screens/stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { MainScreenParamList } from 'screens/main';
 
-const SearchMapScreen = ({ route, navigation }: any) => {
+type Props = CompositeScreenProps<
+  NativeStackScreenProps<RootStackParamList, 'SearchMapScreen'>,
+  BottomTabScreenProps<MainScreenParamList>
+>;
+
+const SearchMapScreen = ({ route, navigation }: Props) => {
   console.log('SearchMapScreen>>>>>', route.params);
   const windowHeight = Dimensions.get('window').height;
-  const { keyword } = route.params.params;
+  const { keyword, isCategory } = route.params;
 
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
   const [testCo, setTestCo] = useState([PINS[0], PINS[1], PINS[2]]);
@@ -124,7 +134,7 @@ const SearchMapScreen = ({ route, navigation }: any) => {
             >
               <Icon name={'S_Left'} size={24} color={theme.palette.black} />
             </Pressable>
-            {route.params.params.isCategory ? (
+            {isCategory ? (
               <KeywordBox
                 style={{ lineHeight: 36, color: `${theme.palette.primary}` }}
               >
@@ -133,7 +143,9 @@ const SearchMapScreen = ({ route, navigation }: any) => {
             ) : (
               <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
             )}
-            <Pressable onPress={() => navigation.navigate('HomeScreen')}>
+            <Pressable
+              onPress={() => navigation.navigate('HomeScreen', { keyword })}
+            >
               <View style={{ width: 24 }}>
                 <Icon name={'S_Close'} size={16} color={theme.palette.black} />
               </View>

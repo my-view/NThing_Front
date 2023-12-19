@@ -121,7 +121,7 @@ export const CategoryIconButton: React.FC<{
     <>
       {categoryData?.map((el) => (
         <CategoryButtonWrap
-          id={`${el.id}`}
+          key={`${el.id}`}
           onPress={() => {
             navigationRef.current.navigate('SearchMapScreen', {
               screen: 'SearchMapScreen',
