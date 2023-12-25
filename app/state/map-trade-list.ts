@@ -1,18 +1,7 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
+import { PurchaseItemType } from '~/types/common';
 
-export const mapTradeState = atom({
+export const mapTradeState = atom<PurchaseItemType[] | null>({
   key: 'map/mapTradeState',
-  default: {}, // 로그인 상황일때는 true , 아닐때는 false
-});
-
-export const uniqueListState = selector({
-  key: 'map/uniqueListState',
-  get: ({ get }) => {
-    const originalList = get(mapTradeState);
-
-    // const uniqueList = originalList.filter(
-    //   (item, index, self) => index === self.findIndex((i) => i.id === item.id),
-    // );
-    // return uniqueList;
-  },
+  default: null, // 로그인 상황일때는 true , 아닐때는 false
 });
