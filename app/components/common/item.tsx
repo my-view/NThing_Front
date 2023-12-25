@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/native';
 import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
-import { formatPrice } from 'assets/util/format';
+import { formatPrice, convertToRelativeTime } from 'assets/util/format';
 import { PurchaseItemType } from 'types/common';
 import { HeartButton } from './heart-button';
+import { Image } from 'react-native';
 
 export const Item = ({
   data,
@@ -14,7 +15,20 @@ export const Item = ({
   index: number;
   listLength: number;
 }) => {
-  const { title, price, place, n, person, time, isLike } = data;
+  const {
+    title,
+    place,
+    date,
+    price,
+    numerator,
+    denominator,
+    liked,
+    id,
+    latitude,
+    longitude,
+    status,
+    image,
+  } = data;
 
   // .withCallback(opacity:0)
   const [lineCount, setLineCount] = useState(1);
@@ -31,7 +45,8 @@ export const Item = ({
     <>
       <Box>
         <ItemBox>
-          <ItemImg />
+          <ItemImg source={{ uri: image }} />
+
           <InfoBox>
             <Title
               style={{
@@ -43,17 +58,17 @@ export const Item = ({
               {title}
             </Title>
             <TradeInfo>
-              {place} · {time}
+              {place} · {convertToRelativeTime(date)}
             </TradeInfo>
             <PricePersonBox>
               <Price>{formatPrice(price)}원</Price>
               <Person>
-                <N>{n}</N>/{person}명
+                <N>{numerator}</N>/{denominator}명
               </Person>
             </PricePersonBox>
           </InfoBox>
         </ItemBox>
-        <HeartButton isLike={isLike} />
+        <HeartButton isLike={liked} />
       </Box>
       <Divider
         style={{
@@ -79,7 +94,7 @@ const Divider = styled.View`
   border-bottom-color: ${(p) => p.theme.palette.gray01};
 `;
 
-const ItemImg = styled.View`
+const ItemImg = styled.Image`
   width: 90px;
   height: 90px;
   border-radius: 4px;

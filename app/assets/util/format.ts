@@ -31,3 +31,16 @@ export const formatKorDate = (_date: string) => {
   );
   return `${onlyDate} ${amPm} ${time}`;
 };
+
+export const convertToRelativeTime = (dateString: string) => {
+  const date = moment(dateString);
+  const now = moment();
+
+  if (now.diff(date, 'minutes') < 60) {
+    return `${now.diff(date, 'minutes')}분 전`;
+  } else if (now.diff(date, 'hours') < 24) {
+    return `${now.diff(date, 'hours')}시간 전`;
+  } else {
+    return `${now.diff(date, 'days')}일 전`;
+  }
+};

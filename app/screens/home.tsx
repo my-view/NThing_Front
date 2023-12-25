@@ -30,7 +30,7 @@ type Props = CompositeScreenProps<
 >;
 
 const HomeScreen = ({ route, navigation }: Props) => {
-  const { centerMapInfo, setCenterMapInfo } = useMapTrade();
+  const { centerMapInfo, setCenterMapInfo, tradeList } = useMapTrade();
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
@@ -130,7 +130,9 @@ const HomeScreen = ({ route, navigation }: Props) => {
             <NaverMapView
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
-              zoomControl={false}
+              // zoomControl={false}
+              maxZoomLevel={19}
+              minZoomLevel={14}
               center={centerMapInfo}
               onTouch={() => {
                 listSheetRef.current?.snapToIndex(1);
@@ -186,7 +188,9 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 // paddingTop: 20,
               }}
             >
-              {PURCHASE_ITEM_LIST.map(renderItem)}
+              {tradeList
+                ? tradeList.map(renderItem)
+                : PURCHASE_ITEM_LIST.map(renderItem)}
             </BottomSheetScrollView>
           </BottomSheet>
         </Container>

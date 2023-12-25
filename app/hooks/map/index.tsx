@@ -2,31 +2,30 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getMapTradeInfoAPI } from '~/api/map';
-import { mapTradeState, uniqueListState } from '~/state/map-trade-list';
+import { mapTradeState } from '~/state/map-trade-list';
 import { useApiError } from '../useApiError';
 
 const defaultCenterPosition = {
-  latitude: 37.564362,
-  longitude: 126.977011,
+  latitude: 37.56363901004543,
+  longitude: 126.93927584825141,
   zoom: 16,
   search_keyword: '',
-  radius: '',
+  radius: 100000000,
   sort: '',
 };
 
 export function useMapTrade() {
   const { handleError } = useApiError();
   const [tradeList, setTradeList] = useRecoilState(mapTradeState);
-  const uniqueTradeList = useRecoilValue(uniqueListState);
   /**
    * 내 위치 보기 기능 추가 시
    */
   const userPosition = {
-    latitude: 37.564362,
-    longitude: 126.977011,
+    latitude: 37.56363901004543,
+    longitude: 126.93927584825141,
     zoom: 16,
     search_keyword: '',
-    radius: '',
+    radius: 100000000,
     sort: '',
   };
   const [centerMapInfo, setCenterMapInfo] = useState(
@@ -45,10 +44,8 @@ export function useMapTrade() {
         handleError(err.code);
       },
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      cacheTime: 0,
     },
   );
 
-  return { centerMapInfo, setCenterMapInfo, tradeList, uniqueTradeList };
+  return { centerMapInfo, setCenterMapInfo, tradeList };
 }

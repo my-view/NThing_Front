@@ -32,11 +32,16 @@ export interface SortType {
 export interface PurchaseItemType {
   title: string;
   place: string;
-  time: string;
+  date: string;
   price: number;
-  n: number;
-  person: number;
-  isLike: boolean;
+  numerator: number;
+  denominator: number;
+  liked: boolean;
+  id: number;
+  latitude: number;
+  longitude: number;
+  status: boolean;
+  image: string | undefined;
 }
 
 export type MenuListType = {
