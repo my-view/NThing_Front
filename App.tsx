@@ -16,7 +16,9 @@ import 'react-native-gesture-handler';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 
 if (__DEV__) {
-  import('./reactron.config').then(() => console.log('Reactotron Configured'));
+  import('./reactotron.config').then(() =>
+    console.log('Reactotron Configured'),
+  );
 }
 
 const Stack = createNativeStackNavigator();
