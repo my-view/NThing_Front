@@ -72,9 +72,9 @@ const TradeScreen = ({ navigation, route }: Props) => {
     return () => StatusBar.setBarStyle('dark-content');
   }, []);
 
-  const tradeDetail = axiosRes?.data || preData;
-  if (!tradeDetail) return null;
+  const tradeDetail = axiosRes?.data.data || preData;
 
+  if (!tradeDetail) return null;
   return (
     <View
       style={{
@@ -93,7 +93,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
           activeDot={<Dot />}
           paginationStyle={{ gap: 8 }}
         >
-          {tradeDetail.images.map((image) => (
+          {tradeDetail.images?.map((image) => (
             <Image
               key={image.id}
               source={{ uri: image.url }}
