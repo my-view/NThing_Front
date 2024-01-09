@@ -9,13 +9,26 @@ import { Icon } from 'components/common/icon';
 import { HostTag } from 'components/common/host-tag';
 
 export const Comment: React.FC<{
-  data: CommentType;
+  data: CommentType & { parent_id?: number };
   onPressReply: (parent_id: number, nickname: string) => void;
 }> = ({ data, onPressReply }) => {
-  const { id, nickname, content, parent_id, created_at, is_private } = data;
+  const {
+    id,
+    nickname,
+    profile_image,
+    content,
+    parent_id,
+    replies,
+    created_at,
+    is_private,
+  } = data;
   return (
     <Row style={{ gap: parent_id ? 6 : 8, alignItems: 'flex-start' }}>
-      <ProfileImage />
+      {profile_image ? (
+        <ProfileImage source={{ uri: profile_image }} />
+      ) : (
+        <ProfileImagePlaceholder />
+      )}
       <Column style={{ flex: 1 }}>
         <Row style={{ gap: 5, marginBottom: -7.5 }}>
           <Font13W600 style={{ lineHeight: 28 }}>{nickname}</Font13W600>
@@ -29,7 +42,9 @@ export const Comment: React.FC<{
           </GraySmallText>
           <GraySmallText>∙</GraySmallText>
           <Pressable onPress={() => onPressReply(parent_id || id, nickname)}>
-            <GraySmallText>답글달기</GraySmallText>
+            <GraySmallText>
+              {replies ? `답글 ${replies.length}` : '답글'}
+            </GraySmallText>
           </Pressable>
         </Row>
       </Column>
@@ -41,10 +56,16 @@ const Column = styled.View`
   gap: 10px;
 `;
 
-const ProfileImage = styled.View`
+const ProfileImagePlaceholder = styled.View`
   width: 28px;
   height: 28px;
   background-color: ${(p) => p.theme.palette.gray01};
+  border-radius: 50px;
+`;
+
+const ProfileImage = styled.Image`
+  width: 28px;
+  height: 28px;
   border-radius: 50px;
 `;
 

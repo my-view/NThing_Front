@@ -36,7 +36,7 @@ import { Comments } from 'components/trade/comments';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from './stack';
+import { RootStackParamList } from 'screens/stack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
@@ -47,7 +47,6 @@ const TradeScreen = ({ navigation, route }: Props) => {
   const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
 
-  console.log(axiosRes);
   const statusBarHeight =
     Platform.OS === 'ios'
       ? getStatusBarHeight(true)
@@ -141,7 +140,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
               {tradeDetail.description}
             </Font16W500>
           </TradeInfoBox>
-          <Comments />
+          <Comments purchaseId={tradeDetail.id} />
         </KeyboardAwareScrollView>
       </ScrollContainer>
       <Header

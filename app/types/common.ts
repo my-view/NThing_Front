@@ -72,23 +72,16 @@ export interface TradeDate {
   full: string;
 }
 
-export interface BaseComment {
-  content: string;
-  is_private: boolean;
-}
-
-export interface Comment extends BaseComment {
+export interface Comment {
   id: number;
+  content: string;
   nickname: string;
-  img: string;
+  profile_image: string | null;
+  is_private: boolean;
+  is_authorized: boolean;
   created_at?: string;
   updated_at: null;
-  // level: 0;
-  // user_id: number;
-  // purchase_id: number;
-  parent_id: number; // 0이면 부모 없음
-  replies: Comment[];
-  is_deleted: boolean;
+  replies?: Comment[];
 }
 
 export interface ChatUser {
