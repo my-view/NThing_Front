@@ -37,6 +37,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
+import axios from 'axios';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
@@ -167,7 +168,14 @@ const TradeScreen = ({ navigation, route }: Props) => {
       </Header>
       <ShadowBottom>
         <Row style={{ gap: 20 }}>
-          <HeartButton isLike={true} />
+          <HeartButton
+            isLike={tradeDetail.liked}
+            onClick={(isLiked) => {
+              axios.post(`/purchase/${tradeDetail.id}/like`, {
+                value: isLiked,
+              });
+            }}
+          />
           <View style={{ gap: 2 }}>
             <Font10W600>1개당</Font10W600>
             <Row style={{ gap: 10 }}>
