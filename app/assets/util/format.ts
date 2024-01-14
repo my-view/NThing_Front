@@ -6,7 +6,6 @@ export const formatPrice = (price: number) =>
 export const formatElapsedTime = (date: string) => {
   const past = new Date(date);
   const now = new Date();
-  console.log(date, now);
 
   const diffSec = Math.floor((now.getTime() - past.getTime()) / 1000);
   if (diffSec < 60) return '방금';

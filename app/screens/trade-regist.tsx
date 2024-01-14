@@ -115,7 +115,6 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   };
 
   const registTrade = async () => {
-    console.log(getDate(date));
     try {
       validate();
       const form = new FormData();
