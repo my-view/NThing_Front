@@ -4,52 +4,62 @@ import { View, Text, useWindowDimensions, TextInput } from 'react-native';
 import { Font11, Font16W600 } from 'components/common/text';
 import { Icon, IconButton } from 'components/common/icon';
 import { Row } from 'components/common/layout';
-import { Comment as CommentType } from 'types/common';
 import { Comment } from 'components/trade/comment';
 import { theme } from '~/../theme';
+import { usePurchaseComments } from 'hooks/purchase/purchase-comments';
+import axios from 'axios';
+import { useQueryClient } from 'react-query';
 
 const initialComment = {
-  id: 1,
-  nickname: '띵띵이',
   content: '',
   is_private: false,
-  created_at: '2023-10-10T18:30:22',
-  parent_id: 0,
+  parent_id: 0, // 0이면 부모 없음
 };
 
-export const Comments = () => {
+export const Comments: React.FC<{ purchaseId: number }> = ({ purchaseId }) => {
+  const { data: axiosRes } = usePurchaseComments(purchaseId);
+  const queryClient = useQueryClient();
   const { width } = useWindowDimensions();
   const commentInput = useRef<TextInput>(null);
   const [newComment, setNewComment] = useState(initialComment);
   const [replyTo, setReplyTo] = useState('');
-  const [comments, setComments] = useState<CommentType[]>([]);
+  const comments = axiosRes?.data.data;
+
   const sendComment = () => {
     const content = newComment.content.trim();
     if (!content) return;
-    // 댓글 생성 POST
-    setComments((prev) => [...prev, { ...newComment, content }]);
+    axios
+      .post('/comment', { ...newComment, purchase_id: purchaseId || null })
+      .then(() =>
+        queryClient.invalidateQueries({ queryKey: ['getPurchaseComments'] }),
+      );
     setNewComment(initialComment);
     setReplyTo('');
   };
+
   const reply = (parent_id: number, nickname: string) => {
     setNewComment({ ...initialComment, parent_id });
     setReplyTo(nickname);
     commentInput.current?.focus();
   };
+
   return (
     <CommentContainer>
       <Font16W600 style={{ paddingHorizontal: 20 }}>
-        댓글({comments.length})
+        댓글({comments?.length || 0})
       </Font16W600>
-      {comments.length > 0 && (
+      {!!comments?.length && (
         <View style={{ gap: 24, paddingHorizontal: 20 }}>
           {comments.map((comment) => (
-            <View key={comment.id} style={{ gap: 24 }}>
+            <View key={comment.id} style={{ gap: 12 }}>
               <Comment data={comment} onPressReply={reply} />
-              {comment.replies?.length > 0 &&
+              {comment?.replies &&
                 comment.replies.map((item) => (
                   <ReplyCard key={item.id}>
-                    <Comment data={item} onPressReply={reply} />
+                    <Comment
+                      data={{ ...item, parent_id: comment.id }}
+                      onPressReply={reply}
+                    />
                   </ReplyCard>
                 ))}
             </View>
