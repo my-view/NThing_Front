@@ -174,7 +174,6 @@ const TradeScreen = ({ navigation, route }: Props) => {
               axios.post(`/purchase/${tradeDetail.id}/like`, {
                 value: isLiked,
               });
-              console.warn(isLiked, id);
             }}
           />
           <View style={{ gap: 2 }}>

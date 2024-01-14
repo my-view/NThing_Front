@@ -15,7 +15,6 @@ export const getPurchaseDetailAPI = async (id?: number) => {
 
 export const postPurchaseLikedAPI = async (id: number) => {
   if (!id) return null;
-
   return await axios.post(`purchase/${id}/like`);
 };
 
