@@ -44,33 +44,13 @@ const HomeScreen = ({ route, navigation }: Props) => {
     cd: 'recent',
   });
 
-  console.log('!!!tradeList', tradeList);
-
-  // console.log('selectValue---', selectValue);
   const listSheetRef = React.useRef<BottomSheet>(null);
   const headerFullHeight = windowHeight - 76;
 
   const ListPoints = React.useMemo(
     () => ['1%', '24%', '37%', '50%', headerFullHeight],
-    [],
+    [headerFullHeight],
   );
-
-  const handleSheetChange = useCallback((index: number) => {
-    // console.log('handleSheetChange', index);
-  }, []);
-
-  useEffect(() => {
-    // TODO: 홈화면 접속 시 최초에 거래 목록 받아오기
-    // fetch(
-    //   'https://3b55-2001-e60-87dc-6fa1-fc8b-5655-9c11-29b3.ngrok-free.app/purchase',
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
-  }, []);
-
-  // console.log('isLogin', isLogin);
-
-  // console.log('@@ userInfo', userInfo);
 
   const renderItem = useCallback(
     (item: PurchaseItemType, index: number) => (
@@ -117,13 +97,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 <Icon name={'S_Left'} size={24} fill={theme.palette.black} />
               </Pressable>
               <KeywordBox style={{ lineHeight: 36 }}>{keyword}</KeywordBox>
-              <Pressable
-                onPress={() =>
-                  navigation.setParams({
-                    keyword: '',
-                  })
-                }
-              >
+              <Pressable onPress={() => navigation.setParams({ keyword: '' })}>
                 <View style={{ width: 24 }}>
                   <Icon name={'S_Close'} size={16} fill={theme.palette.black} />
                 </View>
@@ -159,6 +133,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 console.log('실행됨?');
                 if (isFirstLanding) return;
                 setCenterMapInfo({
+                  ...centerMapInfo,
                   longitude: e.longitude,
                   latitude: e.latitude,
                   zoom: e.zoom,
@@ -183,16 +158,8 @@ const HomeScreen = ({ route, navigation }: Props) => {
             snapPoints={ListPoints}
             index={1}
             handleIndicatorStyle={BottomSheetHandleStyle}
-            onChange={handleSheetChange}
-            // backdropComponent={renderBackdrop}
           >
-            <View
-              style={{
-                paddingLeft: 20,
-                height: 14,
-                paddingBottom: 20,
-              }}
-            >
+            <View style={{ paddingLeft: 20, height: 14, paddingBottom: 20 }}>
               <SelectBox
                 margin={selectValue.nm.length >= 4 ? 10 : 33}
                 onChange={setSelectValue}
@@ -201,11 +168,9 @@ const HomeScreen = ({ route, navigation }: Props) => {
               />
             </View>
             <BottomSheetScrollView
-              // onLayout={(e) => console.log(e)}
               contentContainerStyle={{
                 paddingHorizontal: 20,
                 paddingBottom: 120,
-                // paddingTop: 20,
               }}
             >
               {tradeList

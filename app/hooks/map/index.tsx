@@ -4,10 +4,11 @@ import { getMapTradeInfoAPI } from '~/api/map';
 import { tradeQueryKeys } from '../../key/map';
 import { TradeParams } from '~/types/common';
 import { defaultCenterPosition, userPosition } from '~/assets/mock/pins';
+import { PurchaseItemType } from 'types/common';
 
 // STEP2: API 캐싱
 export function UsefetchMapTrade(centerMapInfo: TradeParams) {
-  return useQuery({
+  return useQuery<PurchaseItemType[]>({
     queryKey: tradeQueryKeys.list(centerMapInfo),
     queryFn: () => getMapTradeInfoAPI(centerMapInfo),
     // ...etc,
