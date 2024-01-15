@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Pressable, SafeAreaView, View, Dimensions } from 'react-native';
+import { Pressable, SafeAreaView, View, Dimensions, Alert } from 'react-native';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -23,6 +23,9 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
+import { getStorage } from 'assets/util/storage';
+import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
+import { PurchaseItemType } from 'types/common';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -62,10 +65,16 @@ const HomeScreen = ({ route, navigation }: Props) => {
   }, []);
 
   const renderItem = useCallback(
-    (item: any, index: number) => (
+    (item: PurchaseItemType, index: number) => (
       <Pressable
         key={index}
-        onPress={() => navigation.navigate('TradeScreen', { id: 69 })}
+        onPress={async () => {
+          const token = await getStorage(TOKEN_STORAGE_KEY);
+          if (token) return navigation.navigate('TradeScreen', { id: 69 });
+          // TODO: 로그인 유도 화면 필요
+          Alert.alert('로그인 후 이용해주세요!');
+          navigation.navigate('RootScreen');
+        }}
       >
         <Item
           data={item}
@@ -74,6 +83,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
         />
       </Pressable>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
