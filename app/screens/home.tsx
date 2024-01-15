@@ -23,6 +23,8 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
+import { useUser } from '~/hooks/user';
+import SimpleSnackbarUI from '~/components/common/toast';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -30,7 +32,9 @@ type Props = CompositeScreenProps<
 >;
 
 const HomeScreen = ({ route, navigation }: Props) => {
-  const { centerMapInfo, setCenterMapInfo, tradeList } = useMapTrade();
+  const { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding } =
+    useMapTrade();
+  const { userInfo } = useUser();
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
@@ -61,11 +65,25 @@ const HomeScreen = ({ route, navigation }: Props) => {
     //   .then((data) => console.log(data));
   }, []);
 
+  // console.log('isLogin', isLogin);
+
+  console.log('@@ userInfo', userInfo);
+
   const renderItem = useCallback(
     (item: any, index: number) => (
       <Pressable
         key={index}
-        onPress={() => navigation.navigate('TradeScreen', { id: 69 })}
+        onPress={() => {
+          // userInfo 타이밍 이슈
+          // if (userInfo.data.id == '101') {
+          //   return SimpleSnackbarUI.show({
+          //     title: '서울대학교 학생이세요?',
+          //     description:
+          //       '로그인해서 엔띵해보세요! Alert로 다시 만들어서 클릭하면 로그인 시키기',
+          //   });
+          // }
+          navigation.navigate('TradeScreen', { id: 69 });
+        }}
       >
         <Item
           data={item}
@@ -138,6 +156,8 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 listSheetRef.current?.snapToIndex(1);
               }}
               onCameraChange={(e) => {
+                console.log('실행됨?');
+                if (isFirstLanding) return;
                 setCenterMapInfo({
                   longitude: e.longitude,
                   latitude: e.latitude,
