@@ -5,6 +5,7 @@ import { getMapTradeInfoAPI } from '~/api/map';
 import { mapTradeState } from '~/state/map-trade-list';
 import { useApiError } from '../useApiError';
 
+// radius 삭제, zoom으로
 const defaultCenterPosition = {
   latitude: 37.56363901004543,
   longitude: 126.93927584825141,
@@ -32,11 +33,14 @@ export function useMapTrade() {
     defaultCenterPosition || userPosition,
   );
 
+  const [isFirstLanding, setIsFirstLanding] = useState(true);
+
   const mapSearch = useQuery(
     ['mapSearch', [centerMapInfo]],
     () => getMapTradeInfoAPI(centerMapInfo),
     {
       onSuccess: (res) => {
+        console.log('@@ tradeList', res);
         setTradeList(res);
       },
 
@@ -47,5 +51,5 @@ export function useMapTrade() {
     },
   );
 
-  return { centerMapInfo, setCenterMapInfo, tradeList };
+  return { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding };
 }

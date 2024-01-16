@@ -23,6 +23,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
+
 import { getStorage } from 'assets/util/storage';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 import { PurchaseItemType } from 'types/common';
@@ -33,7 +34,9 @@ type Props = CompositeScreenProps<
 >;
 
 const HomeScreen = ({ route, navigation }: Props) => {
-  const { centerMapInfo, setCenterMapInfo, tradeList } = useMapTrade();
+  const { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding } =
+    useMapTrade();
+  const { userInfo } = useUser();
   const windowHeight = Dimensions.get('window').height;
   const { keyword } = route.params;
   const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
@@ -64,10 +67,15 @@ const HomeScreen = ({ route, navigation }: Props) => {
     //   .then((data) => console.log(data));
   }, []);
 
+  // console.log('isLogin', isLogin);
+
+  console.log('@@ userInfo', userInfo);
+
   const renderItem = useCallback(
     (item: PurchaseItemType, index: number) => (
       <Pressable
         key={index}
+
         onPress={async () => {
           const token = await getStorage(TOKEN_STORAGE_KEY);
           if (token) return navigation.navigate('TradeScreen', { id: 69 });
@@ -148,6 +156,8 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 listSheetRef.current?.snapToIndex(1);
               }}
               onCameraChange={(e) => {
+                console.log('실행됨?');
+                if (isFirstLanding) return;
                 setCenterMapInfo({
                   longitude: e.longitude,
                   latitude: e.latitude,
