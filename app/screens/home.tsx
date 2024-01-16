@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Pressable, SafeAreaView, View, Dimensions } from 'react-native';
+import { Pressable, SafeAreaView, View, Dimensions, Alert } from 'react-native';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -23,8 +23,10 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
-import { useUser } from '~/hooks/user';
-import SimpleSnackbarUI from '~/components/common/toast';
+
+import { getStorage } from 'assets/util/storage';
+import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
+import { PurchaseItemType } from 'types/common';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -70,19 +72,16 @@ const HomeScreen = ({ route, navigation }: Props) => {
   console.log('@@ userInfo', userInfo);
 
   const renderItem = useCallback(
-    (item: any, index: number) => (
+    (item: PurchaseItemType, index: number) => (
       <Pressable
         key={index}
-        onPress={() => {
-          // userInfo 타이밍 이슈
-          // if (userInfo.data.id == '101') {
-          //   return SimpleSnackbarUI.show({
-          //     title: '서울대학교 학생이세요?',
-          //     description:
-          //       '로그인해서 엔띵해보세요! Alert로 다시 만들어서 클릭하면 로그인 시키기',
-          //   });
-          // }
-          navigation.navigate('TradeScreen', { id: 69 });
+
+        onPress={async () => {
+          const token = await getStorage(TOKEN_STORAGE_KEY);
+          if (token) return navigation.navigate('TradeScreen', { id: 69 });
+          // TODO: 로그인 유도 화면 필요
+          Alert.alert('로그인 후 이용해주세요!');
+          navigation.navigate('RootScreen');
         }}
       >
         <Item
@@ -92,6 +91,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
         />
       </Pressable>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
