@@ -33,6 +33,7 @@ type Props = CompositeScreenProps<
 >;
 
 const HomeScreen = ({ route, navigation }: Props) => {
+  // 페이지 빌드
   const { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding } =
     useMapTrade();
   const windowHeight = Dimensions.get('window').height;
@@ -43,7 +44,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
     cd: 'recent',
   });
 
-  console.log('!!!tradeList', tradeList.data);
+  console.log('!!!tradeList', tradeList);
 
   // console.log('selectValue---', selectValue);
   const listSheetRef = React.useRef<BottomSheet>(null);
@@ -165,7 +166,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
               }}
               // onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
             >
-              {tradeList.data?.map((pin, index) => (
+              {tradeList?.map((pin, index) => (
                 <CustomMarker
                   key={pin.id}
                   coordinate={pin}
@@ -207,8 +208,8 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 // paddingTop: 20,
               }}
             >
-              {tradeList.data
-                ? tradeList.data.map(renderItem)
+              {tradeList
+                ? tradeList.map(renderItem)
                 : PURCHASE_ITEM_LIST.map(renderItem)}
             </BottomSheetScrollView>
           </BottomSheet>
