@@ -88,7 +88,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'RootScreen'>;
 
 const RootScreen = ({ navigation }: Props) => {
   const [serviceToken, setSeviceToken] = useState<string>(); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
-  const { data: user } = useUser();
+  const userInfo = useUser();
+
+  console.log('@@@ userInfo', userInfo.data);
   const setToken = (token?: string) => {
     if (!token) return;
     setSeviceToken(token);
@@ -103,7 +105,7 @@ const RootScreen = ({ navigation }: Props) => {
       });
       return;
     }
-    console.log('user', user);
+    console.log('user', userInfo);
     // 1. serviceToken으로 user 정보 불러옴 (react query)
     // 2-1. 선택한 학교가 없으면 학교 선택 페이지로 이동
     // navigation.navigate('UniversityScreen');

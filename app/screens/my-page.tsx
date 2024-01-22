@@ -65,9 +65,9 @@ const csMenuList: MenuListType[] = [
 const MyPageScreen = ({ navigation }: any) => {
   const isLoginUser = useRecoilValue(DecodeTokenState);
 
-  const result = useUser();
+  const userInfo = useUser();
 
-  const userData: userInfoType = result?.data?.data;
+  const userData: userInfoType = userInfo?.data;
 
   console.log('userData', userData);
   return (

@@ -1,27 +1,14 @@
-import { useQuery } from 'react-query';
-import { useApiError } from 'hooks/useApiError';
+import { useQuery } from '@tanstack/react-query';
 import { getPurchaseDetailAPI } from '~/api/purchase';
+import { purchaseQueryKeys } from './key';
 
 export const usePurchaseDetail = (id?: number) => {
-  const { handleError } = useApiError();
+  //
+  const getPurchaseDetail = useQuery({
+    queryKey: purchaseQueryKeys.detail(id),
+    queryFn: () => getPurchaseDetailAPI(id),
+    refetchOnWindowFocus: false,
+  });
 
-  const result = useQuery(
-    ['getPurchaseDetail'],
-    () => getPurchaseDetailAPI(id),
-    {
-      onSuccess: (res) => {
-        console.log('@ getPurchaseDetail res', res);
-        return res;
-      },
-      onError: (err) => {
-        console.log('purchase detail error', err);
-        // handleError(err.code);
-      },
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      cacheTime: 0,
-    },
-  );
-
-  return result;
+  return getPurchaseDetail;
 };

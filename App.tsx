@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RootStackScreen from './app/screens/stack';
 import { RecoilRoot } from 'recoil';
-import { QueryClientProvider, QueryClient } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
 import axios from 'axios';
@@ -49,16 +49,7 @@ axios.interceptors.request.use(
 export default function App() {
   const { handleError } = useApiError();
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        onError: handleError,
-      },
-      mutations: {
-        onError: handleError,
-      },
-    },
-  });
+  const queryClient = new QueryClient();
 
   return (
     <ThemeProvider theme={theme}>

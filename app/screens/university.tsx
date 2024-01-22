@@ -14,9 +14,10 @@ type Props = NativeStackScreenProps<RootStackParamList, 'UniversityScreen'>;
 
 const UniversityScreen = ({ navigation }: Props) => {
   const [input, setInput] = useState('');
-  const [colleges, setColleges] = useState<College[]>([]);
 
-  const { setsearchForm, collegeList } = useCollege();
+  const { setsearchForm, searchCollege } = useCollege();
+
+  const colleges = searchCollege.data;
 
   useEffect(() => {
     if (!input.length) return;
@@ -24,7 +25,6 @@ const UniversityScreen = ({ navigation }: Props) => {
     // setColleges(COLLEGE_MOCK_DATA);
 
     setsearchForm({ search_keyword: input });
-    setColleges(collegeList);
 
     // TODO: 디바운스 적용?
     // 실제 데이터
