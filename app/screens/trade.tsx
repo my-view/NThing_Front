@@ -43,7 +43,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
 const TradeScreen = ({ navigation, route }: Props) => {
   const { data: preData, id } = route.params;
-  const { data: axiosRes } = usePurchaseDetail(preData?.id || id);
+  const getPurchaseDetail = usePurchaseDetail(preData?.id || id);
   const [scroll, setScroll] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
@@ -71,8 +71,9 @@ const TradeScreen = ({ navigation, route }: Props) => {
     StatusBar.setBarStyle('light-content');
     return () => StatusBar.setBarStyle('dark-content');
   }, []);
+  console.log('@@ getPurchaseDetail', getPurchaseDetail.data);
 
-  const tradeDetail = axiosRes?.data.data || preData;
+  const tradeDetail = getPurchaseDetail?.data || preData;
 
   if (!tradeDetail) return null;
   return (

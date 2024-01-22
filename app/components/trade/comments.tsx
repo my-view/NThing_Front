@@ -8,7 +8,8 @@ import { Comment } from 'components/trade/comment';
 import { theme } from '~/../theme';
 import { usePurchaseComments } from 'hooks/purchase/purchase-comments';
 import axios from 'axios';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { purchaseQueryKeys } from '~/hooks/purchase/key';
 
 const initialComment = {
   content: '',
@@ -17,13 +18,13 @@ const initialComment = {
 };
 
 export const Comments: React.FC<{ purchaseId: number }> = ({ purchaseId }) => {
-  const { data: axiosRes } = usePurchaseComments(purchaseId);
+  const getComment = usePurchaseComments(purchaseId);
   const queryClient = useQueryClient();
   const { width } = useWindowDimensions();
   const commentInput = useRef<TextInput>(null);
   const [newComment, setNewComment] = useState(initialComment);
   const [replyTo, setReplyTo] = useState('');
-  const comments = axiosRes?.data.data;
+  const comments = getComment.data;
 
   const sendComment = () => {
     const content = newComment.content.trim();
@@ -31,7 +32,10 @@ export const Comments: React.FC<{ purchaseId: number }> = ({ purchaseId }) => {
     axios
       .post('/comment', { ...newComment, purchase_id: purchaseId || null })
       .then(() =>
-        queryClient.invalidateQueries({ queryKey: ['getPurchaseComments'] }),
+        queryClient.invalidateQueries({
+          queryKey: purchaseQueryKeys.comment(),
+          exact: true,
+        }),
       );
     setNewComment(initialComment);
     setReplyTo('');

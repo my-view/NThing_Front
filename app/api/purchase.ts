@@ -10,7 +10,9 @@ interface Envelope<T> {
 
 export const getPurchaseDetailAPI = async (id?: number) => {
   if (!id) return null;
-  return axios.get<Envelope<PurchaseDetail>>(`/purchase/${id}`);
+  return axios.get<Envelope<PurchaseDetail>>(`/purchase/${id}`).then((res) => {
+    return res.data.data;
+  });
 };
 
 export const postPurchaseLikedAPI = async (id: number) => {
@@ -20,5 +22,9 @@ export const postPurchaseLikedAPI = async (id: number) => {
 
 export const getPurchaseCommentAPI = async (id?: number) => {
   if (!id) return null;
-  return axios.get<Envelope<Comment[]>>(`/purchase/${id}/comments`);
+  return axios
+    .get<Envelope<Comment[]>>(`/purchase/${id}/comments`)
+    .then((res) => {
+      return res.data.data;
+    });
 };

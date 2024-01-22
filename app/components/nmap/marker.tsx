@@ -9,6 +9,7 @@ export const CustomMarker: React.FC<{
   onClick?: () => void;
 }> = ({ coordinate, isSelected, onClick }) => {
   const SIZE = isSelected ? 50 : 34;
+
   return Platform.OS === 'ios' ? (
     <Marker
       image={require('../../assets/image/map-marker.png')}

@@ -1,27 +1,15 @@
-import { useQuery } from 'react-query';
-import { useApiError } from 'hooks/useApiError';
+import { useQuery } from '@tanstack/react-query';
 import { getPurchaseCommentAPI } from 'api/purchase';
+import { purchaseQueryKeys } from './key';
 
 export const usePurchaseComments = (id?: number) => {
-  const { handleError } = useApiError();
+  //
+  const getComment = useQuery({
+    queryKey: purchaseQueryKeys.comment(id),
+    queryFn: () => getPurchaseCommentAPI(id),
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
 
-  const result = useQuery(
-    ['getPurchaseComments'],
-    () => getPurchaseCommentAPI(id),
-    {
-      onSuccess: (res) => {
-        console.log('@ getPurchaseComments res', res);
-        return res;
-      },
-      onError: (err) => {
-        console.log('purchase comments error', err);
-        // handleError(err.code);
-      },
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      cacheTime: 0,
-    },
-  );
-
-  return result;
+  return getComment;
 };

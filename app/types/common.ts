@@ -100,3 +100,12 @@ export interface IMessage {
   sent?: boolean;
   received?: boolean;
 }
+
+export interface TradeParams {
+  latitude: string | number;
+  longitude: string | number;
+  zoom: number;
+  search_keyword: string;
+  radius: number;
+  sort: string;
+}
