@@ -58,7 +58,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
         key={index}
         onPress={async () => {
           const token = await getStorage(TOKEN_STORAGE_KEY);
-          if (token) return navigation.navigate('TradeScreen', { id: 69 });
+          if (token) return navigation.navigate('TradeScreen', { id: item.id });
           // TODO: 로그인 유도 화면 필요
           Alert.alert('로그인 후 이용해주세요!');
           navigation.navigate('RootScreen');
