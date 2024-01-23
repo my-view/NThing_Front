@@ -1,12 +1,6 @@
 import axios from 'axios';
-import { Comment } from 'types/common';
+import { Comment, Envelope } from 'types/common';
 import { PurchaseDetail } from 'types/purchase';
-
-interface Envelope<T> {
-  data: T;
-  status: string;
-  message: string;
-}
 
 export const getPurchaseDetailAPI = async (id?: number) => {
   if (!id) return null;

@@ -38,7 +38,6 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
   const [testCo, setTestCo] = useState([PINS[0], PINS[1], PINS[2]]);
   // center={{ ...PINS[selectedPin || 0], zoom: 16 }}
 
-  // console.warn(testCo);
   const [currentLocation, setCurrentLocation] = useState<Coordinate>({
     id: 1,
     latitude: 37.53815725,
@@ -75,13 +74,19 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
     ),
     [],
   );
+
   useEffect(() => {
     setTimeout(() => {
       listSheetRef.current?.snapToIndex(2);
     }, 400);
   }, [selectedPin]);
 
-  const locationHandler = (e) => {
+  const locationHandler = (e: {
+    x: number;
+    y: number;
+    latitude: number;
+    longitude: number;
+  }) => {
     console.warn('mapClick', e);
     Alert.alert(
       '',
@@ -91,7 +96,11 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
         {
           text: 'OK',
           onPress: () => {
-            setCurrentLocation(e);
+            setCurrentLocation({
+              id: 3, // TODO: 타입 맞추려고 임의로 찍어놓은 거 수정
+              latitude: e.latitude,
+              longitude: e.longitude,
+            });
             console.warn('onMapClick', JSON.stringify(e));
           },
         },
@@ -126,11 +135,7 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
         <Container>
           <Header>
             <Pressable
-              onPress={() =>
-                navigation.navigate('SearchScreen', {
-                  keyword: keyword,
-                })
-              }
+              onPress={() => navigation.navigate('SearchScreen', { keyword })}
             >
               <Icon name={'S_Left'} size={24} color={theme.palette.black} />
             </Pressable>

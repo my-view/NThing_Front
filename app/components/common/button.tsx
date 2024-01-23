@@ -8,9 +8,8 @@ import {
 } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { usePressableAnimated } from '~/hooks/animated/usePressableAnimated';
-import { MenuListType } from '~/types/common';
+import { CategoryItem } from 'types/common';
 import { navigationRef } from '~/../RootNavigation';
-import { Icon } from './icon';
 import { getCategoryListAPI } from '~/api/category';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -86,10 +85,8 @@ const RoundedButtonText = styled(Font16W600)`
   color: white;
 `;
 
-export const CategoryIconButton: React.FC<{
-  // categoryInfo: MenuListType;
-}> = () => {
-  const [categoryData, setCategoryData] = useState();
+export const CategoryIconButton: React.FC = () => {
+  const [categoryData, setCategoryData] = useState<CategoryItem[]>([]);
   const [loading, setLoading] = React.useState(true);
   const onError = (e: Error) => {
     console.log(e.message);
@@ -124,27 +121,15 @@ export const CategoryIconButton: React.FC<{
           key={`${el.id}`}
           onPress={() => {
             navigationRef.current.navigate('SearchMapScreen', {
-              screen: 'SearchMapScreen',
-              params: {
-                keyword: el.name,
-                isCategory: true,
-              },
+              keyword: el.name,
+              isCategory: true,
             });
           }}
         >
           <GestureHandlerRootView>
             <GestureDetector gesture={pan}>
               <Animated.View style={[animatedStyles]}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                  }}
-                >
-                  {/* <Icon
-                    name={`${el.image}`}
-                    size={30}
-                    style={{ marginBottom: 10 }}
-                  /> */}
+                <View style={{ justifyContent: 'center', gap: 10 }}>
                   <SvgCssUri
                     uri={el.image}
                     height={30}
@@ -155,7 +140,6 @@ export const CategoryIconButton: React.FC<{
                   {loading && (
                     <ActivityIndicator size='large' color='#dbdbdb' />
                   )}
-
                   <Font12W500 style={{ textAlign: 'center' }}>
                     {el.name}
                   </Font12W500>

@@ -88,11 +88,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
           {keyword ? (
             <Header>
               <Pressable
-                onPress={() =>
-                  navigation.navigate('SearchScreen', {
-                    keyword: keyword,
-                  })
-                }
+                onPress={() => navigation.navigate('SearchScreen', { keyword })}
               >
                 <Icon name={'S_Left'} size={24} fill={theme.palette.black} />
               </Pressable>

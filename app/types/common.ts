@@ -2,6 +2,12 @@ import { IconName } from 'components/common/icon';
 import { chatStatus } from 'components/common/chat-item';
 import { Coord } from 'react-native-nmap';
 
+export interface Envelope<T> {
+  data: T;
+  status: string;
+  message: string;
+}
+
 export interface WithIdName {
   id: number;
   name: string;
@@ -108,4 +114,8 @@ export interface TradeParams {
   search_keyword: string;
   radius: number;
   sort: string;
+}
+
+export interface CategoryItem extends WithIdName {
+  image: string;
 }
