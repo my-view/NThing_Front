@@ -9,7 +9,7 @@ import { theme } from '~/../theme';
 import { usePurchaseComments } from 'hooks/purchase/purchase-comments';
 import axios from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
-import { purchaseQueryKeys } from '~/hooks/purchase/key';
+import { purchaseQueryKeys } from '~/key/purchase';
 
 const initialComment = {
   content: '',

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getPurchaseDetailAPI } from '~/api/purchase';
-import { purchaseQueryKeys } from './key';
+import { purchaseQueryKeys } from '../../key/purchase';
 
 export const usePurchaseDetail = (id?: number) => {
   //

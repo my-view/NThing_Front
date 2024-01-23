@@ -33,7 +33,7 @@ type Props = CompositeScreenProps<
 >;
 
 const HomeScreen = ({ route, navigation }: Props) => {
-  // 페이지 빌드
+  // STEP4: 페이지 빌드
   const { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding } =
     useMapTrade();
   const windowHeight = Dimensions.get('window').height;
