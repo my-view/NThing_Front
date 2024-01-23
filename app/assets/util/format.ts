@@ -18,6 +18,18 @@ export const formatElapsedTime = (date: string) => {
   return `${diffWeek}주`;
 };
 
+export const formatOneDayAgo = (date: string) => {
+  const past = new Date(date);
+  const now = new Date();
+  const diffSec = Math.floor((now.getTime() - past.getTime()) / 1000);
+  if (diffSec < 60) return '방금 전';
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}분 전`;
+  const diffHour = Math.floor(diffMin / 60);
+  if (diffHour < 24) return `${diffHour}시간 전`;
+  return moment(date).format('yyyy. MM. DD');
+};
+
 export const formatKorAmPm = (date: Date) => {
   return date.getHours() >= 12 ? '오후' : '오전';
 };
