@@ -71,7 +71,6 @@ const TradeScreen = ({ navigation, route }: Props) => {
     StatusBar.setBarStyle('light-content');
     return () => StatusBar.setBarStyle('dark-content');
   }, []);
-  console.log('@@ getPurchaseDetail', getPurchaseDetail.data);
 
   const tradeDetail = getPurchaseDetail?.data || preData;
 
@@ -191,9 +190,9 @@ const TradeScreen = ({ navigation, route }: Props) => {
               />
               <Font18W600>
                 <Text style={{ color: theme.palette.primary }}>
-                  {tradeDetail.denominator}
+                  {tradeDetail.numerator}
                 </Text>
-                /{tradeDetail.numerator}명
+                /{tradeDetail.denominator}명
               </Font18W600>
             </Row>
           </View>
