@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from 'components/nmap/marker';
 import { MapModal } from 'components/common/map-modal';
+import { Input } from 'components/common/input';
+import { theme } from '~/../theme';
 
 const TradeMapModal = ({ navigation, route }) => {
   const { place, updatePlace } = route.params;
@@ -37,6 +39,13 @@ const TradeMapModal = ({ navigation, route }) => {
       >
         <CustomMarker coordinate={{ ...pin, id: 1 }} />
       </NaverMapView>
+      <Input
+        value={description}
+        onChangeText={(text) => setDescription(text)}
+        placeholder='상세 위치를 입력해주세요. ex) 정문 편의점 앞'
+        placeholderTextColor={theme.palette.gray03}
+        style={{ marginTop: 30 }}
+      />
     </MapModal>
   );
 };

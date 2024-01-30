@@ -13,7 +13,7 @@ import { Font13W500, Font13W600, Font15W500 } from 'components/common/text';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { Button } from 'components/common/button';
+import { BtnType, Button } from 'components/common/button';
 import {
   Asset,
   launchCamera,
@@ -68,7 +68,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
     coord: undefined,
-    description: '장소 임시내용', // TODO: description 받기
+    description: '', // TODO: description 받기
   });
   const [date, setDate] = useState<TradeDate>(initialDate);
   const [isDateOpen, setIsDateOpen] = useState(true);
@@ -102,6 +102,15 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     if (didCancel) return;
     if (assets) setImages((prev) => [...prev, ...assets]);
   };
+
+  const isValid =
+    title.trim() &&
+    description.trim() &&
+    place.coord &&
+    place.description.trim() &&
+    nThing.denominator &&
+    nThing.numerator &&
+    price.trim();
 
   const validate = () => {
     if (!title.trim()) throw '글 제목을 입력해주세요.';
@@ -156,11 +165,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#FFFFFF', position: 'relative' }}
     >
-      <CustomHeader
-        title='거래글 작성'
-        navigation={navigation}
-        // bottomBorder={false}
-      />
+      <CustomHeader title='거래글 작성' navigation={navigation} />
       <KeyboardAwareScrollView extraHeight={204}>
         <Row style={{ paddingTop: 20 }}>
           <ScrollView
@@ -215,6 +220,17 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
               onChangeText={(text) => setTitle(text)}
             />
           </Box>
+          <Pressable onPress={() => {}}>
+            <Box>
+              <Row style={{ flex: 1, justifyContent: 'space-between' }}>
+                <Font15W500>카테고리</Font15W500>
+                <Font13W600 style={{ color: theme.palette.primary }}>
+                  {/* 카테고리 */}
+                </Font13W600>
+              </Row>
+              <Icon name={'S_Add'} size={16} color={theme.palette.black} />
+            </Box>
+          </Pressable>
           <Pressable
             onPress={() =>
               navigation.navigate('TradeMapModal', {
@@ -224,7 +240,12 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
             }
           >
             <Box>
-              <Font15W500>거래 희망 장소</Font15W500>
+              <Row style={{ flex: 1, justifyContent: 'space-between' }}>
+                <Font15W500>거래 희망 장소</Font15W500>
+                <Font13W600 style={{ color: theme.palette.primary }}>
+                  {place.description}
+                </Font13W600>
+              </Row>
               <Icon name={'S_Add'} size={16} color={theme.palette.black} />
             </Box>
           </Pressable>
@@ -324,8 +345,9 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           <InformText>{`내가 구하고자 하는 인원의 수를 적으면\n가격이 자동으로 계산돼요`}</InformText>
         </View>
         <Button
+          variant={BtnType[isValid ? 'PRIMARY' : 'DISABLED']}
           onPress={() => {
-            // post 요청
+            if (!isValid) return;
             registTrade();
           }}
         >
