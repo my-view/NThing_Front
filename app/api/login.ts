@@ -5,6 +5,12 @@ interface TokenParams {
   id_token: string;
 }
 
+type tokenResponseType = {
+  message: string;
+  access_token: string;
+  refresh_token: string;
+};
+
 // 소셜 토큰 이용해서 우리 서버에 로그인
 export const postLogin = async (
   route: SocialLoginRoute,

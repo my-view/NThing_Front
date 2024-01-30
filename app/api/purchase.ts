@@ -4,9 +4,7 @@ import { PurchaseDetail } from 'types/purchase';
 
 export const getPurchaseDetailAPI = async (id?: number) => {
   if (!id) return null;
-  return axios.get<Envelope<PurchaseDetail>>(`/purchase/${id}`).then((res) => {
-    return res.data.data;
-  });
+  return axios.get<Envelope<PurchaseDetail>>(`/purchase/${id}`);
 };
 
 export const postPurchaseLikedAPI = async (id: number) => {
@@ -16,9 +14,5 @@ export const postPurchaseLikedAPI = async (id: number) => {
 
 export const getPurchaseCommentAPI = async (id?: number) => {
   if (!id) return null;
-  return axios
-    .get<Envelope<Comment[]>>(`/purchase/${id}/comments`)
-    .then((res) => {
-      return res.data.data;
-    });
+  return axios.get<Envelope<Comment[]>>(`/purchase/${id}/comments`);
 };

@@ -46,6 +46,11 @@ axios.interceptors.request.use(
   },
 );
 
+axios.interceptors.response.use((response) => {
+  console.log('@@ AXIOS RESPONSE', response.data.data);
+  return response.data.data;
+});
+
 export default function App() {
   const { handleError } = useApiError();
 
