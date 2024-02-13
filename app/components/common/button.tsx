@@ -1,6 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { CSSProperties, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/native';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleProp,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { Font12W500, Font13W600, Font16W600 } from 'components/common/text';
 import {
   GestureDetector,
@@ -58,6 +64,7 @@ export const Button: React.FCC<{
 
 const Container = styled.View<{ size: BtnSize; variant: BtnType }>`
   padding: ${(p) => p.size};
+  align-items: center;
   background-color: ${(p) => BtnTypeMapping[p.variant].backgroundColor};
   border-radius: 4px;
 `;
@@ -70,20 +77,23 @@ type RoundedButtonType = {
   title: string;
   onPress: () => void;
   disabled?: boolean;
+  style?: ViewStyle;
 };
 
 export const RoundedButton = ({
   title,
   onPress,
   disabled,
+  style,
 }: RoundedButtonType) => {
-  const DefaultButtonStyle = {
+  const DefaultButtonStyle: ViewStyle = {
     width: '100%',
     paddingVertical: 20,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#34C185',
+    ...style,
   };
 
   const DisabledButtonStyle = {

@@ -66,7 +66,7 @@ export type ChatListType = {
 };
 
 export interface TradePlace {
-  coord?: Coord;
+  coord: Coord;
   description: string;
 }
 

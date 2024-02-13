@@ -67,11 +67,12 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   const [title, setTitle] = useState('');
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
-    coord: undefined,
-    description: '', // TODO: description 받기
+    coord: { latitude: 0, longitude: 0 }, // TODO: 학교 위치로 초기값 채우기
+    description: '',
   });
   const [date, setDate] = useState<TradeDate>(initialDate);
-  const [isDateOpen, setIsDateOpen] = useState(true);
+  const [isDateOpen, setIsDateOpen] = useState(false);
+  const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
   const [nThing, setNThing] = useState({
     denominator: '', // 분모
     numerator: '', // 분자
@@ -116,8 +117,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     if (!title.trim()) throw '글 제목을 입력해주세요.';
     if (!description.trim()) throw '글 내용을 입력해주세요.';
     if (!place.coord) throw '거래 희망 장소를 입력해주세요.';
-    // TODO: 거래 희망 장소 설명 추가해야 함
-    // if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
+    if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
     if (!nThing.denominator || !nThing.numerator)
       throw 'N띵 정보를 입력해주세요.';
     if (!price.trim()) throw '가격을 입력해주세요.';
@@ -235,7 +235,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
             onPress={() =>
               navigation.navigate('TradeMapModal', {
                 place,
-                updatePlace: (updated: TradePlace) => setPlace(updated),
+                setPlace: (updated: TradePlace) => setPlace(updated),
               })
             }
           >

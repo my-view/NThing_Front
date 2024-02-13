@@ -28,7 +28,7 @@ export type RootStackParamList = {
   UniversityMapModal: { latitude: number; longitude: number };
   TradeMapModal: {
     place: TradePlace;
-    updatePlace: (updated: TradePlace) => void;
+    setPlace: (updated: TradePlace) => void;
   };
 };
 

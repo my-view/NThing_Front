@@ -15,7 +15,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PURCHASE_ITEM_LIST } from 'assets/mock/purchase-item-list';
 import { theme } from '~/../theme';
 import { Icon } from 'components/common/icon';
-import { PINS } from 'assets/mock/pins';
 import { sortOptions } from 'assets/util/constants';
 import { useMapTrade } from 'hooks/map';
 import { MainScreenParamList } from 'screens/main';
@@ -59,7 +58,6 @@ const HomeScreen = ({ route, navigation }: Props) => {
         onPress={async () => {
           const token = await getStorage(TOKEN_STORAGE_KEY);
           if (token) return navigation.navigate('TradeScreen', { id: item.id });
-          // TODO: 로그인 유도 화면 필요
           Alert.alert('로그인 후 이용해주세요!');
           navigation.navigate('RootScreen');
         }}
