@@ -6,16 +6,27 @@ import { Font18W600 } from 'components/common/text';
 import { theme } from '~/../theme';
 import { Icon } from 'components/common/icon';
 
+type ModalVariant = 'bottom' | 'default';
+
 export const MapModal: React.FCC<{
   title?: string;
   subTitle?: string;
   onClose?: () => void;
   onComplete?: () => void;
   completeText?: string;
-}> = ({ title, subTitle, onClose, onComplete, completeText, children }) => {
+  variant?: ModalVariant;
+}> = ({
+  title,
+  subTitle,
+  onClose,
+  onComplete,
+  completeText,
+  variant = 'default',
+  children,
+}) => {
   return (
-    <ModalBackground>
-      <ModalContent>
+    <ModalBackground variant={variant}>
+      <ModalContent variant={variant}>
         <ModalHeader>
           <View style={{ gap: 10 }}>
             {title && <Font18W600>{title}</Font18W600>}
@@ -30,36 +41,41 @@ export const MapModal: React.FCC<{
           )}
         </ModalHeader>
         {children}
-        <Pressable style={{ marginTop: 20 }} onPress={onComplete}>
-          <Text
-            style={{
-              fontSize: 13,
-              fontWeight: '600',
-              color: theme.palette.primary,
-              textAlign: 'center',
-            }}
-          >
-            {completeText}
-          </Text>
-        </Pressable>
+        {completeText && (
+          <Pressable style={{ marginTop: 20 }} onPress={onComplete}>
+            <Text
+              style={{
+                fontSize: 13,
+                fontWeight: '600',
+                color: theme.palette.primary,
+                textAlign: 'center',
+              }}
+            >
+              {completeText}
+            </Text>
+          </Pressable>
+        )}
       </ModalContent>
     </ModalBackground>
   );
 };
 
-const ModalBackground = styled.View`
+const ModalBackground = styled.View<{ variant: ModalVariant }>`
   flex: 1;
-  padding-horizontal: ${getWidthRatio(40)};
+  ${(p) =>
+    p.variant === 'default' && `padding-horizontal: ${getWidthRatio(40)};`}
+  ${(p) => p.variant === 'bottom' && 'padding: 0;'}
 `;
 
-const ModalContent = styled.View`
-  margin: auto 0;
+const ModalContent = styled.View<{ variant: ModalVariant }>`
+  ${(p) => p.variant === 'default' && 'margin: auto 0;'}
   padding: 20px;
   background-color: ${(p) => p.theme.palette.white};
   border-radius: 10px;
+  ${(p) => p.variant === 'bottom' && 'margin-top: auto;'}
 `;
 
-const ModalHeader = styled.View`
+export const ModalHeader = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 26px;

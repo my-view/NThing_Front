@@ -1,6 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { CSSProperties, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/native';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleProp,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { Font12W500, Font13W600, Font16W600 } from 'components/common/text';
 import {
   GestureDetector,
@@ -14,54 +20,80 @@ import { getCategoryListAPI } from '~/api/category';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { SvgCssUri } from 'react-native-svg';
+import { theme } from '~/../theme';
 
 export enum BtnSize {
   SMALL = '6px 12px',
   MEDIUM = '11.5px 18px',
 }
 
-export const Button: React.FCC<{ onPress: () => void; size?: BtnSize }> = ({
+export enum BtnType {
+  PRIMARY = 'primary',
+  DISABLED = 'disabled',
+}
+
+const BtnTypeMapping = {
+  [BtnType.PRIMARY]: {
+    backgroundColor: theme.palette.primary,
+    color: theme.palette.white,
+  },
+  [BtnType.DISABLED]: {
+    backgroundColor: theme.palette.gray01,
+    color: theme.palette.white,
+  },
+};
+
+export const Button: React.FCC<{
+  onPress: () => void;
+  size?: BtnSize;
+  variant?: BtnType;
+}> = ({
   onPress,
   size = BtnSize.MEDIUM,
+  variant = BtnType.PRIMARY,
   children,
 }) => {
   return (
     <Pressable onPress={onPress}>
-      <Container size={size}>
-        <ButtonTitle>{children}</ButtonTitle>
+      <Container size={size} variant={variant}>
+        <ButtonTitle variant={variant}>{children}</ButtonTitle>
       </Container>
     </Pressable>
   );
 };
 
-const Container = styled.View<{ size: BtnSize }>`
+const Container = styled.View<{ size: BtnSize; variant: BtnType }>`
   padding: ${(p) => p.size};
-  background-color: ${(p) => p.theme.palette.primary};
+  align-items: center;
+  background-color: ${(p) => BtnTypeMapping[p.variant].backgroundColor};
   border-radius: 4px;
 `;
 
-const ButtonTitle = styled(Font13W600)`
-  color: ${(p) => p.theme.palette.white};
+const ButtonTitle = styled(Font13W600)<{ variant: BtnType }>`
+  color: ${(p) => BtnTypeMapping[p.variant].color};
 `;
 
 type RoundedButtonType = {
   title: string;
   onPress: () => void;
   disabled?: boolean;
+  style?: ViewStyle;
 };
 
 export const RoundedButton = ({
   title,
   onPress,
   disabled,
+  style,
 }: RoundedButtonType) => {
-  const DefaultButtonStyle = {
+  const DefaultButtonStyle: ViewStyle = {
     width: '100%',
     paddingVertical: 20,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#34C185',
+    ...style,
   };
 
   const DisabledButtonStyle = {

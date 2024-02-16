@@ -13,7 +13,7 @@ import { Font13W500, Font13W600, Font15W500 } from 'components/common/text';
 import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
-import { Button } from 'components/common/button';
+import { BtnType, Button } from 'components/common/button';
 import {
   Asset,
   launchCamera,
@@ -36,6 +36,8 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import { MainScreenParamList } from 'screens/main';
 import { RootStackParamList } from 'screens/stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { useFetchCategoryList } from '~/hooks/category';
+import { Chip } from '~/components/common/chip';
 
 const offset = 1000 * 60 * 60 * 9;
 const krNow = new Date(new Date().getTime() + offset);
@@ -65,19 +67,21 @@ type Props = CompositeScreenProps<
 const TradeRegistScreen = ({ navigation, route }: Props) => {
   const { data: trade } = usePurchaseDetail(route.params?.id);
   const [title, setTitle] = useState('');
+  const [category, setCategory] = useState(0);
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
-    coord: undefined,
-    description: '장소 임시내용', // TODO: description 받기
+    coord: { latitude: 0, longitude: 0 }, // TODO: 학교 위치로 초기값 채우기
+    description: '',
   });
   const [date, setDate] = useState<TradeDate>(initialDate);
-  const [isDateOpen, setIsDateOpen] = useState(true);
+  const [isDateOpen, setIsDateOpen] = useState(false);
   const [nThing, setNThing] = useState({
     denominator: '', // 분모
     numerator: '', // 분자
   });
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const { data: categories } = useFetchCategoryList();
 
   const selectImages = async () => {
     const { didCancel, assets } = await launchImageLibrary({
@@ -103,12 +107,22 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     if (assets) setImages((prev) => [...prev, ...assets]);
   };
 
+  const isValid =
+    title.trim() &&
+    category &&
+    description.trim() &&
+    place.coord &&
+    place.description.trim() &&
+    nThing.denominator &&
+    nThing.numerator &&
+    price.trim();
+
   const validate = () => {
     if (!title.trim()) throw '글 제목을 입력해주세요.';
+    if (!category) throw '카테고리를 선택해주세요.';
     if (!description.trim()) throw '글 내용을 입력해주세요.';
     if (!place.coord) throw '거래 희망 장소를 입력해주세요.';
-    // TODO: 거래 희망 장소 설명 추가해야 함
-    // if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
+    if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
     if (!nThing.denominator || !nThing.numerator)
       throw 'N띵 정보를 입력해주세요.';
     if (!price.trim()) throw '가격을 입력해주세요.';
@@ -119,7 +133,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
       validate();
       const form = new FormData();
       form.append('title', title);
-      form.append('category_id', 1);
+      form.append('category_id', category);
       form.append('latitude', place.coord?.latitude);
       form.append('longitude', place.coord?.longitude);
       form.append('place', place.description);
@@ -156,11 +170,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#FFFFFF', position: 'relative' }}
     >
-      <CustomHeader
-        title='거래글 작성'
-        navigation={navigation}
-        // bottomBorder={false}
-      />
+      <CustomHeader title='거래글 작성' navigation={navigation} />
       <KeyboardAwareScrollView extraHeight={204}>
         <Row style={{ paddingTop: 20 }}>
           <ScrollView
@@ -204,27 +214,50 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
         </Row>
         <Container>
           {/* 키보드 내용 가림 */}
-          <Box>
-            <Font15W500>글 제목</Font15W500>
+          <TitleBox>
             <TextInput
-              style={{ flex: 1 }}
-              placeholder='최대 30자까지 입력가능합니다.'
+              style={{ flex: 1, fontSize: 15 }}
+              placeholder='글 제목'
               placeholderTextColor={theme.palette.gray01}
               maxLength={30}
               value={title}
               onChangeText={(text) => setTitle(text)}
             />
-          </Box>
+            {title && categories && (
+              <Row style={{ gap: 6 }}>
+                {categories.map((item) => {
+                  const isSelected = category === item.id;
+                  return (
+                    <Chip
+                      key={item.id}
+                      onSelect={() => {
+                        if (isSelected) setCategory(0);
+                        else setCategory(item.id);
+                      }}
+                      isSelected={isSelected}
+                    >
+                      {item.name}
+                    </Chip>
+                  );
+                })}
+              </Row>
+            )}
+          </TitleBox>
           <Pressable
             onPress={() =>
               navigation.navigate('TradeMapModal', {
-                place,
-                updatePlace: (updated: TradePlace) => setPlace(updated),
+                initialPlace: place,
+                update: (updated: TradePlace) => setPlace(updated),
               })
             }
           >
             <Box>
-              <Font15W500>거래 희망 장소</Font15W500>
+              <Row style={{ flex: 1, justifyContent: 'space-between' }}>
+                <Font15W500>거래 희망 장소</Font15W500>
+                <Font13W600 style={{ color: theme.palette.primary }}>
+                  {place.description}
+                </Font13W600>
+              </Row>
               <Icon name={'S_Add'} size={16} color={theme.palette.black} />
             </Box>
           </Pressable>
@@ -281,7 +314,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
               <NThingText>
                 <Text style={{ color: theme.palette.primary }}>
                   {formatPrice(
-                    Math.ceil(Number(price) / Number(nThing.numerator || 1)),
+                    Math.ceil(Number(price) / Number(nThing.denominator || 1)),
                   ) || 0}
                 </Text>
                 원
@@ -324,8 +357,9 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           <InformText>{`내가 구하고자 하는 인원의 수를 적으면\n가격이 자동으로 계산돼요`}</InformText>
         </View>
         <Button
+          variant={BtnType[isValid ? 'PRIMARY' : 'DISABLED']}
           onPress={() => {
-            // post 요청
+            if (!isValid) return;
             registTrade();
           }}
         >
@@ -359,12 +393,17 @@ const GraySmallText = styled.Text`
   color: ${(p) => p.theme.palette.gray03};
 `;
 
-const Box = styled(Row)`
+const TitleBox = styled.View`
   padding: 18px 4px;
   gap: 13px;
-  justify-content: space-between;
   border-bottom-width: 1px;
   border-bottom-color: ${(p) => p.theme.palette.gray01};
+`;
+
+const Box = styled(TitleBox)`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const InputBox = styled(Box)`

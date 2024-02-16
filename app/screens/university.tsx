@@ -6,9 +6,8 @@ import { getHeightRatio } from 'assets/util/layout';
 import { College } from 'types/common';
 import { Autocomplete } from 'components/common/autocomplete';
 import { useCollege } from '~/hooks/college';
-import { COLLEGE_MOCK_DATA } from '~/assets/mock/college';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from './stack';
+import { RootStackParamList } from 'screens/stack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'UniversityScreen'>;
 

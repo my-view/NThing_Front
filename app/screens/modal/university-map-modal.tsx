@@ -2,8 +2,12 @@ import React from 'react';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from 'components/nmap/marker';
 import { MapModal } from 'components/common/map-modal';
+import { RootStackParamList } from 'screens/stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const UniversityMapModal = ({ navigation, route }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'UniversityMapModal'>;
+
+const UniversityMapModal = ({ navigation, route }: Props) => {
   const { latitude, longitude } = route.params;
   const pin = { id: 1, latitude, longitude };
   return (
