@@ -234,8 +234,8 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           <Pressable
             onPress={() =>
               navigation.navigate('TradeMapModal', {
-                place,
-                setPlace: (updated: TradePlace) => setPlace(updated),
+                initialPlace: place,
+                update: (updated: TradePlace) => setPlace(updated),
               })
             }
           >
@@ -302,7 +302,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
               <NThingText>
                 <Text style={{ color: theme.palette.primary }}>
                   {formatPrice(
-                    Math.ceil(Number(price) / Number(nThing.numerator || 1)),
+                    Math.ceil(Number(price) / Number(nThing.denominator || 1)),
                   ) || 0}
                 </Text>
                 원

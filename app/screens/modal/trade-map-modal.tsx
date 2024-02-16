@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NaverMapView from 'react-native-nmap';
 import { CustomMarker } from 'components/nmap/marker';
 import { MapModal } from 'components/common/map-modal';
@@ -7,16 +7,24 @@ import { theme } from '~/../theme';
 import { RoundedButton } from 'components/common/button';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
+import { TradePlace } from 'types/common';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeMapModal'>;
 
 const TradeMapModal = ({ navigation, route }: Props) => {
-  const { place, setPlace } = route.params;
+  const { initialPlace, update } = route.params;
+  const [place, setPlace] = useState(initialPlace);
   // TODO: 사용자의 학교 데이터 받아와서 좌표 적용
-  const initialPin = place.coord || {
+  const initialPin = initialPlace.coord || {
     latitude: 37.564362,
     longitude: 126.977011,
   };
+
+  const updatePlace = (newPlace: TradePlace) => {
+    setPlace(newPlace);
+    update(newPlace);
+  };
+
   return (
     <MapModal
       onClose={navigation.goBack}
@@ -28,7 +36,7 @@ const TradeMapModal = ({ navigation, route }: Props) => {
         style={{ width: '100%', aspectRatio: '5/3' }}
         center={{ ...initialPin, zoom: 15 }}
         onCameraChange={(e) =>
-          setPlace({
+          updatePlace({
             description: place.description,
             coord: {
               latitude:
@@ -44,14 +52,14 @@ const TradeMapModal = ({ navigation, route }: Props) => {
       </NaverMapView>
       <Input
         value={place.description}
-        onChangeText={(text) => setPlace({ ...place, description: text })}
+        onChangeText={(text) => updatePlace({ ...place, description: text })}
         placeholder='상세 위치를 입력해주세요. ex) 정문 편의점 앞'
         placeholderTextColor={theme.palette.gray03}
         style={{ marginTop: 30, marginBottom: 10 }}
       />
       <RoundedButton
         title='선택 완료'
-        onPress={() => {}}
+        onPress={navigation.goBack}
         style={{ borderRadius: 12 }}
       />
     </MapModal>
