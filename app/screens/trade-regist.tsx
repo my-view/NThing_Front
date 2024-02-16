@@ -36,6 +36,8 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import { MainScreenParamList } from 'screens/main';
 import { RootStackParamList } from 'screens/stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { useFetchCategoryList } from '~/hooks/category';
+import { Chip } from '~/components/common/chip';
 
 const offset = 1000 * 60 * 60 * 9;
 const krNow = new Date(new Date().getTime() + offset);
@@ -65,6 +67,7 @@ type Props = CompositeScreenProps<
 const TradeRegistScreen = ({ navigation, route }: Props) => {
   const { data: trade } = usePurchaseDetail(route.params?.id);
   const [title, setTitle] = useState('');
+  const [category, setCategory] = useState(0);
   const [images, setImages] = useState<Asset[]>([]);
   const [place, setPlace] = useState<TradePlace>({
     coord: { latitude: 0, longitude: 0 }, // TODO: 학교 위치로 초기값 채우기
@@ -72,13 +75,13 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   });
   const [date, setDate] = useState<TradeDate>(initialDate);
   const [isDateOpen, setIsDateOpen] = useState(false);
-  const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
   const [nThing, setNThing] = useState({
     denominator: '', // 분모
     numerator: '', // 분자
   });
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const { data: categories } = useFetchCategoryList();
 
   const selectImages = async () => {
     const { didCancel, assets } = await launchImageLibrary({
@@ -106,6 +109,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
 
   const isValid =
     title.trim() &&
+    category &&
     description.trim() &&
     place.coord &&
     place.description.trim() &&
@@ -115,6 +119,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
 
   const validate = () => {
     if (!title.trim()) throw '글 제목을 입력해주세요.';
+    if (!category) throw '카테고리를 선택해주세요.';
     if (!description.trim()) throw '글 내용을 입력해주세요.';
     if (!place.coord) throw '거래 희망 장소를 입력해주세요.';
     if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
@@ -128,7 +133,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
       validate();
       const form = new FormData();
       form.append('title', title);
-      form.append('category_id', 1);
+      form.append('category_id', category);
       form.append('latitude', place.coord?.latitude);
       form.append('longitude', place.coord?.longitude);
       form.append('place', place.description);
@@ -209,28 +214,35 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
         </Row>
         <Container>
           {/* 키보드 내용 가림 */}
-          <Box>
-            <Font15W500>글 제목</Font15W500>
+          <TitleBox>
             <TextInput
-              style={{ flex: 1 }}
-              placeholder='최대 30자까지 입력가능합니다.'
+              style={{ flex: 1, fontSize: 15 }}
+              placeholder='글 제목'
               placeholderTextColor={theme.palette.gray01}
               maxLength={30}
               value={title}
               onChangeText={(text) => setTitle(text)}
             />
-          </Box>
-          <Pressable onPress={() => {}}>
-            <Box>
-              <Row style={{ flex: 1, justifyContent: 'space-between' }}>
-                <Font15W500>카테고리</Font15W500>
-                <Font13W600 style={{ color: theme.palette.primary }}>
-                  {/* 카테고리 */}
-                </Font13W600>
+            {title && categories && (
+              <Row style={{ gap: 6 }}>
+                {categories.map((item) => {
+                  const isSelected = category === item.id;
+                  return (
+                    <Chip
+                      key={item.id}
+                      onSelect={() => {
+                        if (isSelected) setCategory(0);
+                        else setCategory(item.id);
+                      }}
+                      isSelected={isSelected}
+                    >
+                      {item.name}
+                    </Chip>
+                  );
+                })}
               </Row>
-              <Icon name={'S_Add'} size={16} color={theme.palette.black} />
-            </Box>
-          </Pressable>
+            )}
+          </TitleBox>
           <Pressable
             onPress={() =>
               navigation.navigate('TradeMapModal', {
@@ -381,12 +393,17 @@ const GraySmallText = styled.Text`
   color: ${(p) => p.theme.palette.gray03};
 `;
 
-const Box = styled(Row)`
+const TitleBox = styled.View`
   padding: 18px 4px;
   gap: 13px;
-  justify-content: space-between;
   border-bottom-width: 1px;
   border-bottom-color: ${(p) => p.theme.palette.gray01};
+`;
+
+const Box = styled(TitleBox)`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const InputBox = styled(Box)`
