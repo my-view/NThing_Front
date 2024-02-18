@@ -32,12 +32,9 @@ import axios from 'axios';
 import moment from 'moment';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
-import { CompositeScreenProps } from '@react-navigation/native';
-import { MainScreenParamList } from 'screens/main';
 import { RootStackParamList } from 'screens/stack';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { useFetchCategoryList } from '~/hooks/category';
-import { Chip } from '~/components/common/chip';
+import { useFetchCategoryList } from 'hooks/category';
+import { Chip } from 'components/common/chip';
 
 const offset = 1000 * 60 * 60 * 9;
 const krNow = new Date(new Date().getTime() + offset);
@@ -59,10 +56,7 @@ const getDate = (tradeDate: TradeDate) => {
   return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
-type Props = CompositeScreenProps<
-  BottomTabScreenProps<MainScreenParamList, 'TradeRegistScreen'>,
-  NativeStackScreenProps<RootStackParamList>
->;
+type Props = NativeStackScreenProps<RootStackParamList, 'TradeRegistScreen'>;
 
 const TradeRegistScreen = ({ navigation, route }: Props) => {
   const { data: trade } = usePurchaseDetail(route.params?.id);

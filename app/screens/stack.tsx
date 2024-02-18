@@ -13,6 +13,7 @@ import ChatingScreen from 'screens/chatingScreen';
 import InterestTradeScreen from 'screens/interest-trade';
 import { TradePlace } from 'types/common';
 import { PurchaseDetail } from 'types/purchase';
+import TradeRegistScreen from 'screens/trade-regist';
 
 export type RootStackParamList = {
   RootScreen: undefined;
@@ -63,6 +64,7 @@ const RootStackScreen = () => {
           options={{ animation: 'none' }}
           initialParams={{ keyword: '' }}
         />
+        <Stack.Screen name='TradeRegistScreen' component={TradeRegistScreen} />
         <Stack.Screen name='TradeScreen' component={TradeScreen} />
         <Stack.Screen name='MyPageEditScreen' component={MyPageEditScreen} />
         <Stack.Screen

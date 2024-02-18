@@ -24,7 +24,7 @@ import { CompositeScreenProps } from '@react-navigation/native';
 export type MainScreenParamList = {
   Home: undefined;
   HomeScreen: { keyword: string };
-  TradeRegistScreen: { id?: number };
+  TradeRegistScreen: undefined;
   ChatingListScreen: undefined;
   MyPageScreen: undefined;
 };
