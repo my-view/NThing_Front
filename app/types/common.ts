@@ -114,6 +114,17 @@ export interface IMessage {
   video?: string;
   sent?: boolean;
   received?: boolean;
+  type?: 'separator' | 'end';
+  timeStamp?: string;
+  quickReplies?: {
+    type: 'radio';
+    title: string;
+    description: string;
+    values: {
+      title: string;
+      value: string;
+    }[];
+  };
 }
 
 export interface TradeParams {

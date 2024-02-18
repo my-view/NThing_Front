@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Pressable,
   StyleProp,
+  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
@@ -78,6 +79,7 @@ type RoundedButtonType = {
   onPress: () => void;
   disabled?: boolean;
   style?: ViewStyle;
+  textStyle?: TextStyle;
 };
 
 export const RoundedButton = ({
@@ -85,6 +87,7 @@ export const RoundedButton = ({
   onPress,
   disabled,
   style,
+  textStyle,
 }: RoundedButtonType) => {
   const DefaultButtonStyle: ViewStyle = {
     width: '100%',
@@ -94,6 +97,12 @@ export const RoundedButton = ({
     alignItems: 'center',
     backgroundColor: '#34C185',
     ...style,
+  };
+  const DefaultTextStyle: TextStyle = {
+    textAlign: 'center',
+    fontWeight: 500,
+    color: 'white',
+    ...textStyle,
   };
 
   const DisabledButtonStyle = {
@@ -106,16 +115,10 @@ export const RoundedButton = ({
       style={disabled ? DisabledButtonStyle : DefaultButtonStyle}
       onPress={onPress}
     >
-      <RoundedButtonText>{title}</RoundedButtonText>
+      <Font16W600 style={DefaultTextStyle}>{title}</Font16W600>
     </Pressable>
   );
 };
-
-const RoundedButtonText = styled(Font16W600)`
-  text-align: center;
-  font-weight: 500;
-  color: white;
-`;
 
 export const CategoryIconButton: React.FC = () => {
   const [categoryData, setCategoryData] = useState<CategoryItem[]>([]);

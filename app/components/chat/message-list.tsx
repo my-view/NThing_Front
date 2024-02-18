@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Pressable, Text } from 'react-native';
 import { Message } from 'components/chat/message';
 import { IMessage } from 'types/common';
+import { FinishBubble } from './finish-bubble';
 
 export const MessageList: React.FC<{ messages: IMessage[] }> = ({
   messages,

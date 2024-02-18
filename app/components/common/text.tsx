@@ -10,6 +10,10 @@ export const Font10W400 = styled(BaseText)`
   font-weight: 400;
   font-size: 10px;
 `;
+export const Font10W500 = styled(BaseText)`
+  font-weight: 500;
+  font-size: 10px;
+`;
 
 export const Font10W600 = styled(BaseText)`
   font-weight: 600;
@@ -79,6 +83,10 @@ export const Font15W500 = styled(BaseText)`
 export const Font15W600 = styled(BaseText)`
   font-size: 15px;
   font-weight: 600;
+`;
+export const Font15W700 = styled(BaseText)`
+  font-size: 15px;
+  font-weight: 700;
 `;
 
 export const Font16W500 = styled(BaseText)`
