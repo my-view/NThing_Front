@@ -100,7 +100,7 @@ export const RoundedButton = ({
   };
   const DefaultTextStyle: TextStyle = {
     textAlign: 'center',
-    fontWeight: 500,
+    fontWeight: '500',
     color: 'white',
     ...textStyle,
   };
