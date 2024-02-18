@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SocialLoginRoute } from 'types/common';
+import { Envelope, SocialLoginRoute } from 'types/common';
 
 interface TokenParams {
   id_token: string;
@@ -16,6 +16,8 @@ export const postLogin = async (
   route: SocialLoginRoute,
   params: TokenParams,
 ) => {
+  console.log(route, params);
+
   // TODO: 사실 이 부분은 api가 통합되어야 할 듯 => 수정될 것 같음
   return axios.post(`/login/${route}`, params);
 };

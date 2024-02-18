@@ -1,7 +1,16 @@
 import { IconName } from 'components/common/icon';
 import { chatStatus } from 'components/common/chat-item';
 import { Coord } from 'react-native-nmap';
+import { AxiosRequestConfig, AxiosResponseHeaders } from 'axios';
 
+export interface AxiosResponse<T = any, D = any> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: AxiosResponseHeaders;
+  config: AxiosRequestConfig<D>;
+  request?: any;
+}
 export interface Envelope<T> {
   data: T;
   status: string;

@@ -16,6 +16,12 @@ const messages = [
     },
   },
   {
+    _id: 17,
+    text: 'This is a system message',
+    createdAt: new Date(Date.UTC(2016, 5, 12, 17, 30, 0)),
+    system: true,
+  },
+  {
     _id: 3,
     text: 'Hi! I work from home today!',
     createdAt: new Date(Date.UTC(2016, 5, 13, 17, 20, 0)),
@@ -97,7 +103,7 @@ const messages = [
           But you can also do more with this package, for example Bob will change style and David too. foo@gmail.com
           And the magic number is 42!
           #react #react-native`,
-    createdAt: new Date(Date.UTC(2016, 5, 13, 17, 20, 0)),
+    createdAt: new Date(Date.UTC(2023, 5, 13, 20, 20, 0)),
     user: {
       _id: 1,
       name: 'React Native',

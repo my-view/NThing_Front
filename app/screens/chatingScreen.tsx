@@ -11,10 +11,17 @@ const ChatingScreen = ({ navigation }: any) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
 
   const onSend = (newMessages: IMessage) => {
-    setMessages((prev) => [...prev, newMessages]);
+    setMessages((prev) => [newMessages, ...prev]);
+    setInput('');
   };
 
-  useEffect(() => setMessages(initialMessages.reverse()), []);
+  useEffect(() => {
+    const sortDate = initialMessages
+      .sort((a, b) => a.createdAt - b.createdAt)
+      .reverse();
+
+    setMessages(sortDate);
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>

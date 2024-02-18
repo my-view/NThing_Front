@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
 import {
@@ -7,10 +7,12 @@ import {
   Font12W600,
   Font15W500,
 } from 'components/common/text';
+import { Pressable } from 'react-native';
 import { HostTag } from 'components/common/host-tag';
 import moment from 'moment';
 import { formatKorAmPm } from 'assets/util/format';
 import { IMessage } from 'types/common';
+import { MemeberControlModal } from './member-control-modal';
 
 export const Message: React.FC<{
   data: IMessage;
@@ -18,16 +20,38 @@ export const Message: React.FC<{
   isSameSender: boolean;
   isHost: boolean;
   unreadCount?: number;
-}> = ({ data, isSending, isSameSender, isHost, unreadCount = 4 }) => {
+  checkItemHeight: any;
+}> = ({
+  data,
+  isSending,
+  isSameSender,
+  isHost,
+  unreadCount = 4,
+  checkItemHeight,
+}) => {
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
+
   return (
-    <MessageWrapper isSameSender={isSameSender}>
+    <MessageWrapper onLayout={checkItemHeight} isSameSender={isSameSender}>
       {!isSending && !isSameSender && (
-        <AvatarWrapper>
-          <Avatar source={require('../../assets/image/item-example.png')} />
-          <SenderName>{data.user?.name}</SenderName>
-          {isHost && <HostTag />}
-        </AvatarWrapper>
+        <>
+          <Pressable onLongPress={() => setAvatarModalOpen(true)}>
+            <AvatarWrapper>
+              <Avatar source={require('../../assets/image/item-example.png')} />
+              <SenderName>{data.user?.name}</SenderName>
+              {isHost && <HostTag />}
+            </AvatarWrapper>
+          </Pressable>
+          {avatarModalOpen && (
+            <MemeberControlModal
+              isHost={isHost}
+              open={avatarModalOpen}
+              setOpen={setAvatarModalOpen}
+            />
+          )}
+        </>
       )}
+
       <BubbleWrapper isSending={isSending}>
         <Bubble isSending={isSending}>
           <MessageText isSending={isSending}>{data.text}</MessageText>
