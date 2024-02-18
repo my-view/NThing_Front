@@ -35,12 +35,10 @@ const googleWebClientId =
 const getServiceToken = async (social: SocialLoginRoute, idToken: string) =>
   postLogin(social, {
     id_token: idToken,
-  })
-    .then((axiosRes) => axiosRes.data)
-    .then((res) => {
-      console.log('응답', res);
-      return res.data.access_token as string;
-    });
+  }).then((res) => {
+    console.log('응답', res);
+    return res.access_token as string;
+  });
 
 const naverLogin = async (props: NaverLoginRequest) => {
   try {
