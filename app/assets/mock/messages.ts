@@ -16,10 +16,22 @@ const messages = [
     },
   },
   {
+    _id: 20,
+    type: 'separator',
+    createdAt: new Date(Date.UTC(2016, 5, 12, 17, 30, 0)),
+    timeStamp: '2023년 12월 9일',
+  },
+  {
     _id: 17,
     text: 'This is a system message',
     createdAt: new Date(Date.UTC(2016, 5, 12, 17, 30, 0)),
     system: true,
+  },
+  {
+    _id: 18,
+    type: 'separator',
+    createdAt: new Date(Date.UTC(2016, 5, 12, 17, 30, 0)),
+    timeStamp: '2023년 12월 10일',
   },
   {
     _id: 3,
@@ -104,6 +116,27 @@ const messages = [
           And the magic number is 42!
           #react #react-native`,
     createdAt: new Date(Date.UTC(2023, 5, 13, 20, 20, 0)),
+    user: {
+      _id: 1,
+      name: 'React Native',
+      avatar: 'https://placeimg.com/140/140/any',
+    },
+  },
+  {
+    _id: 23,
+    type: 'end',
+    quickReplies: {
+      type: 'radio',
+      title: '거래가 완료되었습니다.',
+      description:
+        '거래를 잘 마치셨나요? 거래 종료하기 버튼을 눌러 채팅을 종료하세요.',
+      values: [
+        { title: '불만족', value: 'dissatisfaction' },
+        { title: '만족', value: 'satisfaction' },
+      ],
+    },
+    createdAt: new Date(Date.UTC(2025, 5, 12, 17, 30, 0)),
+    timeStamp: '2023년 12월 10일',
     user: {
       _id: 1,
       name: 'React Native',
