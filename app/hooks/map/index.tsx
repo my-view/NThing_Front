@@ -8,7 +8,7 @@ import { PurchaseItemType } from 'types/common';
 
 // STEP2: API 캐싱
 export function UsefetchMapTrade(centerMapInfo: TradeParams) {
-  return useQuery<PurchaseItemType[]>({
+  return useQuery({
     queryKey: tradeQueryKeys.list(centerMapInfo),
     queryFn: () => getMapTradeInfoAPI(centerMapInfo),
     // ...etc,
@@ -25,7 +25,6 @@ export function useMapTrade() {
     isSuccess,
     isError,
   } = UsefetchMapTrade(centerMapInfo);
-
   const [isFirstLanding, setIsFirstLanding] = useState(true);
 
   return { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding };
