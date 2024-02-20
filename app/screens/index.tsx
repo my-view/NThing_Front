@@ -32,7 +32,7 @@ const naverLoginKeys = {
 const googleWebClientId =
   '141023294009-g5k49bh6cmk0re3c94mnu9esi4ep3gcc.apps.googleusercontent.com';
 
-const getServiceToken = async (social: SocialLoginRoute, idToken: string) =>
+const getServiceToken = (social: SocialLoginRoute, idToken: string) =>
   postLogin(social, {
     id_token: idToken,
   }).then((res) => {
@@ -56,7 +56,7 @@ const kakaoLogin = async () => {
     // const res = await KakaoLogin.getProfile();
     // console.log('카카오 정뵤', res);
     const token = await getServiceToken('kakao', accessToken);
-    console.log('token', token);
+    console.log('service token', token);
     return token;
   } catch (e) {
     console.warn(e);

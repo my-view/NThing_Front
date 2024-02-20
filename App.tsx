@@ -13,9 +13,10 @@ import { AppStateComponent } from '~/observers/app-state';
 // import { AxiosConfig } from './axiosConfig';
 import { EventProvider } from 'react-native-outside-press';
 import 'react-native-gesture-handler';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { getStorage } from '~/assets/util/storage';
 import { TOKEN_STORAGE_KEY } from '~/assets/util/constants';
+import { CustomResponse } from 'types/modules';
 
 //
 if (__DEV__) {
@@ -24,7 +25,7 @@ if (__DEV__) {
   );
 }
 
-axios.defaults.baseURL = 'https://422c-121-130-216-253.ngrok-free.app';
+axios.defaults.baseURL = 'https://ecce-121-130-216-253.ngrok-free.app';
 
 axios.interceptors.request.use(
   async (config) => {
@@ -39,10 +40,12 @@ axios.interceptors.request.use(
   },
 );
 
-axios.interceptors.response.use((response: any) => {
-  console.log('@@ AXIOS RESPONSE 123', response);
-  return response.data;
-});
+axios.interceptors.response.use(
+  (response: AxiosResponse<CustomResponse<any>>) => {
+    console.log('@@ AXIOS RESPONSE 123', response);
+    return response.data.data;
+  },
+);
 
 const Stack = createNativeStackNavigator();
 

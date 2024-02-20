@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { CategoryItem, Envelope } from '~/types/common';
+import { CategoryItem } from 'types/common';
+import { CustomResponse } from 'types/modules';
 
 export const getCategoryListAPI = async () => {
-  return await axios.get<Envelope<CategoryItem[]>>('/categories');
+  return await axios.get<CustomResponse<CategoryItem[]>>('/categories');
 };

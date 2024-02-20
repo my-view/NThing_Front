@@ -1,10 +1,8 @@
 import axios, { Axios, AxiosRequestConfig } from 'axios';
-import { AxiosResponse, CustomResponse } from '~/types/modules';
-import { getStorage } from '~/assets/util/storage';
-import { TOKEN_STORAGE_KEY } from '~/assets/util/constants';
+import { CustomResponse } from '~/types/modules';
 
 const client: Axios = axios.create({
-  baseURL: 'https://422c-121-130-216-253.ngrok-free.app', // 프론트 URL
+  baseURL: 'https://ecce-121-130-216-253.ngrok-free.app', // 서버 URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -21,6 +19,7 @@ export const getData = async <T>(
     throw new Error(error.message);
   }
 };
+
 export const postData = async <T>(
   url: string,
   config?: AxiosRequestConfig,

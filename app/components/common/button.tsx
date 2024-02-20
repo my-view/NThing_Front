@@ -1,9 +1,8 @@
-import React, { CSSProperties, useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/native';
 import {
   ActivityIndicator,
   Pressable,
-  StyleProp,
   TextStyle,
   View,
   ViewStyle,
@@ -15,13 +14,11 @@ import {
 } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { usePressableAnimated } from '~/hooks/animated/usePressableAnimated';
-import { CategoryItem } from 'types/common';
 import { navigationRef } from '~/../RootNavigation';
-import { getCategoryListAPI } from '~/api/category';
-import { useFocusEffect } from '@react-navigation/native';
 
 import { SvgCssUri } from 'react-native-svg';
 import { theme } from '~/../theme';
+import { useFetchCategoryList } from 'hooks/category';
 
 export enum BtnSize {
   SMALL = '6px 12px',
@@ -121,8 +118,9 @@ export const RoundedButton = ({
 };
 
 export const CategoryIconButton: React.FC = () => {
-  const [categoryData, setCategoryData] = useState<CategoryItem[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const { data: categoryData } = useFetchCategoryList();
+  const [loading, setLoading] = useState(true);
+
   const onError = (e: Error) => {
     console.log(e.message);
     setLoading(false);
@@ -131,21 +129,6 @@ export const CategoryIconButton: React.FC = () => {
     console.log('Svg loaded!');
     setLoading(false);
   };
-  useFocusEffect(
-    useCallback(() => {
-      const loadCategoryData = async () => {
-        try {
-          const categoryList = await getCategoryListAPI();
-          setCategoryData(categoryList);
-        } catch (err) {
-          console.log('err', err);
-        }
-      };
-      loadCategoryData();
-    }, []),
-  );
-
-  console.log('categoryList', categoryData);
 
   const { pan, animatedStyles } = usePressableAnimated();
 
