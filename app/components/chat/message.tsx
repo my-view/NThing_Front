@@ -50,7 +50,7 @@ export const Message: React.FC<{
                 isSending={isSending}
                 isEndBubble={isEndBubble}
               >
-                <FinishBubble isHost={false} />
+                <FinishBubble isHost={false} disabled={data.buttonDisabled} />
               </FinishBubbleContainer>
               <DetailInfoWrapper isSending={isSending}>
                 <SendTime>

@@ -107,12 +107,20 @@ export const RoundedButton = ({
     backgroundColor: '#E1E5EC',
   };
 
+  const DisabledTextStyle = {
+    ...DefaultTextStyle,
+    color: 'white',
+  };
+
   return (
     <Pressable
+      disabled={disabled}
       style={disabled ? DisabledButtonStyle : DefaultButtonStyle}
       onPress={onPress}
     >
-      <Font16W600 style={DefaultTextStyle}>{title}</Font16W600>
+      <Font16W600 style={disabled ? DisabledTextStyle : DefaultTextStyle}>
+        {title}
+      </Font16W600>
     </Pressable>
   );
 };

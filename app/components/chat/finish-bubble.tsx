@@ -5,7 +5,11 @@ import { RoundedButton } from '~/components/common/button';
 import { Font15W700, Font14W400 } from '~/components/common/text';
 import { IMessage } from '~/types/common';
 
-export const FinishBubble: React.FC<{ isHost: boolean }> = ({ isHost }) => {
+export const FinishBubble: React.FC<{
+  isHost: boolean;
+  disabled?: boolean;
+}> = ({ isHost, disabled }) => {
+  console.log('@@ disabled', disabled);
   const HostFinishButtonStyle = {
     paddingVertical: 10.5,
     backgroundColor: '#FCEEED',
@@ -39,6 +43,7 @@ export const FinishBubble: React.FC<{ isHost: boolean }> = ({ isHost }) => {
         {isHost ? (
           <RoundedButton
             title='거래 종료하기'
+            disabled={disabled}
             style={HostFinishButtonStyle}
             textStyle={HostFinishButtonTextStyle}
             onPress={() => console.log('거래 종료하기')}
@@ -54,11 +59,13 @@ export const FinishBubble: React.FC<{ isHost: boolean }> = ({ isHost }) => {
             <RoundedButton
               title='불만족'
               style={FinishButtonStyle}
+              disabled={disabled}
               textStyle={FinishButtonTextStyle}
               onPress={() => console.log('불만족')}
             />
             <RoundedButton
               title='만족'
+              disabled={disabled}
               style={{
                 ...FinishButtonStyle,
                 backgroundColor: '#EBF9F6',

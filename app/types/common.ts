@@ -116,6 +116,7 @@ export interface IMessage {
   received?: boolean;
   type?: 'separator' | 'end';
   timeStamp?: string;
+  buttonDisabled?: boolean;
   quickReplies?: {
     type: 'radio';
     title: string;
