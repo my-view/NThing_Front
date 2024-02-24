@@ -143,6 +143,28 @@ const messages = [
       avatar: 'https://placeimg.com/140/140/any',
     },
   },
+  {
+    _id: 25,
+    type: 'end',
+    buttonDisabled: true,
+    quickReplies: {
+      type: 'radio',
+      title: '거래가 완료되었습니다.',
+      description:
+        '거래를 잘 마치셨나요? 거래 종료하기 버튼을 눌러 채팅을 종료하세요.',
+      values: [
+        { title: '불만족', value: 'dissatisfaction' },
+        { title: '만족', value: 'satisfaction' },
+      ],
+    },
+    createdAt: new Date(Date.UTC(2025, 6, 12, 17, 30, 0)),
+    timeStamp: '2023년 12월 10일',
+    user: {
+      _id: 1,
+      name: 'React Native',
+      avatar: 'https://placeimg.com/140/140/any',
+    },
+  },
 ];
 
 export default messages;
