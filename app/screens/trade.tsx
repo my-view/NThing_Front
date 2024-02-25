@@ -38,12 +38,15 @@ import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
 import axios from 'axios';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Join } from '~/components/trade/join';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
 const TradeScreen = ({ navigation, route }: Props) => {
   const { data: preData, id } = route.params;
   const getPurchaseDetail = usePurchaseDetail(preData?.id || id);
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [scroll, setScroll] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
   const { width } = useWindowDimensions();
@@ -76,136 +79,147 @@ const TradeScreen = ({ navigation, route }: Props) => {
 
   if (!tradeDetail) return null;
   return (
-    <View
-      style={{
-        flex: 1,
-        position: 'relative',
-        paddingTop: isTransparent ? 0 : statusBarHeight,
-      }}
-    >
-      <ScrollContainer
-        onScroll={(e) => setScroll(e.nativeEvent.contentOffset.y)}
-        scrollEventThrottle={16}
-      >
-        <Swiper
-          height={isTransparent ? width : width - statusBarHeight}
-          dot={<Dot style={{ opacity: 0.4 }} />}
-          activeDot={<Dot />}
-          paginationStyle={{ gap: 8 }}
-        >
-          {tradeDetail.images?.map((image) => (
-            <Image
-              key={image.id}
-              source={{ uri: image.url }}
-              style={{ width: '100%', height: width }}
-            />
-          ))}
-        </Swiper>
-        <KeyboardAwareScrollView>
-          <ManagerInfoBox>
-            <ProfileImage>{/* TODO: image 넣기 */}</ProfileImage>
-            <Font15W600>{tradeDetail.manager}</Font15W600>
-          </ManagerInfoBox>
-          <TradeInfoBox>
-            <Font18W700>{tradeDetail.title}</Font18W700>
-            <SubInfoWrapper>
-              <Pressable
-                onPress={() =>
-                  navigation.navigate('SearchMapScreen', {
-                    keyword: tradeDetail.category_name,
-                    isCategory: true,
-                  })
-                }
-              >
-                <GrayFont style={{ textDecorationLine: 'underline' }}>
-                  {tradeDetail.category_name}
-                </GrayFont>
-              </Pressable>
-              <GrayFont>{` · ${formatElapsedTime(
-                tradeDetail.updated_at,
-              )} 전`}</GrayFont>
-            </SubInfoWrapper>
-            <Row
-              style={{ gap: 17, alignItems: 'flex-start', marginBottom: 20 }}
-            >
-              <TagBox>
-                <Icon name='F_Pin' size={12} />
-                <TagText>{tradeDetail.place}</TagText>
-              </TagBox>
-              <TagBox>
-                <Icon name='F_Clock' size={12} />
-                <TagText>{formatKorDate(tradeDetail.date)}</TagText>
-              </TagBox>
-            </Row>
-            <Font16W500 style={{ lineHeight: 24 }}>
-              {tradeDetail.description}
-            </Font16W500>
-          </TradeInfoBox>
-          <Comments purchaseId={tradeDetail.id} />
-        </KeyboardAwareScrollView>
-      </ScrollContainer>
-      <Header
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View
         style={{
-          position: 'absolute',
-          width: '100%',
-          top: statusBarHeight,
-          backgroundColor: isTransparent
-            ? 'rgba(255, 255, 255, 0)'
-            : theme.palette.white,
-          borderBottomWidth: isTransparent ? 0 : 1,
+          flex: 1,
+          position: 'relative',
+          paddingTop: isTransparent ? 0 : statusBarHeight,
         }}
       >
-        <Pressable onPress={navigation.goBack}>
-          <Icon name='S_Left' size={24} color={iconColor} />
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            // 공유하기
-          }}
+        <ScrollContainer
+          onScroll={(e) => setScroll(e.nativeEvent.contentOffset.y)}
+          scrollEventThrottle={16}
         >
-          <Icon name='S_Share' size={24} color={iconColor} />
-        </Pressable>
-      </Header>
-      <ShadowBottom>
-        <Row style={{ gap: 20 }}>
-          <HeartButton
-            isLike={tradeDetail.liked}
-            onClick={(isLiked) => {
-              axios.post(`/purchase/${tradeDetail.id}/like`, {
-                value: isLiked,
-              });
-            }}
-          />
-          <View style={{ gap: 2 }}>
-            <Font10W600>1개당</Font10W600>
-            <Row style={{ gap: 10 }}>
-              <Font18W600>{formatPrice(tradeDetail.price)}원</Font18W600>
-              <View
-                style={{
-                  height: 10,
-                  width: 2,
-                  backgroundColor: theme.palette.gray02,
-                  borderRadius: 2,
-                }}
+          <Swiper
+            height={isTransparent ? width : width - statusBarHeight}
+            dot={<Dot style={{ opacity: 0.4 }} />}
+            activeDot={<Dot />}
+            paginationStyle={{ gap: 8 }}
+          >
+            {tradeDetail.images?.map((image) => (
+              <Image
+                key={image.id}
+                source={{ uri: image.url }}
+                style={{ width: '100%', height: width }}
               />
-              <Font18W600>
-                <Text style={{ color: theme.palette.primary }}>
-                  {tradeDetail.numerator}
-                </Text>
-                /{tradeDetail.denominator}명
-              </Font18W600>
-            </Row>
-          </View>
-        </Row>
-        <Button
-          onPress={() => {
-            // post 요청
+            ))}
+          </Swiper>
+          <KeyboardAwareScrollView>
+            <ManagerInfoBox>
+              <ProfileImage>{/* TODO: image 넣기 */}</ProfileImage>
+              <Font15W600>{tradeDetail.manager}</Font15W600>
+            </ManagerInfoBox>
+            <TradeInfoBox>
+              <Font18W700>{tradeDetail.title}</Font18W700>
+              <SubInfoWrapper>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate('SearchMapScreen', {
+                      keyword: tradeDetail.category_name,
+                      isCategory: true,
+                    })
+                  }
+                >
+                  <GrayFont style={{ textDecorationLine: 'underline' }}>
+                    {tradeDetail.category_name}
+                  </GrayFont>
+                </Pressable>
+                <GrayFont>{` · ${formatElapsedTime(
+                  tradeDetail.updated_at,
+                )} 전`}</GrayFont>
+              </SubInfoWrapper>
+              <Row
+                style={{ gap: 17, alignItems: 'flex-start', marginBottom: 20 }}
+              >
+                <TagBox>
+                  <Icon name='F_Pin' size={12} />
+                  <TagText>{tradeDetail.place}</TagText>
+                </TagBox>
+                <TagBox>
+                  <Icon name='F_Clock' size={12} />
+                  <TagText>{formatKorDate(tradeDetail.date)}</TagText>
+                </TagBox>
+              </Row>
+              <Font16W500 style={{ lineHeight: 24 }}>
+                {tradeDetail.description}
+              </Font16W500>
+            </TradeInfoBox>
+            <Comments purchaseId={tradeDetail.id} />
+          </KeyboardAwareScrollView>
+        </ScrollContainer>
+        <Header
+          style={{
+            position: 'absolute',
+            width: '100%',
+            top: statusBarHeight,
+            backgroundColor: isTransparent
+              ? 'rgba(255, 255, 255, 0)'
+              : theme.palette.white,
+            borderBottomWidth: isTransparent ? 0 : 1,
           }}
         >
-          참여하기
-        </Button>
-      </ShadowBottom>
-    </View>
+          <Pressable onPress={navigation.goBack}>
+            <Icon name='S_Left' size={24} color={iconColor} />
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              // 공유하기
+            }}
+          >
+            <Icon name='S_Share' size={24} color={iconColor} />
+          </Pressable>
+        </Header>
+        <ShadowBottom>
+          <Row style={{ gap: 20 }}>
+            <HeartButton
+              isLike={tradeDetail.liked}
+              onClick={(isLiked) => {
+                axios.post(`/purchase/${tradeDetail.id}/like`, {
+                  value: isLiked,
+                });
+              }}
+            />
+            <View style={{ gap: 2 }}>
+              <Font10W600>1개당</Font10W600>
+              <Row style={{ gap: 10 }}>
+                <Font18W600>{formatPrice(tradeDetail.price)}원</Font18W600>
+                <View
+                  style={{
+                    height: 10,
+                    width: 2,
+                    backgroundColor: theme.palette.gray02,
+                    borderRadius: 2,
+                  }}
+                />
+                <Font18W600>
+                  <Text style={{ color: theme.palette.primary }}>
+                    {tradeDetail.numerator}
+                  </Text>
+                  /{tradeDetail.denominator}명
+                </Font18W600>
+              </Row>
+            </View>
+          </Row>
+          <Button
+            onPress={() => {
+              setIsJoinModalOpen(true);
+            }}
+          >
+            참여하기
+          </Button>
+        </ShadowBottom>
+      </View>
+      {isJoinModalOpen && (
+        <Join
+          numerator={tradeDetail.numerator}
+          denominator={tradeDetail.denominator}
+          onClose={() => {
+            setIsJoinModalOpen(false);
+          }}
+        />
+      )}
+    </GestureHandlerRootView>
   );
 };
 
