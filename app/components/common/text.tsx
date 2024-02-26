@@ -117,6 +117,12 @@ export const Font18W700 = styled(BaseText)`
   font-size: 18px;
 `;
 
+export const Font20W600 = styled(BaseText)`
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 20px;
+`;
+
 export const Font20W700 = styled(BaseText)`
   font-weight: 700;
   font-size: 20px;
