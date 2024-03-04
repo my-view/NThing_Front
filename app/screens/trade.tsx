@@ -76,6 +76,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
   }, []);
 
   const tradeDetail = getPurchaseDetail?.data || preData;
+  const isManager = true; // TODO: tradeDetail에서 판별할 수 있는 값 필요
 
   if (!tradeDetail) return null;
   return (
@@ -172,14 +173,16 @@ const TradeScreen = ({ navigation, route }: Props) => {
         </Header>
         <ShadowBottom>
           <Row style={{ gap: 20 }}>
-            <HeartButton
-              isLike={tradeDetail.liked}
-              onClick={(isLiked) => {
-                axios.post(`/purchase/${tradeDetail.id}/like`, {
-                  value: isLiked,
-                });
-              }}
-            />
+            {!isManager && (
+              <HeartButton
+                isLike={tradeDetail.liked}
+                onClick={(isLiked) => {
+                  axios.post(`/purchase/${tradeDetail.id}/like`, {
+                    value: isLiked,
+                  });
+                }}
+              />
+            )}
             <View style={{ gap: 2 }}>
               <Font10W600>1개당</Font10W600>
               <Row style={{ gap: 10 }}>
@@ -201,13 +204,23 @@ const TradeScreen = ({ navigation, route }: Props) => {
               </Row>
             </View>
           </Row>
-          <Button
-            onPress={() => {
-              setIsJoinModalOpen(true);
-            }}
-          >
-            참여하기
-          </Button>
+          {isManager ? (
+            <Button
+              onPress={() => {
+                navigation.navigate('TradeRegistScreen', { data: tradeDetail });
+              }}
+            >
+              수정하기
+            </Button>
+          ) : (
+            <Button
+              onPress={() => {
+                setIsJoinModalOpen(true);
+              }}
+            >
+              참여하기
+            </Button>
+          )}
         </ShadowBottom>
       </View>
       {isJoinModalOpen && (
