@@ -39,7 +39,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
 import axios from 'axios';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Join } from '~/components/trade/join';
+import { Join } from 'components/trade/join';
+import { PurchaseDetail } from 'types/purchase';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
@@ -75,7 +76,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
     return () => StatusBar.setBarStyle('dark-content');
   }, []);
 
-  const tradeDetail = getPurchaseDetail?.data || preData;
+  const tradeDetail = (getPurchaseDetail?.data || preData) as PurchaseDetail;
   const isManager = true; // TODO: tradeDetail에서 판별할 수 있는 값 필요
 
   if (!tradeDetail) return null;
@@ -173,16 +174,14 @@ const TradeScreen = ({ navigation, route }: Props) => {
         </Header>
         <ShadowBottom>
           <Row style={{ gap: 20 }}>
-            {!isManager && (
-              <HeartButton
-                isLike={tradeDetail.liked}
-                onClick={(isLiked) => {
-                  axios.post(`/purchase/${tradeDetail.id}/like`, {
-                    value: isLiked,
-                  });
-                }}
-              />
-            )}
+            <HeartButton
+              isLike={tradeDetail.liked}
+              onClick={(isLiked) => {
+                axios.post(`/purchase/${tradeDetail.id}/like`, {
+                  value: isLiked,
+                });
+              }}
+            />
             <View style={{ gap: 2 }}>
               <Font10W600>1개당</Font10W600>
               <Row style={{ gap: 10 }}>
