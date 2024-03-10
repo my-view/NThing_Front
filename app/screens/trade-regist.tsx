@@ -35,8 +35,11 @@ import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
 import { RootStackParamList } from 'screens/stack';
 import { useFetchCategoryList } from 'hooks/category';
 import { Chip } from 'components/common/chip';
+import { PurchaseDetail } from '~/types/purchase';
 
-const offset = 1000 * 60 * 60 * 9;
+const oneDayMilliSecond = 1000 * 60 * 60 * 24;
+
+const offset = 1000 * 60 * 60 * 9; // 한국 시차
 const krNow = new Date(new Date().getTime() + offset);
 const nowHour = krNow.getHours();
 
@@ -48,7 +51,7 @@ const initialDate = {
   full: '',
 };
 
-const getDate = (tradeDate: TradeDate) => {
+const formatFullDate = (tradeDate: TradeDate) => {
   const date = tradeDate.now;
   moment(date).add(tradeDate.day, 'days');
   moment(date).add(tradeDate.hour, 'hours');
@@ -56,10 +59,29 @@ const getDate = (tradeDate: TradeDate) => {
   return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
+const formatTradeDate = (full: string) => {
+  const date = new Date(full);
+  const diff =
+    moment(date).diff(krNow.setHours(0, 0, 0, 0)) / oneDayMilliSecond;
+  const tradeDate: TradeDate = {
+    now: krNow,
+    day: diff < 0 ? 0 : Math.ceil(diff),
+    hour: date.getHours(),
+    minute: Math.floor(date.getMinutes() / 10),
+    full: `${
+      diff < 1 ? '오늘' : diff < 2 ? '내일' : moment(date).format('MM.DD')
+    } ${moment(date).format('HH:mm')}`,
+  };
+  return tradeDate;
+};
+
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeRegistScreen'>;
 
 const TradeRegistScreen = ({ navigation, route }: Props) => {
-  const { data: trade } = usePurchaseDetail(route.params?.id);
+  const { data: preData, id } = route.params;
+  const { data, refetch } = usePurchaseDetail(id);
+  const tradeDetail = (data || preData) as PurchaseDetail | undefined;
+
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState(0);
   const [images, setImages] = useState<Asset[]>([]);
@@ -131,7 +153,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
       form.append('latitude', place.coord?.latitude);
       form.append('longitude', place.coord?.longitude);
       form.append('place', place.description);
-      form.append('date', getDate(date));
+      form.append('date', formatFullDate(date));
       form.append('denominator', nThing.denominator);
       form.append('numerator', nThing.numerator);
       form.append('price', price);
@@ -143,13 +165,47 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           uri: item.uri,
         }),
       );
-      await axios
-        .post('/purchase', form)
-        .then((res) => res.data)
-        .then(({ data }) => {
-          console.warn(data);
-          navigation.replace('TradeScreen', { data });
+      await axios.post('/purchase', form).then((data) => {
+        navigation.replace('TradeScreen', { data });
+      });
+    } catch (e) {
+      if (typeof e === 'string') return Alert.alert(e);
+      console.warn(e);
+    }
+  };
+
+  const editTrade = async () => {
+    try {
+      validate();
+      const form = new FormData();
+      form.append('title', title);
+      form.append('category_id', category);
+      form.append('latitude', place.coord?.latitude);
+      form.append('longitude', place.coord?.longitude);
+      form.append('place', place.description);
+      form.append('date', formatFullDate(date));
+      form.append('denominator', nThing.denominator);
+      form.append('numerator', nThing.numerator);
+      form.append('price', price);
+      form.append('description', description);
+      tradeDetail?.images.forEach(
+        (origin) =>
+          !images.find((image) => image.id === String(origin.id)) &&
+          form.append('removedFiles', origin.id),
+      );
+      images.forEach((item) => {
+        if (item.id) return;
+        form.append('addedFiles', {
+          name: item.fileName,
+          type: item.type,
+          uri: item.uri,
         });
+      });
+      await axios.patch(`/purchase/${tradeDetail?.id}`, form).then(() => {
+        refetch();
+        // TODO: replace 해서 trade로 이동하는데, 그럼 거기서 뒤로 가기 했을 때 또 trade 스크린으로 이동해서 하나 없애야 함
+        navigation.replace('TradeScreen', { id: tradeDetail?.id });
+      });
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
       console.warn(e);
@@ -157,8 +213,29 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   };
 
   useEffect(() => {
-    // TODO: 수정할 때 원래 저장되어있던 거래글 정보 넣기
-  }, [trade]);
+    if (!tradeDetail || title) return;
+    setTitle(tradeDetail.title);
+    setCategory(tradeDetail.category_id);
+    setImages(
+      tradeDetail.images.map((x) => {
+        return { id: String(x.id), uri: x.url };
+      }),
+    );
+    setPlace({
+      coord: {
+        latitude: tradeDetail.latitude,
+        longitude: tradeDetail.longitude,
+      },
+      description: tradeDetail.place,
+    });
+    setDate(formatTradeDate(tradeDetail.date));
+    setNThing({
+      denominator: String(tradeDetail.denominator),
+      numerator: String(tradeDetail.numerator),
+    });
+    setPrice(String(tradeDetail.price));
+    setDescription(tradeDetail.description);
+  }, [tradeDetail]);
 
   return (
     <SafeAreaView
@@ -195,11 +272,11 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
             </Pressable>
             {images.map((image) => (
               <PreviewImage
-                key={image.fileName}
+                key={image.uri}
                 image={image}
                 onDelete={(deleting) =>
                   setImages((prev) =>
-                    prev.filter((item) => item.fileName !== deleting.fileName),
+                    prev.filter((item) => item.uri !== deleting.uri),
                   )
                 }
               />
@@ -354,10 +431,10 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           variant={BtnType[isValid ? 'PRIMARY' : 'DISABLED']}
           onPress={() => {
             if (!isValid) return;
-            registTrade();
+            tradeDetail ? editTrade() : registTrade();
           }}
         >
-          등록하기
+          {tradeDetail ? '수정완료' : '등록하기'}
         </Button>
       </ShadowBottom>
     </SafeAreaView>

@@ -39,7 +39,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
 import axios from 'axios';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Join } from '~/components/trade/join';
+import { Join } from 'components/trade/join';
+import { PurchaseDetail } from 'types/purchase';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
@@ -75,7 +76,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
     return () => StatusBar.setBarStyle('dark-content');
   }, []);
 
-  const tradeDetail = getPurchaseDetail?.data || preData;
+  const tradeDetail = (getPurchaseDetail?.data || preData) as PurchaseDetail;
 
   if (!tradeDetail) return null;
   return (
@@ -201,13 +202,23 @@ const TradeScreen = ({ navigation, route }: Props) => {
               </Row>
             </View>
           </Row>
-          <Button
-            onPress={() => {
-              setIsJoinModalOpen(true);
-            }}
-          >
-            참여하기
-          </Button>
+          {tradeDetail.is_manager ? (
+            <Button
+              onPress={() => {
+                navigation.navigate('TradeRegistScreen', { data: tradeDetail });
+              }}
+            >
+              수정하기
+            </Button>
+          ) : (
+            <Button
+              onPress={() => {
+                setIsJoinModalOpen(true);
+              }}
+            >
+              참여하기
+            </Button>
+          )}
         </ShadowBottom>
       </View>
       {isJoinModalOpen && (

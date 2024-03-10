@@ -22,7 +22,7 @@ export type RootStackParamList = {
   ChatingScreen: undefined;
   SearchScreen: { keyword?: string };
   SearchMapScreen: { keyword: string; isCategory?: boolean };
-  TradeRegistScreen: { id?: number };
+  TradeRegistScreen: { data?: PurchaseDetail; id?: number };
   TradeScreen: { data?: PurchaseDetail; id?: number };
   MyPageEditScreen: undefined;
   InterestTradeScreen: undefined;
