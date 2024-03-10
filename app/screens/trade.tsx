@@ -77,7 +77,6 @@ const TradeScreen = ({ navigation, route }: Props) => {
   }, []);
 
   const tradeDetail = (getPurchaseDetail?.data || preData) as PurchaseDetail;
-  const isManager = true; // TODO: tradeDetail에서 판별할 수 있는 값 필요
 
   if (!tradeDetail) return null;
   return (
@@ -203,7 +202,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
               </Row>
             </View>
           </Row>
-          {isManager ? (
+          {tradeDetail.is_manager ? (
             <Button
               onPress={() => {
                 navigation.navigate('TradeRegistScreen', { data: tradeDetail });

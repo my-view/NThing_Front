@@ -19,6 +19,7 @@ export interface PurchaseDetail {
   updated_at: string; // 예) 2023-08-14 09:39:08
   created_at: string;
   manager: string;
+  is_manager: boolean;
   category_id: number;
   category_name: string;
   liked: boolean;

@@ -79,7 +79,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'TradeRegistScreen'>;
 
 const TradeRegistScreen = ({ navigation, route }: Props) => {
   const { data: preData, id } = route.params;
-  const { data } = usePurchaseDetail(id);
+  const { data, refetch } = usePurchaseDetail(id);
   const tradeDetail = (data || preData) as PurchaseDetail | undefined;
 
   const [title, setTitle] = useState('');
@@ -165,13 +165,9 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           uri: item.uri,
         }),
       );
-      await axios
-        .post('/purchase', form)
-        .then((res) => res.data)
-        .then(({ data }) => {
-          console.warn(data);
-          navigation.replace('TradeScreen', { data });
-        });
+      await axios.post('/purchase', form).then((data) => {
+        navigation.replace('TradeScreen', { data });
+      });
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
       console.warn(e);
@@ -192,20 +188,24 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
       form.append('numerator', nThing.numerator);
       form.append('price', price);
       form.append('description', description);
-      images.forEach((item) =>
-        form.append('files', {
+      tradeDetail?.images.forEach(
+        (origin) =>
+          !images.find((image) => image.id === String(origin.id)) &&
+          form.append('removedFiles', origin.id),
+      );
+      images.forEach((item) => {
+        if (item.id) return;
+        form.append('addedFiles', {
           name: item.fileName,
           type: item.type,
           uri: item.uri,
-        }),
-      );
-      await axios
-        .patch('/purchase', form)
-        .then((res) => res.data)
-        .then(({ data }) => {
-          console.warn(data);
-          navigation.replace('TradeScreen', { data });
         });
+      });
+      await axios.patch(`/purchase/${tradeDetail?.id}`, form).then(() => {
+        refetch();
+        // TODO: replace 해서 trade로 이동하는데, 그럼 거기서 뒤로 가기 했을 때 또 trade 스크린으로 이동해서 하나 없애야 함
+        navigation.replace('TradeScreen', { id: tradeDetail?.id });
+      });
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
       console.warn(e);
@@ -431,10 +431,10 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           variant={BtnType[isValid ? 'PRIMARY' : 'DISABLED']}
           onPress={() => {
             if (!isValid) return;
-            id ? registTrade() : editTrade();
+            tradeDetail ? editTrade() : registTrade();
           }}
         >
-          {id ? '등록하기' : '수정완료'}
+          {tradeDetail ? '수정완료' : '등록하기'}
         </Button>
       </ShadowBottom>
     </SafeAreaView>
