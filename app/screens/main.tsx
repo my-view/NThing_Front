@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeScreen from './home';
-import ChatingListScreen from './chatingList';
+import ChattingListScreen from './chatting-list';
 import MyPageScreen from './my-page';
 import TradeRegistScreen from './trade-regist';
 import styled from '@emotion/native';
@@ -108,7 +108,7 @@ const MainScreen = ({ navigation }: Props) => {
                 <S_Chat width={24} height={24} color={'#000000'} />
               ),
           }}
-          component={ChatingListScreen}
+          component={ChattingListScreen}
         />
         <Tab.Screen
           name='MyPageScreen'

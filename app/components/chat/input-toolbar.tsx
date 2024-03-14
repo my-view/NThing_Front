@@ -3,9 +3,10 @@ import { theme } from '~/../theme';
 import { Icon, IconButton } from 'components/common/icon';
 import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
-import { IMessage } from 'types/common';
+import { IMessage } from 'types/chat';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
-export const InpuptToolbar: React.FC<{
+
+export const InputToolbar: React.FC<{
   value: string;
   onChange: (text: string) => void;
   onSend: (newMsg: IMessage) => void;

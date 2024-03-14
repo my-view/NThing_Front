@@ -1,5 +1,4 @@
 import { IconName } from 'components/common/icon';
-import { chatStatus } from 'components/common/chat-item';
 import { Coord } from 'react-native-nmap';
 import { AxiosRequestConfig, AxiosResponseHeaders } from 'axios';
 
@@ -66,14 +65,6 @@ export type MenuListType = {
   navigate: string;
 };
 
-export type ChatListType = {
-  id: number;
-  title: string;
-  last_message: string;
-  navigate: string;
-  trade_status: keyof typeof chatStatus;
-};
-
 export interface TradePlace {
   coord: Coord;
   description: string;
@@ -97,35 +88,6 @@ export interface Comment {
   created_at?: string;
   updated_at: null;
   replies?: Comment[];
-}
-
-export interface ChatUser {
-  _id?: string | number;
-  name?: string;
-  avatar?: string;
-}
-
-export interface IMessage {
-  _id: string | number;
-  text: string;
-  createdAt: Date | number;
-  user?: ChatUser;
-  image?: string;
-  video?: string;
-  sent?: boolean;
-  received?: boolean;
-  type?: 'separator' | 'end';
-  timeStamp?: string;
-  buttonDisabled?: boolean;
-  quickReplies?: {
-    type: 'radio';
-    title: string;
-    description: string;
-    values: {
-      title: string;
-      value: string;
-    }[];
-  };
 }
 
 export interface TradeParams {

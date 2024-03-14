@@ -4,7 +4,7 @@ import { Pressable } from 'react-native';
 import { Font15W500 } from 'components/common/text';
 import styled from '@emotion/native';
 
-export const MemeberControlModal: React.FC<{
+export const MemberControlModal: React.FC<{
   isHost: boolean;
   setOpen: any;
 }> = ({ isHost, setOpen }) => {
@@ -18,11 +18,7 @@ export const MemeberControlModal: React.FC<{
   return (
     <>
       <OutsidePressHandler
-        style={{
-          position: 'absolute',
-          top: 40,
-          zIndex: 9000,
-        }}
+        style={{ position: 'absolute', top: 40, zIndex: 9000 }}
         onOutsidePress={() => {
           setOpen(false);
         }}

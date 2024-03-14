@@ -3,18 +3,11 @@ import { Row } from 'components/common/layout';
 import { Pressable } from 'react-native';
 import styled from '@emotion/native';
 import Animated from 'react-native-reanimated';
-import { ChatListType } from 'types/common';
-import { Font12W500, Font14W600 } from './text';
-import { MiddleDot, DotSize } from './divider';
-import { TradeStaus } from './trade-status';
+import { ChatListType } from 'types/chat';
+import { Font12W500, Font14W600 } from '../common/text';
+import { MiddleDot, DotSize } from '../common/divider';
+import { TradeStaus } from '../common/trade-status';
 import { navigationRef } from '../../../RootNavigation';
-
-export enum chatStatus {
-  EXPECT = '거래예정',
-  RECRUIT = '모집중',
-  CANCEL = '거래취소',
-  COMPLETE = '거래완료',
-}
 
 export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
   return (
@@ -43,11 +36,7 @@ export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
               />
               <TradeInfoWrap>
                 <TradeTitle>{data?.title}</TradeTitle>
-                <Row
-                  style={{
-                    gap: 6,
-                  }}
-                >
+                <Row style={{ gap: 6 }}>
                   <LastMessage numberOfLines={1}>
                     {data?.last_message}
                   </LastMessage>

@@ -9,7 +9,7 @@ import OpenedTradeScreen from './opened-trade';
 import ParticipationTradeScreen from './participation-trade';
 const Tab = createMaterialTopTabNavigator();
 
-const ChatingListScreen = ({ navigation }: any) => {
+const ChattingListScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <CustomHeader
@@ -25,7 +25,6 @@ const ChatingListScreen = ({ navigation }: any) => {
         //   );
         // }}
       />
-
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: { fontSize: 16, fontWeight: '700' },
@@ -57,4 +56,4 @@ const ChatingListScreen = ({ navigation }: any) => {
   );
 };
 
-export default ChatingListScreen;
+export default ChattingListScreen;

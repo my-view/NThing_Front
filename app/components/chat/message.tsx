@@ -3,21 +3,18 @@ import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
 import {
   Font10W400,
-  Font10W500,
   Font11W600,
   Font12W600,
   Font15W500,
 } from 'components/common/text';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { HostTag } from 'components/common/host-tag';
 import moment from 'moment';
 import { formatKorAmPm } from 'assets/util/format';
-import { IMessage } from 'types/common';
-import { MemeberControlModal } from './member-control-modal';
-import { Divider } from '../common/divider';
-import { theme } from '~/../theme';
-import { DateSeparator } from './date-separator';
-import { FinishBubble } from './finish-bubble';
+import { IMessage } from 'types/chat';
+import { MemberControlModal } from 'components/chat/member-control-modal';
+import { DateSeparator } from 'components/chat/date-separator';
+import { FinishBubble } from 'components/chat/finish-bubble';
 
 export const Message: React.FC<{
   data: IMessage;
@@ -35,9 +32,7 @@ export const Message: React.FC<{
   checkItemHeight,
 }) => {
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
-
   const isEndBubble = data.type == 'end' ? true : false;
-  console.log('data', data);
   return (
     <>
       {data.type == 'separator' ? (
@@ -75,7 +70,7 @@ export const Message: React.FC<{
                 </AvatarWrapper>
               </Pressable>
               {avatarModalOpen && (
-                <MemeberControlModal
+                <MemberControlModal
                   isHost={isHost}
                   setOpen={setAvatarModalOpen}
                 />

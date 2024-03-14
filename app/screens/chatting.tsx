@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { CustomHeader } from 'components/common/header';
 import initialMessages from 'assets/mock/messages';
-import { InpuptToolbar } from 'components/chat/input-toolbar';
+import { InputToolbar } from 'components/chat/input-toolbar';
 import { MessageList } from 'components/chat/message-list';
-import { IMessage } from 'types/common';
+import { IMessage } from 'types/chat';
 
-const ChatingScreen = ({ navigation }: any) => {
+const ChattingScreen = ({ navigation }: any) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<IMessage[]>([]);
 
@@ -17,10 +17,9 @@ const ChatingScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     const sortDate = initialMessages
-      .sort((a, b) => a.createdAt - b.createdAt)
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
       .reverse();
-
-    setMessages(sortDate);
+    setMessages(sortDate); // TODO: mock messages에서 text property가 없는 특수 type의 메시지들 때문에 타입이 맞지 않아 에러 발생
   }, []);
 
   return (
@@ -35,7 +34,7 @@ const ChatingScreen = ({ navigation }: any) => {
       <View style={{ flex: 1 }}>
         <MessageList messages={messages} />
       </View>
-      <InpuptToolbar
+      <InputToolbar
         value={input}
         onChange={(text) => setInput(text)}
         onSend={(msg) => onSend(msg)}
@@ -44,4 +43,4 @@ const ChatingScreen = ({ navigation }: any) => {
   );
 };
 
-export default ChatingScreen;
+export default ChattingScreen;

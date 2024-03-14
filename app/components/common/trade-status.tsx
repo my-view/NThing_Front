@@ -2,14 +2,7 @@ import React from 'react';
 import { Row } from 'components/common/layout';
 import { Text } from 'react-native';
 import { Icon, IconName } from 'components/common/icon';
-import { ChatListType } from 'types/common';
-
-export const enum chatStatus {
-  EXPECT = '거래예정',
-  RECRUIT = '모집중',
-  CANCEL = '거래취소',
-  COMPLETE = '거래완료',
-}
+import { ChatListType, ChatStatus } from 'types/chat';
 
 // 타입변환을 위한 함수
 function capitalizeFirstLetter(str: string) {
@@ -77,7 +70,7 @@ export const TradeStaus: React.FC<{
           },
         ]}
       >
-        {chatStatus[data.trade_status]}
+        {ChatStatus[data.trade_status]}
       </Text>
     </Row>
   );

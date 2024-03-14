@@ -1,10 +1,9 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import styled from '@emotion/native';
-import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
-import { ChatItem } from '~/components/common/chat-item';
-import { ChatListType } from '~/types/common';
+import { ChatItem } from 'components/chat/chat-item';
+import { ChatListType } from 'types/chat';
 
 const tradeHistoryMenuList: ChatListType[] = [
   {

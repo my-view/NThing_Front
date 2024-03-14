@@ -1,19 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Pressable, Text } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { FlatList } from 'react-native';
 import { Message } from 'components/chat/message';
-import { IMessage } from 'types/common';
-import { FinishBubble } from './finish-bubble';
+import { IMessage } from 'types/chat';
 
 export const MessageList: React.FC<{ messages: IMessage[] }> = ({
   messages,
 }) => {
-  const [itemHeights, setItemHeights] = useState([]);
+  const [itemHeights, setItemHeights] = useState<number[]>([]);
   const flatListRef = useRef(null);
   const checkItemHeight = (event: any) => {
     const { height } = event.nativeEvent.layout;
-
-    setItemHeights((prevData) => {
-      return [...prevData, height];
+    setItemHeights((prev) => {
+      return [...prev, height];
     });
   };
 
@@ -26,7 +24,7 @@ export const MessageList: React.FC<{ messages: IMessage[] }> = ({
     const data = itemHeights.slice(0, index).reduce((a, c) => a + c, 0);
     return data;
   };
-  const getItemLayout = (data: unknown, index: number) => ({
+  const getItemLayout = (_: unknown, index: number) => ({
     length: getItemHeight(index),
     offset: getItemOffset(index),
     index,
