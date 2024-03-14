@@ -16,13 +16,13 @@ function capitalizeFirstLetter(str: string) {
   return `F_${firstLetter + restOfString}` as IconName;
 }
 
-type colorChipType = {
+type ColorChipType = {
   color: '#34C185' | '#F44F48' | '#8F95A2' | '';
   backgroundColor: '#EFFDF7' | '#FFF3F2' | '#F7F8FB' | '';
 };
 
 const convertChatStatusColor = (status: string) => {
-  const colorChip: colorChipType = {
+  const colorChip: ColorChipType = {
     color: '',
     backgroundColor: '',
   };
@@ -45,29 +45,21 @@ const convertChatStatusColor = (status: string) => {
   return colorChip;
 };
 
-export const TradeStaus: React.FC<{
+export const TradeStatus: React.FC<{
   data: ChatListType;
 }> = ({ data }) => {
   return (
     <Row
       style={[
         convertChatStatusColor(data.trade_status),
-        {
-          borderRadius: 4,
-          gap: 4,
-          padding: 4,
-        },
+        { borderRadius: 4, gap: 4, padding: 4 },
       ]}
     >
       <Icon name={capitalizeFirstLetter(data.trade_status)} size={12} />
       <Text
         style={[
           convertChatStatusColor(data.trade_status),
-          {
-            lineHeight: 12,
-            fontSize: 11,
-            fontWeight: '700',
-          },
+          { lineHeight: 12, fontSize: 11, fontWeight: '700' },
         ]}
       >
         {ChatStatus[data.trade_status]}

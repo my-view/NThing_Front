@@ -4,9 +4,9 @@ import { Pressable } from 'react-native';
 import styled from '@emotion/native';
 import Animated from 'react-native-reanimated';
 import { ChatListType } from 'types/chat';
-import { Font12W500, Font14W600 } from '../common/text';
-import { MiddleDot, DotSize } from '../common/divider';
-import { TradeStaus } from '../common/trade-status';
+import { Font12W500, Font14W600 } from 'components/common/text';
+import { MiddleDot, DotSize } from 'components/common/divider';
+import { TradeStatus } from 'components/common/trade-status';
 import { navigationRef } from '../../../RootNavigation';
 
 export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
@@ -45,7 +45,7 @@ export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
                 </Row>
               </TradeInfoWrap>
             </Row>
-            <TradeStaus data={data} />
+            <TradeStatus data={data} />
           </Row>
         </Animated.View>
       </Pressable>

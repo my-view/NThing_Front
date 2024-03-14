@@ -10,6 +10,7 @@ export interface AxiosResponse<T = any, D = any> {
   config: AxiosRequestConfig<D>;
   request?: any;
 }
+
 export interface Envelope<T> {
   data: T;
   status: string;
