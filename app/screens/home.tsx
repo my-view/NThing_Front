@@ -1,5 +1,21 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Pressable, SafeAreaView, View, Dimensions, Alert } from 'react-native';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+} from 'react';
+import {
+  Pressable,
+  SafeAreaView,
+  View,
+  Dimensions,
+  Alert,
+  Text,
+  LayoutAnimation,
+  UIManager,
+  Platform,
+} from 'react-native';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -9,7 +25,10 @@ import { Row } from '@components/common/layout';
 import { Header } from 'components/common/header';
 import { KeywordBox } from 'components/main/keyword';
 import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
 import { Item } from '@components/common/item';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PURCHASE_ITEM_LIST } from 'assets/mock/purchase-item-list';
@@ -25,6 +44,13 @@ import { RootStackParamList } from 'screens/stack';
 import { getStorage } from 'assets/util/storage';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 import { PurchaseItemType } from 'types/common';
+import { useMapControl } from '~/hooks/map/action';
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -33,23 +59,22 @@ type Props = CompositeScreenProps<
 
 const HomeScreen = ({ route, navigation }: Props) => {
   // STEP4: 페이지 빌드
-  const { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding } =
-    useMapTrade();
-  const windowHeight = Dimensions.get('window').height;
+  const {
+    centerMapInfo,
+    setCenterMapInfo,
+    tradeList,
+    isFirstLanding,
+    mapCenter,
+    setMapCenter,
+    isLoading,
+  } = useMapTrade();
+  const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
+    useMapControl();
   const { keyword } = route.params;
-  const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
   const [selectValue, setSelectValue] = useState({
     nm: '최신순',
     cd: 'recent',
   });
-
-  const listSheetRef = React.useRef<BottomSheet>(null);
-  const headerFullHeight = windowHeight - 76;
-
-  const ListPoints = React.useMemo(
-    () => ['1%', '24%', '37%', '50%', headerFullHeight],
-    [headerFullHeight],
-  );
 
   const renderItem = useCallback(
     (item: PurchaseItemType, index: number) => (
@@ -69,15 +94,8 @@ const HomeScreen = ({ route, navigation }: Props) => {
         />
       </Pressable>
     ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-
-  useEffect(() => {
-    setTimeout(() => {
-      listSheetRef.current?.snapToIndex(2);
-    }, 400);
-  }, [selectedPin]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -112,19 +130,25 @@ const HomeScreen = ({ route, navigation }: Props) => {
               </Pressable>
             </Header>
           )}
-          <View style={{ height: '100%', paddingBottom: 160 }}>
+
+          <Animated.View>
             <NaverMapView
+              ref={mapRef}
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
               // zoomControl={false}
               maxZoomLevel={19}
               minZoomLevel={14}
-              center={centerMapInfo}
+              center={mapCenter}
               onTouch={() => {
-                listSheetRef.current?.snapToIndex(1);
+                console.log('온터치?');
+                if (isFirstLanding) return;
+
+                // downTradeList();
               }}
               onCameraChange={(e) => {
-                console.log('실행됨?');
+                console.log('온카메라체인지?', e.latitude, e.longitude);
+
                 if (isFirstLanding) return;
                 setCenterMapInfo({
                   ...centerMapInfo,
@@ -133,43 +157,57 @@ const HomeScreen = ({ route, navigation }: Props) => {
                   zoom: e.zoom,
                 });
               }}
-              // onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
+              onMapClick={(e) => {
+                console.log('온맵클릭?');
+
+                // downTradeList();
+                // console.warn('onMapClick', JSON.stringify(e));
+              }}
             >
               {tradeList?.map((pin, index) => (
                 <CustomMarker
                   key={pin.id}
                   coordinate={pin}
                   onClick={() => {
-                    setSelectedPin(index);
+                    selectMarker(index, pin);
                   }}
                   isSelected={index === selectedPin}
                 />
               ))}
             </NaverMapView>
-          </View>
+          </Animated.View>
           <BottomSheet
             ref={listSheetRef}
             snapPoints={ListPoints}
             index={1}
             handleIndicatorStyle={BottomSheetHandleStyle}
           >
-            <View style={{ paddingLeft: 20, height: 14, paddingBottom: 20 }}>
+            <BottomSheetView
+              style={{ paddingLeft: 20, height: 14, paddingBottom: 20 }}
+            >
               <SelectBox
                 margin={selectValue.nm.length >= 4 ? 10 : 33}
                 onChange={setSelectValue}
                 options={sortOptions}
                 defaultValue={selectValue}
               />
-            </View>
+            </BottomSheetView>
             <BottomSheetScrollView
+              onLayout={(e) => console.log('스크롤 높이', e.nativeEvent.layout)}
               contentContainerStyle={{
                 paddingHorizontal: 20,
                 paddingBottom: 120,
               }}
             >
-              {tradeList
-                ? tradeList.map(renderItem)
-                : PURCHASE_ITEM_LIST.map(renderItem)}
+              {isLoading ? (
+                <View>
+                  <Font18W600>로딩중입니다.</Font18W600>
+                </View>
+              ) : tradeList ? (
+                tradeList.map(renderItem)
+              ) : (
+                PURCHASE_ITEM_LIST.map(renderItem)
+              )}
             </BottomSheetScrollView>
           </BottomSheet>
         </Container>

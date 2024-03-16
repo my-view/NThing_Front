@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getMapTradeInfoAPI } from '~/api/map';
 import { tradeQueryKeys } from '../../key/map';
@@ -20,12 +20,32 @@ export function useMapTrade() {
   const [centerMapInfo, setCenterMapInfo] = useState(
     defaultCenterPosition || userPosition,
   );
+
+  console.log('@@@@@@@@@@@Zoom', centerMapInfo);
+  const [mapCenter, setMapCenter] = useState(
+    defaultCenterPosition || userPosition,
+  );
   const {
     data: tradeList,
+    isLoading,
     isSuccess,
     isError,
   } = UsefetchMapTrade(centerMapInfo);
   const [isFirstLanding, setIsFirstLanding] = useState(true);
 
-  return { centerMapInfo, setCenterMapInfo, tradeList, isFirstLanding };
+  useEffect(() => {
+    setTimeout(() => {
+      setIsFirstLanding(false);
+    }, 100);
+  }, []);
+
+  return {
+    centerMapInfo,
+    setCenterMapInfo,
+    tradeList,
+    isFirstLanding,
+    mapCenter,
+    setMapCenter,
+    isLoading,
+  };
 }
