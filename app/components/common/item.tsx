@@ -4,7 +4,8 @@ import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { formatPrice, convertToRelativeTime } from 'assets/util/format';
 import { PurchaseItemType } from 'types/common';
 import { HeartButton } from './heart-button';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 export const Item = ({
   data,
@@ -73,6 +74,43 @@ export const Item = ({
       <Divider
         style={{
           borderBottomWidth: index === listLength ? 0 : 1,
+        }}
+      />
+    </>
+  );
+};
+
+//
+//
+export const LoadingItem = () => {
+  return (
+    <>
+      <View style={{ marginVertical: 15 }}>
+        <SkeletonPlaceholder borderRadius={4}>
+          <SkeletonPlaceholder.Item flexDirection='row'>
+            <SkeletonPlaceholder.Item width={90} height={90} borderRadius={4} />
+            <SkeletonPlaceholder.Item marginLeft={14}>
+              <SkeletonPlaceholder.Item width={180} height={20} />
+              <SkeletonPlaceholder.Item
+                marginTop={10}
+                width={100}
+                height={14}
+              />
+              <SkeletonPlaceholder.Item flexDirection='row' marginTop={10}>
+                <SkeletonPlaceholder.Item width={75} height={18} />
+                <SkeletonPlaceholder.Item
+                  marginLeft={7}
+                  width={30}
+                  height={18}
+                />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder.Item>
+          </SkeletonPlaceholder.Item>
+        </SkeletonPlaceholder>
+      </View>
+      <Divider
+        style={{
+          borderBottomWidth: 1,
         }}
       />
     </>

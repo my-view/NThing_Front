@@ -29,7 +29,7 @@ import BottomSheet, {
   BottomSheetScrollView,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { Item } from '@components/common/item';
+import { Item, LoadingItem } from '@components/common/item';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PURCHASE_ITEM_LIST } from 'assets/mock/purchase-item-list';
 import { theme } from '~/../theme';
@@ -199,15 +199,11 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 paddingBottom: 120,
               }}
             >
-              {isLoading ? (
-                <View>
-                  <Font18W600>로딩중입니다.</Font18W600>
-                </View>
-              ) : tradeList ? (
-                tradeList.map(renderItem)
-              ) : (
-                PURCHASE_ITEM_LIST.map(renderItem)
-              )}
+              {isLoading
+                ? PURCHASE_ITEM_LIST.map(() => <LoadingItem />)
+                : tradeList
+                ? tradeList.map(renderItem)
+                : PURCHASE_ITEM_LIST.map(renderItem)}
             </BottomSheetScrollView>
           </BottomSheet>
         </Container>
