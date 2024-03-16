@@ -23,6 +23,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { MainScreenParamList } from 'screens/main';
+import { useMapControl } from '~/hooks/map/action';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<RootStackParamList, 'SearchMapScreen'>,
@@ -31,12 +32,9 @@ type Props = CompositeScreenProps<
 
 const SearchMapScreen = ({ route, navigation }: Props) => {
   console.log('SearchMapScreen>>>>>', route.params);
-  const windowHeight = Dimensions.get('window').height;
   const { keyword, isCategory } = route.params;
 
-  const [selectedPin, setSelectedPin] = useState<number>(); // 핀 목록이 담긴 array에서 선택된 핀의 index
   const [testCo, setTestCo] = useState([PINS[0], PINS[1], PINS[2]]);
-  // center={{ ...PINS[selectedPin || 0], zoom: 16 }}
 
   const [currentLocation, setCurrentLocation] = useState<Coordinate>({
     id: 1,
@@ -47,21 +45,8 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
   const [selectedSort, setSelectSort] = useState(defaultSortOption);
   const [mapView, setMapView] = useState(false);
 
-  const listSheetRef = React.useRef<BottomSheet>(null);
-  const headerFullHeight = windowHeight - 76;
-  const ListPoints = React.useMemo(
-    () => ['1%', '24%', '37%', '50%', headerFullHeight],
-    [],
-  );
-
-  // useEffect(() => {
-  //   // testCo
-  //   getDistanceFromLatLonInKm(testCo[0]);
-  // }, [testCo]);
-
-  const handleSheetChange = useCallback((index: number) => {
-    console.log('handleSheetChange', index);
-  }, []);
+  const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
+    useMapControl();
 
   const renderItem = useCallback(
     (item: any, index: number) => (
@@ -74,12 +59,6 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
     ),
     [],
   );
-
-  useEffect(() => {
-    setTimeout(() => {
-      listSheetRef.current?.snapToIndex(2);
-    }, 400);
-  }, [selectedPin]);
 
   const locationHandler = (e: {
     x: number;
@@ -108,6 +87,7 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
       { cancelable: false },
     );
   };
+
   const [initLo, setInitLo] = useState({});
   const [notMove, setNotMove] = useState(false);
 
@@ -212,7 +192,7 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
             snapPoints={ListPoints}
             index={1}
             handleIndicatorStyle={BottomSheetHandleStyle}
-            onChange={handleSheetChange}
+            // onChange={handleSheetChange}
             // backdropComponent={renderBackdrop}
           >
             <View
