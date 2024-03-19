@@ -3859,6 +3859,11 @@
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.8.tgz#b94a4391c85666c7b73299fd3ad79d4faa435310"
   integrity sha512-ipixuVrh2OdNmauvtT51o3d8z12p6LtFW9in7U79der/kwejjdNchQC5UMn5u/KxNoM7VHHOs/l8KS8uHxhODQ==
 
+"@types/text-encoding@^0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@types/text-encoding/-/text-encoding-0.0.39.tgz#6f6436ceb843d96a2306a87dc7e2286e62c2177c"
+  integrity sha512-gRPvgL1aMgP6Pv92Rs310cJvVQ86DSF62E7K30g1FoGmmYWXoNuXT8PV835iAVeiAZkRwr2IW37KuyDn9ljmeA==
+
 "@types/uglify-js@*":
   version "3.17.2"
   resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.17.2.tgz#a2ba86fd524f6281a7655463338c546f845b29c3"
@@ -14416,6 +14421,11 @@ test-exclude@^6.0.0:
     "@istanbuljs/schema" "^0.1.2"
     glob "^7.1.4"
     minimatch "^3.0.4"
+
+text-encoding@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.7.0.tgz#f895e836e45990624086601798ea98e8f36ee643"
+  integrity sha512-oJQ3f1hrOnbRLOcwKz0Liq2IcrvDeZRHXhd9RgLrsT+DjWY/nty1Hi7v3dtkaEYbPYe0mUoOfzRrMwfXXwgPUA==
 
 text-hex@1.0.x:
   version "1.0.0"
