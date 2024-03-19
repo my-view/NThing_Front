@@ -70,6 +70,7 @@
     "react-native-wheely": "^0.6.0",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
+    "text-encoding": "^0.7.0",
     "usehooks-ts": "^2.14.0",
     "zustand": "^4.5.2"
   },
@@ -96,6 +97,7 @@
     "@types/jest": "^29.2.1",
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",
+    "@types/text-encoding": "^0.0.39",
     "babel-jest": "^29.6.4",
     "babel-loader": "8.2.4",
     "babel-plugin-react-native-web": "^0.19.8",
