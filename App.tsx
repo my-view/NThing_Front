@@ -25,8 +25,7 @@ if (__DEV__) {
   );
 }
 
-// axios.defaults.baseURL = 'https://ecce-121-130-216-253.ngrok-free.app';
-axios.defaults.baseURL = 'https://f7dd-112-218-173-28.ngrok-free.app';
+axios.defaults.baseURL = 'https://ecce-121-130-216-253.ngrok-free.app';
 
 axios.interceptors.request.use(
   async (config) => {

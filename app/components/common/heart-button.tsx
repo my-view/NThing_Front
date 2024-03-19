@@ -63,7 +63,6 @@ export const HeartButton: React.FC<{
     onClick?.(_isLike);
   };
 
-  console.log('isFilled', isFilled, isLike);
   useEffect(() => {
     if (isFilled) Vibration.vibrate(10 * 1000);
   }, [isFilled]);

@@ -193,7 +193,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
               />
             </BottomSheetView>
             <BottomSheetScrollView
-              onLayout={(e) => console.log('스크롤 높이', e.nativeEvent.layout)}
+              // onLayout={(e) => console.log('스크롤 높이', e.nativeEvent.layout)}
               contentContainerStyle={{
                 paddingHorizontal: 20,
                 paddingBottom: 120,
