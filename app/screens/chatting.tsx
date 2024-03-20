@@ -5,7 +5,7 @@ import initialMessages from 'assets/mock/messages';
 import { InputToolbar } from 'components/chat/input-toolbar';
 import { MessageList } from 'components/chat/message-list';
 import { IMessage } from 'types/chat';
-import { send } from 'assets/util/web-socket';
+import { send, stompClient } from 'assets/util/web-socket';
 
 const ChattingScreen = ({ navigation }: any) => {
   const [input, setInput] = useState('');
@@ -24,6 +24,14 @@ const ChattingScreen = ({ navigation }: any) => {
       .reverse();
     setMessages(sortDate); // TODO: mock messages에서 text property가 없는 특수 type의 메시지들 때문에 타입이 맞지 않아 에러 발생
   }, []);
+
+  useEffect(() => {
+    stompClient.subscribe(`/room/${roomId}`, (message) => {
+      console.log('hi' + JSON.parse(message.body));
+      // TODO: 메시지 받아서 처리
+      // setMessage(JSON.parse(message.body));
+    });
+  }, [roomId]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
