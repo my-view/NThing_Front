@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Alert,
   Pressable,
@@ -14,11 +14,7 @@ import { Row } from 'components/common/layout';
 import { theme } from '~/../theme';
 import { ShadowBottom } from 'components/common/bottom-box';
 import { BtnType, Button } from 'components/common/button';
-import {
-  Asset,
-  launchCamera,
-  launchImageLibrary,
-} from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { CustomHeader } from 'components/common/header';
 import { Icon } from 'components/common/icon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -35,29 +31,11 @@ import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
 import { RootStackParamList } from 'screens/stack';
 import { useFetchCategoryList } from 'hooks/category';
 import { Chip } from 'components/common/chip';
-import { PurchaseDetail } from '~/types/purchase';
+import { PurchaseDetail } from 'types/purchase';
+import useTradeRegisterStore from 'state/trade-register';
+import { krNow } from 'assets/util/time';
 
 const oneDayMilliSecond = 1000 * 60 * 60 * 24;
-
-const offset = 1000 * 60 * 60 * 9; // 한국 시차
-const krNow = new Date(new Date().getTime() + offset);
-const nowHour = krNow.getHours();
-
-const initialDate = {
-  now: krNow,
-  day: nowHour < 23 ? 0 : 1,
-  hour: nowHour < 23 ? nowHour + 1 : 0,
-  minute: 0,
-  full: '',
-};
-
-const formatFullDate = (tradeDate: TradeDate) => {
-  const date = tradeDate.now;
-  moment(date).add(tradeDate.day, 'days');
-  moment(date).add(tradeDate.hour, 'hours');
-  moment(date).add(tradeDate.minute, 'minutes');
-  return moment(date).format('yyyy-MM-DD HH:mm:ss');
-};
 
 const formatTradeDate = (full: string) => {
   const date = new Date(full);
@@ -81,23 +59,30 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   const { data: preData, id } = route.params;
   const { data, refetch } = usePurchaseDetail(id);
   const tradeDetail = (data || preData) as PurchaseDetail | undefined;
-
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState(0);
-  const [images, setImages] = useState<Asset[]>([]);
-  const [place, setPlace] = useState<TradePlace>({
-    coord: { latitude: 0, longitude: 0 }, // TODO: 학교 위치로 초기값 채우기
-    description: '',
-  });
-  const [date, setDate] = useState<TradeDate>(initialDate);
-  const [isDateOpen, setIsDateOpen] = useState(false);
-  const [nThing, setNThing] = useState({
-    denominator: '', // 분모
-    numerator: '', // 분자
-  });
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
   const { data: categories } = useFetchCategoryList();
+  const {
+    title,
+    category,
+    images,
+    place,
+    date,
+    nThing,
+    price,
+    description,
+    isDateOpen,
+    isValid,
+    baseForm,
+    setTitle,
+    setCategory,
+    setImages,
+    setPlace,
+    setDate,
+    setNThing,
+    setPrice,
+    setDescription,
+    toggleIsDateOpen,
+    validate,
+  } = useTradeRegisterStore();
 
   const selectImages = async () => {
     const { didCancel, assets } = await launchImageLibrary({
@@ -123,49 +108,18 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     if (assets) setImages((prev) => [...prev, ...assets]);
   };
 
-  const isValid =
-    title.trim() &&
-    category &&
-    description.trim() &&
-    place.coord &&
-    place.description.trim() &&
-    nThing.denominator &&
-    nThing.numerator &&
-    price.trim();
-
-  const validate = () => {
-    if (!title.trim()) throw '글 제목을 입력해주세요.';
-    if (!category) throw '카테고리를 선택해주세요.';
-    if (!description.trim()) throw '글 내용을 입력해주세요.';
-    if (!place.coord) throw '거래 희망 장소를 입력해주세요.';
-    if (!place.description.trim()) throw '거래 희망 장소 설명을 입력해주세요.';
-    if (!nThing.denominator || !nThing.numerator)
-      throw 'N띵 정보를 입력해주세요.';
-    if (!price.trim()) throw '가격을 입력해주세요.';
-  };
-
-  const registTrade = async () => {
+  const registerTrade = async () => {
     try {
       validate();
-      const form = new FormData();
-      form.append('title', title);
-      form.append('category_id', category);
-      form.append('latitude', place.coord?.latitude);
-      form.append('longitude', place.coord?.longitude);
-      form.append('place', place.description);
-      form.append('date', formatFullDate(date));
-      form.append('denominator', nThing.denominator);
-      form.append('numerator', nThing.numerator);
-      form.append('price', price);
-      form.append('description', description);
+      const formData = baseForm();
       images.forEach((item) =>
-        form.append('files', {
+        formData.append('files', {
           name: item.fileName,
           type: item.type,
           uri: item.uri,
         }),
       );
-      await axios.post('/purchase', form).then((data) => {
+      await axios.post('/purchase', formData).then((data) => {
         navigation.replace('TradeScreen', { data });
       });
     } catch (e) {
@@ -177,17 +131,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   const editTrade = async () => {
     try {
       validate();
-      const form = new FormData();
-      form.append('title', title);
-      form.append('category_id', category);
-      form.append('latitude', place.coord?.latitude);
-      form.append('longitude', place.coord?.longitude);
-      form.append('place', place.description);
-      form.append('date', formatFullDate(date));
-      form.append('denominator', nThing.denominator);
-      form.append('numerator', nThing.numerator);
-      form.append('price', price);
-      form.append('description', description);
+      const form = baseForm();
       tradeDetail?.images.forEach(
         (origin) =>
           !images.find((image) => image.id === String(origin.id)) &&
@@ -216,10 +160,8 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     if (!tradeDetail || title) return;
     setTitle(tradeDetail.title);
     setCategory(tradeDetail.category_id);
-    setImages(
-      tradeDetail.images.map((x) => {
-        return { id: String(x.id), uri: x.url };
-      }),
+    setImages(() =>
+      tradeDetail.images.map((x) => ({ id: String(x.id), uri: x.url })),
     );
     setPlace({
       coord: {
@@ -229,10 +171,10 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
       description: tradeDetail.place,
     });
     setDate(formatTradeDate(tradeDetail.date));
-    setNThing({
+    setNThing(() => ({
       denominator: String(tradeDetail.denominator),
       numerator: String(tradeDetail.numerator),
-    });
+    }));
     setPrice(String(tradeDetail.price));
     setDescription(tradeDetail.description);
   }, [tradeDetail]);
@@ -332,7 +274,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
               <Icon name={'S_Add'} size={16} color={theme.palette.black} />
             </Box>
           </Pressable>
-          <Pressable onPress={() => setIsDateOpen((prev) => !prev)}>
+          <Pressable onPress={toggleIsDateOpen}>
             <Box style={{ borderBottomWidth: isDateOpen ? 0 : 1 }}>
               <Row style={{ flex: 1, justifyContent: 'space-between' }}>
                 <Font15W500>거래 날짜&시간</Font15W500>
@@ -359,9 +301,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
                 maxLength={2}
                 value={nThing.denominator}
                 onChangeText={(text) =>
-                  setNThing((prev) => {
-                    return { ...prev, denominator: text };
-                  })
+                  setNThing((prev) => ({ ...prev, denominator: text }))
                 }
               />
               <NThingText>개로 나눠,</NThingText>
@@ -370,9 +310,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
                 maxLength={2}
                 value={nThing.numerator}
                 onChangeText={(text) =>
-                  setNThing((prev) => {
-                    return { ...prev, numerator: text };
-                  })
+                  setNThing((prev) => ({ ...prev, numerator: text }))
                 }
               />
               <NThingText>개 가질래요</NThingText>
@@ -428,10 +366,10 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           <InformText>{`내가 구하고자 하는 인원의 수를 적으면\n가격이 자동으로 계산돼요`}</InformText>
         </View>
         <Button
-          variant={BtnType[isValid ? 'PRIMARY' : 'DISABLED']}
+          variant={BtnType[isValid() ? 'PRIMARY' : 'DISABLED']}
           onPress={() => {
             if (!isValid) return;
-            tradeDetail ? editTrade() : registTrade();
+            tradeDetail ? editTrade() : registerTrade();
           }}
         >
           {tradeDetail ? '수정완료' : '등록하기'}

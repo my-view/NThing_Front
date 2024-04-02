@@ -69,7 +69,8 @@
     "react-native-wheely": "^0.6.0",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
-    "usehooks-ts": "^2.14.0"
+    "usehooks-ts": "^2.14.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
