@@ -14,3 +14,4 @@ export const sortOptions: SortType[] = [
 ];
 
 export const TOKEN_STORAGE_KEY = 'NT-AUTH-TOKEN';
+export const REFRESH_TOKEN_KEY = 'NT-REFRESH-TOKEN';

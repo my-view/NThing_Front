@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userAppState } from '~/state/app';
 
 export const AppStateComponent = () => {
   const appState = useRef(AppState.currentState);
   const setUserAppState = useSetRecoilState(userAppState);
-  console.log('@ 현재 상태 appState:', appState);
+  const State = useRecoilValue(userAppState);
+
+  console.log('@ 현재 상태 appState:', State);
 
   useEffect(() => {
     // 사용자가 앱의 상태가 변경 되었을 경우 실행이 된다.
@@ -25,7 +27,7 @@ export const AppStateComponent = () => {
   }, []);
 
   const handleAppState = (nextAppState: any) => {
-    // console.log('@ appState.current ::: ', appState.current);
+    console.log('@ appState.current ::: ', appState.current);
 
     // 앱 활성화
     if (
