@@ -79,7 +79,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
   const renderItem = useCallback(
     (item: PurchaseItemType, index: number) => (
       <Pressable
-        key={index}
+        key={item.id}
         onPress={async () => {
           const token = await getStorage(TOKEN_STORAGE_KEY);
           if (token) return navigation.navigate('TradeScreen', { id: item.id });
@@ -200,7 +200,9 @@ const HomeScreen = ({ route, navigation }: Props) => {
               }}
             >
               {isLoading
-                ? PURCHASE_ITEM_LIST.map(() => <LoadingItem />)
+                ? PURCHASE_ITEM_LIST.map((item) => (
+                    <LoadingItem key={item.id} />
+                  ))
                 : tradeList
                 ? tradeList.map(renderItem)
                 : PURCHASE_ITEM_LIST.map(renderItem)}

@@ -13,7 +13,7 @@ import { Item } from '@components/common/item';
 import { CLSButton } from '@components/nmap/current-location-search';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PURCHASE_ITEM_LIST } from '~/assets/mock/purchase-item-list';
-import { Coordinate } from 'types/common';
+import { Coordinate, PurchaseItemType } from 'types/common';
 import getDistanceFromLatLonInKm from 'assets/util/map';
 import { theme } from '~/../theme';
 import { defaultSortOption, sortOptions } from 'assets/util/constants';
@@ -49,9 +49,9 @@ const SearchMapScreen = ({ route, navigation }: Props) => {
     useMapControl();
 
   const renderItem = useCallback(
-    (item: any, index: number) => (
+    (item: PurchaseItemType, index: number) => (
       <Item
-        key={index}
+        key={item.id}
         data={item}
         index={index}
         listLength={PURCHASE_ITEM_LIST.length - 1}
