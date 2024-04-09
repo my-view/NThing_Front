@@ -66,7 +66,7 @@ const defaultDropDownStyle: StyleProp<ViewStyle> = {
   borderWidth: 1,
   borderTopWidth: 1,
   borderRadius: 4,
-  borderColor: theme.palette.gray02,
+  borderColor: theme.palette.gray01,
   marginTop: 8,
   height: 146,
 };
