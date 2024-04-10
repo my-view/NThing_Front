@@ -3,13 +3,12 @@ import { theme } from '~/../theme';
 import { Icon, IconButton } from 'components/common/icon';
 import styled from '@emotion/native';
 import { Row } from 'components/common/layout';
-import { IMessage } from 'types/chat';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 
 export const InputToolbar: React.FC<{
   value: string;
   onChange: (text: string) => void;
-  onSend: (newMsg: IMessage) => void;
+  onSend: (newMsg: string) => void;
 }> = ({ value, onChange, onSend }) => {
   return (
     <KeyboardAvoidingView
@@ -28,13 +27,7 @@ export const InputToolbar: React.FC<{
             onChangeText={(text) => onChange(text)}
           />
           <IconButton
-            onPress={() =>
-              onSend({
-                _id: new Date().getDate(),
-                text: value,
-                createdAt: new Date(),
-              })
-            }
+            onPress={() => onSend(value)}
             style={{ position: 'absolute', right: 11 }}
           >
             <Icon
