@@ -5,7 +5,7 @@ import { useUser } from 'hooks/user';
 export const WebSocketConnector = () => {
   const { data: user } = useUser();
   const roomIds = [1, 2, 3, 4];
-  console.log('WebSocketConnector');
+  console.log('Im WebSocketConnector');
   useEffect(() => {
     console.log('웹소켓 연결 상태 ' + stompClient.connected);
     if (!user || stompClient.connected) return;
