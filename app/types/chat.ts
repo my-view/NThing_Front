@@ -48,7 +48,18 @@ export interface ImageChatMessage extends BaseChatMessage {
   url: string;
 }
 
-export type ChatMessage = NormalChatMessage | ImageChatMessage;
+export interface CompleteChatMessage extends BaseChatMessage {
+  type: WebsocketMessageType.COMPLETE;
+}
+
+export interface CompleteChatMessage extends BaseChatMessage {
+  type: WebsocketMessageType.COMPLETE;
+}
+
+export type ChatMessage =
+  | NormalChatMessage
+  | ImageChatMessage
+  | CompleteChatMessage;
 
 export interface ListMessage extends BaseMessage {
   messages: ChatMessage[];

@@ -42,7 +42,9 @@ export const MessageList: React.FC<{ messages: ChatMessage[] }> = ({
         const isSameSender =
           msg.sender_id === prev?.sender_id ||
           (!msg.sender_id && prev && !prev.sender_id);
-        return { ...msg, isSameSender };
+        const hasSeparator =
+          msg.sent_at.split(' ')[0] !== prev.sent_at.split(' ')[0];
+        return { ...msg, isSameSender, hasSeparator };
       })}
       renderItem={(msg) => (
         <Message
@@ -51,6 +53,7 @@ export const MessageList: React.FC<{ messages: ChatMessage[] }> = ({
           data={msg.item}
           isSending={!msg.item.sender_id} // TODO: 나의 id를 알아서 비교해야 함
           isSameSender={msg.item.isSameSender}
+          hasSeparator={msg.item.hasSeparator}
           isHost={msg.item.sender_id === 1} // TODO: 호스트 id를 알아서 비교해야 함
         />
       )}
