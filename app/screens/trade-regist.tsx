@@ -111,15 +111,15 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   const registerTrade = async () => {
     try {
       validate();
-      const formData = baseForm();
+      const form = baseForm();
       images.forEach((item) =>
-        formData.append('files', {
+        form.append('files', {
           name: item.fileName,
           type: item.type,
           uri: item.uri,
         }),
       );
-      await axios.post('/purchase', formData).then((data) => {
+      await axios.post('/purchase', form).then((data) => {
         navigation.replace('TradeScreen', { data });
       });
     } catch (e) {
@@ -135,11 +135,11 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
       tradeDetail?.images.forEach(
         (origin) =>
           !images.find((image) => image.id === String(origin.id)) &&
-          form.append('removedFiles', origin.id),
+          form.append('removed_files', origin.id),
       );
       images.forEach((item) => {
         if (item.id) return;
-        form.append('addedFiles', {
+        form.append('added_files', {
           name: item.fileName,
           type: item.type,
           uri: item.uri,
