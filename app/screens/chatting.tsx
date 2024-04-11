@@ -19,7 +19,9 @@ const ChattingScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     const sortDate = initialMessages
-      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+      .sort(
+        (a, b) => new Date(a.sent_at).getTime() - new Date(b.sent_at).getTime(),
+      )
       .reverse();
     setMessages(sortDate); // TODO: mock messages에서 text property가 없는 특수 type의 메시지들 때문에 타입이 맞지 않아 에러 발생
   }, []);
