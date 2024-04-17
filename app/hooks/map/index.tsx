@@ -21,7 +21,6 @@ export function useMapTrade() {
     defaultCenterPosition || userPosition,
   );
 
-  console.log('@@@@@@@@@@@Zoom', centerMapInfo);
   const [mapCenter, setMapCenter] = useState(
     defaultCenterPosition || userPosition,
   );

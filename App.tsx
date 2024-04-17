@@ -17,6 +17,7 @@ import axios, { AxiosResponse } from 'axios';
 import { getStorage } from '~/assets/util/storage';
 import { TOKEN_STORAGE_KEY } from '~/assets/util/constants';
 import { CustomResponse } from 'types/modules';
+import { TokenObservers } from '~/observers/token';
 
 //
 if (__DEV__) {
@@ -68,6 +69,7 @@ export default function App() {
           <RecoilRoot>
             <NavigationContainer ref={navigationRef}>
               <RootNavigator />
+              <TokenObservers />
               <AppStateComponent />
               <SimpleSnackbarUI.Portal />
             </NavigationContainer>

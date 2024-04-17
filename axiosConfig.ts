@@ -20,7 +20,7 @@ export const AxiosConfig = () => {
   );
 
   axios.interceptors.response.use((response: AxiosResponse<CustomResponse>) => {
-    console.log('@@ AXIOS RESPONSE 123', response);
+    // console.log('@@ AXIOS RESPONSE 123', response);
     return response.data.data;
   });
 

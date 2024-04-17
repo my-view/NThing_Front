@@ -21,6 +21,7 @@ import { SocialLoginRoute } from 'types/common';
 import { useUser } from 'hooks/user';
 import { RootStackParamList } from './stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -86,24 +87,25 @@ type Props = NativeStackScreenProps<RootStackParamList, 'RootScreen'>;
 
 const RootScreen = ({ navigation }: Props) => {
   const [serviceToken, setSeviceToken] = useState<string>(); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
-  const userInfo = useUser();
+  const userInfo = useUser(serviceToken);
 
-  console.log('@@@ userInfo', userInfo.data);
   const setToken = (token?: string) => {
     if (!token) return;
     setSeviceToken(token);
     setStorage(TOKEN_STORAGE_KEY, token);
+    console.log('@@ 토큰 저장 잘 하나', token, serviceToken);
   };
 
   useEffect(() => {
     if (!serviceToken) {
       getStorage(TOKEN_STORAGE_KEY).then((data) => {
+        console.log('@@ user', data);
+
         if (!data) return;
         setSeviceToken(data);
       });
       return;
     }
-    console.log('user', userInfo);
     // 1. serviceToken으로 user 정보 불러옴 (react query)
     // 2-1. 선택한 학교가 없으면 학교 선택 페이지로 이동
     // navigation.navigate('UniversityScreen');
@@ -141,6 +143,14 @@ const RootScreen = ({ navigation }: Props) => {
           </ButtonWrap>
           <Pressable onPress={() => navigation.navigate('MainScreen')}>
             <LaterLogin>나중에 로그인하기</LaterLogin>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              console.log('@@ 토큰저장');
+              setStorage(TOKEN_STORAGE_KEY, 'TEST');
+            }}
+          >
+            <LaterLogin>토큰 설정하기</LaterLogin>
           </Pressable>
         </SocialLoginWrap>
       </Container>
