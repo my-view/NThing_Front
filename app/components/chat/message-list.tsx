@@ -38,12 +38,12 @@ export const MessageList: React.FC<{ messages: ChatMessage[] }> = ({
       getItemLayout={getItemLayout}
       contentContainerStyle={{ padding: 20 }}
       data={messages.map((msg, index, arr) => {
-        const prev = arr[index - 1];
+        const prev = index > 0 ? arr[index - 1] : null;
         const isSameSender =
           msg.sender_id === prev?.sender_id ||
-          (!msg.sender_id && prev && !prev.sender_id);
+          (!msg.sender_id && !!prev && !prev.sender_id);
         const hasSeparator =
-          msg.sent_at.split(' ')[0] !== prev.sent_at.split(' ')[0];
+          msg.sent_at.split(' ')[0] !== prev?.sent_at.split(' ')[0];
         return { ...msg, isSameSender, hasSeparator };
       })}
       renderItem={(msg) => (
