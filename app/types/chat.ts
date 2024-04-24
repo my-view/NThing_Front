@@ -64,3 +64,11 @@ export type ChatMessage =
 export interface ListMessage extends BaseMessage {
   messages: ChatMessage[];
 }
+
+export interface ChatRoomListItem {
+  id: number;
+  purchaseId: number;
+  createdAt: string; // '2023-12-12 20:52:13'
+  isDeleted: boolean;
+  isCompleted: boolean;
+}

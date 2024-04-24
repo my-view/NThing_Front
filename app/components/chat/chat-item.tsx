@@ -19,7 +19,9 @@ export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
       }}
     >
       <Pressable
-        onPress={() => navigationRef.current.navigate('ChatingScreen')}
+        onPress={() =>
+          navigationRef.current.navigate('ChattingScreen', { id: data.id })
+        }
       >
         <Animated.View>
           <Row

@@ -6,11 +6,15 @@ import { InputToolbar } from 'components/chat/input-toolbar';
 import { MessageList } from 'components/chat/message-list';
 import { ChatMessage } from 'types/chat';
 import { send, stompClient } from 'assets/util/web-socket';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from 'screens/stack';
 
-const ChattingScreen = ({ navigation }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'ChattingScreen'>;
+
+const ChattingScreen = ({ navigation, route }: Props) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const roomId = 1;
+  const roomId = route.params.id;
 
   const onSend = (newMessage: string) => {
     send(roomId, newMessage);
@@ -26,13 +30,15 @@ const ChattingScreen = ({ navigation }: any) => {
     setMessages(sortDate);
   }, []);
 
-  // useEffect(() => {
-  // stompClient.subscribe(`/room/${roomId}`, (message) => {
-  //   console.log('hi' + JSON.parse(message.body));
-  // TODO: 메시지 받아서 처리
-  // setMessage(JSON.parse(message.body));
-  //   });
-  // }, [roomId]);
+  useEffect(() => {
+    stompClient.subscribe(`/room/${roomId}`, (message) => {
+      const newMessage = JSON.parse(message.body);
+      console.log('hi' + JSON.parse(message.body));
+      // TODO: 메시지 받아서 처리
+
+      // setMessages((prev) => [...prev, newMessage]);
+    });
+  }, [roomId]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
