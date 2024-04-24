@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Pressable, Alert, Image } from 'react-native';
+import { SafeAreaView, View, Pressable } from 'react-native';
 import { Row } from 'components/common/layout';
 import styled from '@emotion/native';
 import {
@@ -64,10 +64,8 @@ const csMenuList: MenuListType[] = [
 
 const MyPageScreen = ({ navigation }: any) => {
   const isLoginUser = useRecoilValue(DecodeTokenState);
-
   const userInfo = useUser();
-
-  const userData: userInfoType = userInfo?.data;
+  const userData = userInfo?.data as unknown as userInfoType | undefined;
 
   console.log('userData', userData);
   return (
@@ -93,39 +91,30 @@ const MyPageScreen = ({ navigation }: any) => {
             <UserInfo>
               {userData ? (
                 <>
-                  <Avatar
-                    source={{
-                      uri: userData.profile_image,
-                    }}
-                  />
-
+                  <Avatar source={{ uri: userData.profile_image }} />
                   <Font20W700>{userData.nickname}</Font20W700>
                 </>
               ) : (
                 <>
-                  <Avatar />
+                  {/* TODO: profile_image placeholder 적용 */}
+                  <Avatar source={{}} />
                   <Pressable onPress={() => navigation.navigate('RootScreen')}>
                     <UnderLine20>로그인하기</UnderLine20>
                   </Pressable>
                 </>
               )}
             </UserInfo>
-            <EditButton
-              onPress={() => {
-                if (isLoginUser) {
-                  navigation.navigate('MyPageEditScreen');
-                } else {
-                  Alert.alert('로그인 유저만 이용가능합니다', '', [
-                    {
-                      text: '확인',
-                      onPress: () => navigation.navigate('RootScreen'),
-                    },
-                  ]);
+            {userData && (
+              <EditButton
+                onPress={() =>
+                  navigation.navigate('MyPageEditScreen', {
+                    nickname: userData.nickname,
+                  })
                 }
-              }}
-            >
-              <EditText>프로필 수정</EditText>
-            </EditButton>
+              >
+                <EditText>프로필 수정</EditText>
+              </EditButton>
+            )}
           </UserInfoWrap>
           <UniversityInfo>
             <Icon name='F_School' size={24} color={theme.palette.white} />
@@ -138,7 +127,6 @@ const MyPageScreen = ({ navigation }: any) => {
             )}
           </UniversityInfo>
         </View>
-
         <MenuTitle>거래 내역</MenuTitle>
         {tradeHistoryMenuList.map((el: MenuListType, i) => (
           <ListItem key={i} data={el} />

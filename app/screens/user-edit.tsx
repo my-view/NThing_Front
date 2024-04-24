@@ -10,10 +10,15 @@ import { InputLabel } from 'components/common/input';
 import { ShadowBottom } from 'components/common/bottom-box';
 import { theme } from '~/../theme';
 import { NT_Input } from 'components/common/input';
+import { useUser } from '~/hooks/user';
+import { RootStackParamList } from './stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const MyPageEditScreen = ({ navigation }: any) => {
-  const [input, setInput] = useState('띵띵이');
+type Props = NativeStackScreenProps<RootStackParamList, 'MyPageEditScreen'>;
 
+const MyPageEditScreen = ({ navigation, route }: Props) => {
+  const { data: userInfo } = useUser();
+  const [input, setInput] = useState(route.params.nickname);
   return (
     <>
       <SafeAreaView
@@ -35,7 +40,7 @@ const MyPageEditScreen = ({ navigation }: any) => {
       <Container>
         <UserImageBox>
           <View>
-            <Avatar style={{ backgroundColor: 'green' }} />
+            <Avatar source={{ uri: userInfo?.profile_image }} />
             <CameraButton onPress={() => console.log('카메라 버튼')}>
               {({ pressed }) => (
                 <View style={{ opacity: pressed ? 0.5 : 1 }}>
@@ -109,7 +114,7 @@ const UserImageBox = styled(Row)`
   justify-content: center;
 `;
 
-const Avatar = styled.View`
+const Avatar = styled.Image`
   width: 100px;
   height: 100px;
   border-radius: 100px;

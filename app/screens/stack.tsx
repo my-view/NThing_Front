@@ -24,7 +24,7 @@ export type RootStackParamList = {
   SearchMapScreen: { keyword: string; isCategory?: boolean };
   TradeRegistScreen: { data?: PurchaseDetail; id?: number };
   TradeScreen: { data?: PurchaseDetail; id?: number };
-  MyPageEditScreen: undefined;
+  MyPageEditScreen: { nickname: string };
   InterestTradeScreen: undefined;
   UniversityMapModal: { latitude: number; longitude: number };
   TradeMapModal: {
