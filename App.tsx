@@ -64,6 +64,7 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
 export default function App() {
   const { handleError } = useApiError();
 
