@@ -119,7 +119,9 @@ const MyPageScreen = ({ navigation }: any) => {
           <UniversityInfo>
             <Icon name='F_School' size={24} color={theme.palette.white} />
             {isLoginUser ? (
-              <Font16W600 style={{ color: 'white' }}>서울대학교</Font16W600>
+              <Font16W600 style={{ color: 'white' }}>
+                {userData?.college.name}
+              </Font16W600>
             ) : (
               <Font16W600 style={{ color: 'white' }}>
                 학교를 인증해주세요.

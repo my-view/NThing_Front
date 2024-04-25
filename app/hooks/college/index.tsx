@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { searchCollegeAPI } from '~/api/college';
-import { useApiError } from '../useApiError';
-import { collegeQueryKeys } from '../../key/college';
-import { College } from '~/types/common';
+import { searchCollegeAPI } from 'api/college';
+import { collegeQueryKeys } from 'key/college';
 
 export function useCollege() {
-  const [searchForm, setsearchForm] = useState({ search_keyword: '' });
-  const [collegeList, setCollegeList] = useState({});
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-  const searchCollege = useQuery<College>({
-    queryKey: collegeQueryKeys.search(searchForm),
-    queryFn: () => searchCollegeAPI(searchForm.search_keyword),
+  const searchCollege = useQuery({
+    queryKey: collegeQueryKeys.search(searchKeyword),
+    queryFn: () => searchCollegeAPI({ search_keyword: searchKeyword }),
 
     refetchOnWindowFocus: false,
     staleTime: Infinity,
   });
 
-  return { setsearchForm, searchCollege };
+  return { setSearchKeyword, searchCollege };
 }

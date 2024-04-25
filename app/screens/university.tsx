@@ -14,27 +14,14 @@ type Props = NativeStackScreenProps<RootStackParamList, 'UniversityScreen'>;
 const UniversityScreen = ({ navigation }: Props) => {
   const [input, setInput] = useState('');
 
-  const { setsearchForm, searchCollege } = useCollege();
+  const { setSearchKeyword, searchCollege } = useCollege();
 
-  const colleges = searchCollege.data;
+  const colleges = (searchCollege?.data as College[] | undefined) || [];
 
   useEffect(() => {
     if (!input.length) return;
-    // mock data
-    // setColleges(COLLEGE_MOCK_DATA);
-
-    setsearchForm({ search_keyword: input });
-
-    // TODO: 디바운스 적용?
-    // 실제 데이터
-    // fetch(
-    //   `https://3063-1-225-155-14.ngrok-free.app/college?search_keyword=${input}`,
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     setColleges(data);
-    //   });
+    // setColleges(COLLEGE_MOCK_DATA);     // mock data
+    setSearchKeyword(input);
   }, [input]);
 
   return (

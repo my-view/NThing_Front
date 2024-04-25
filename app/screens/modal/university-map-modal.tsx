@@ -9,7 +9,11 @@ type Props = NativeStackScreenProps<RootStackParamList, 'UniversityMapModal'>;
 
 const UniversityMapModal = ({ navigation, route }: Props) => {
   const { latitude, longitude } = route.params;
-  const pin = { id: 1, latitude, longitude };
+  const pin = {
+    id: 1,
+    latitude: Number(latitude),
+    longitude: Number(longitude),
+  };
   return (
     <MapModal
       onClose={navigation.goBack}
@@ -25,8 +29,6 @@ const UniversityMapModal = ({ navigation, route }: Props) => {
         style={{ width: '100%', aspectRatio: '4/3' }}
         showsMyLocationButton={true}
         center={{ ...pin, zoom: 14 }}
-        onTouch={() => console.log('onTouch')}
-        onMapClick={(e) => console.warn('onMapClick', JSON.stringify(e))}
       >
         <CustomMarker coordinate={pin} />
       </NaverMapView>

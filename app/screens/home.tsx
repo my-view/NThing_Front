@@ -51,6 +51,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { useUser } from '~/hooks/user';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -71,6 +72,8 @@ const HomeScreen = ({ route, navigation }: Props) => {
   const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
     useMapControl();
   const { keyword } = route.params;
+  const userInfo = useUser();
+  const userData = userInfo?.data as unknown as userInfoType | undefined;
   const [selectValue, setSelectValue] = useState({
     nm: '최신순',
     cd: 'recent',
@@ -117,9 +120,13 @@ const HomeScreen = ({ route, navigation }: Props) => {
             </Header>
           ) : (
             <Header>
-              <Pressable onPress={() => console.warn('touched')}>
+              <Pressable
+                onPress={() => navigation.navigate('UniversityScreen')}
+              >
                 <Row style={{ gap: 5 }}>
-                  <Font18W600>서울대학교</Font18W600>
+                  <Font18W600>
+                    {userData?.college.name || '학교 선택'}
+                  </Font18W600>
                   <Icon name={'S_Down'} size={16} color={theme.palette.black} />
                 </Row>
               </Pressable>

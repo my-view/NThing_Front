@@ -1,3 +1,5 @@
+import { WithIdName } from 'types/common';
+
 export interface userInfoType {
   id: number;
   nickname: string;
@@ -5,7 +7,7 @@ export interface userInfoType {
   profile_image: string;
   credit: number;
   subscription_date: string;
-  college_id: number;
+  college: WithIdName;
   provider_id: string;
   provider: 'google' | 'kakao' | 'naver';
 }
