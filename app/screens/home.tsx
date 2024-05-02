@@ -1,21 +1,5 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useRef,
-  useMemo,
-} from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  View,
-  Dimensions,
-  Alert,
-  Text,
-  LayoutAnimation,
-  UIManager,
-  Platform,
-} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { Pressable, SafeAreaView, View, Alert } from 'react-native';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -45,13 +29,9 @@ import { getStorage } from 'assets/util/storage';
 import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 import { PurchaseItemType } from 'types/common';
 import { useMapControl } from '~/hooks/map/action';
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useUser } from '~/hooks/user';
+import { userInfoType } from '~/types/user';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
