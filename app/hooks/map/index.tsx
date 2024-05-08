@@ -11,6 +11,7 @@ export function UsefetchMapTrade(centerMapInfo: TradeParams) {
   return useQuery({
     queryKey: tradeQueryKeys.list(centerMapInfo),
     queryFn: () => getMapTradeInfoAPI(centerMapInfo),
+    refetchOnWindowFocus: true,
     // ...etc,
   });
 }
@@ -20,8 +21,8 @@ export function useMapTrade() {
   const [centerMapInfo, setCenterMapInfo] = useState(
     defaultCenterPosition || userPosition,
   );
+  const [isFirstLanding, setIsFirstLanding] = useState(true);
 
-  console.log('@@@@@@@@@@@Zoom', centerMapInfo);
   const [mapCenter, setMapCenter] = useState(
     defaultCenterPosition || userPosition,
   );
@@ -30,8 +31,8 @@ export function useMapTrade() {
     isLoading,
     isSuccess,
     isError,
+    refetch,
   } = UsefetchMapTrade(centerMapInfo);
-  const [isFirstLanding, setIsFirstLanding] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -47,5 +48,6 @@ export function useMapTrade() {
     mapCenter,
     setMapCenter,
     isLoading,
+    refetch,
   };
 }

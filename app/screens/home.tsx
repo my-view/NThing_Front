@@ -32,6 +32,7 @@ import { useMapControl } from '~/hooks/map/action';
 import Animated from 'react-native-reanimated';
 import { useUser } from '~/hooks/user';
 import { userInfoType } from '~/types/user';
+import { useFocusEffect } from '@react-navigation/native';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -48,7 +49,9 @@ const HomeScreen = ({ route, navigation }: Props) => {
     mapCenter,
     setMapCenter,
     isLoading,
+    refetch,
   } = useMapTrade();
+
   const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
     useMapControl();
   const { keyword } = route.params;
@@ -57,6 +60,11 @@ const HomeScreen = ({ route, navigation }: Props) => {
   const [selectValue, setSelectValue] = useState({
     nm: '최신순',
     cd: 'recent',
+  });
+
+  useFocusEffect(() => {
+    console.log('@@@@@@@@@@@@@@리패치');
+    refetch();
   });
 
   const renderItem = useCallback(
@@ -70,14 +78,10 @@ const HomeScreen = ({ route, navigation }: Props) => {
           navigation.navigate('RootScreen');
         }}
       >
-        <Item
-          data={item}
-          index={index}
-          listLength={PURCHASE_ITEM_LIST.length - 1}
-        />
+        <Item data={item} index={index} listLength={tradeList?.length - 1} />
       </Pressable>
     ),
-    [],
+    [tradeList],
   );
 
   return (
