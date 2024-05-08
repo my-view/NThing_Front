@@ -13,12 +13,62 @@ import { NT_Input } from 'components/common/input';
 import { useUser } from '~/hooks/user';
 import { RootStackParamList } from './stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+  Asset,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import { useEditUser } from 'hooks/user/user-edit';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MyPageEditScreen'>;
 
 const MyPageEditScreen = ({ navigation, route }: Props) => {
   const { data: userInfo } = useUser();
-  const [input, setInput] = useState(route.params.nickname);
+  const editUserMutation = useEditUser();
+  const currentNickname = route.params.nickname;
+  const [input, setInput] = useState(currentNickname);
+  const [image, setImage] = useState<Asset>();
+
+  const selectImages = async () => {
+    const { didCancel, assets } = await launchImageLibrary({
+      mediaType: 'photo',
+    });
+    if (didCancel) return;
+    if (assets) setImage(assets[0]);
+  };
+
+  const takePhoto = async () => {
+    const { didCancel, assets } = await launchCamera({
+      mediaType: 'photo',
+      cameraType: 'back',
+    });
+    if (didCancel) return;
+    if (assets) setImage(assets[0]);
+  };
+
+  const save = async () => {
+    try {
+      const form = new FormData();
+      if (input.trim() !== currentNickname)
+        form.append('nickname', input.trim());
+      if (image)
+        form.append('profile_image', {
+          name: image.fileName,
+          type: image.type,
+          uri: image.uri,
+        });
+      await editUserMutation.mutateAsync(form);
+      Alert.alert('정보가 수정되었습니다.', '', [
+        {
+          text: '확인',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
   return (
     <>
       <SafeAreaView
@@ -26,22 +76,29 @@ const MyPageEditScreen = ({ navigation, route }: Props) => {
       />
       <CustomHeader
         title='마이페이지'
-        // useLeftButton={false}
         navigation={navigation}
         bottomBorder={false}
-        // renderRightButton={() => {
-        //   return (
-        //     <Pressable onPress={() => console.log('123')}>
-        //       <Text>rightButton</Text>
-        //     </Pressable>
-        //   );
-        // }}
       />
       <Container>
         <UserImageBox>
           <View>
-            <Avatar source={{ uri: userInfo?.profile_image }} />
-            <CameraButton onPress={() => console.log('카메라 버튼')}>
+            {/* TODO: profile_image placeholder 적용 */}
+            <Avatar source={{ uri: image?.uri || userInfo?.profile_image }} />
+            <CameraButton
+              onPress={() => {
+                Alert.alert('사진을 올려주세요.', '', [
+                  {
+                    text: '갤러리에서 선택하기',
+                    onPress: selectImages,
+                  },
+                  {
+                    text: '카메라로 촬영하기',
+                    onPress: takePhoto,
+                  },
+                  { text: '취소', onPress: () => null, style: 'cancel' },
+                ]);
+              }}
+            >
               {({ pressed }) => (
                 <View style={{ opacity: pressed ? 0.5 : 1 }}>
                   <Icon
@@ -54,7 +111,6 @@ const MyPageEditScreen = ({ navigation, route }: Props) => {
             </CameraButton>
           </View>
         </UserImageBox>
-
         <InfoEditBox>
           <BoxTitle>닉네임</BoxTitle>
           <NT_Input
@@ -79,18 +135,7 @@ const MyPageEditScreen = ({ navigation, route }: Props) => {
       </Container>
       <ShadowBottom>
         <ApplyButtonWrap>
-          <RoundedButton
-            title='적용하기'
-            // disabled={true}
-            onPress={() =>
-              Alert.alert('정보가 수정되었습니다.', '', [
-                {
-                  text: '확인',
-                  onPress: () => navigation.goBack(),
-                },
-              ])
-            }
-          />
+          <RoundedButton title='적용하기' onPress={save} />
           <InformationBox>
             <Icon name='S_Inform' size={13} color={theme.palette.primary} />
             <Font12W400>닉네임은 30일마다 한 번 바꿀 수 있어요.</Font12W400>
