@@ -4,4 +4,5 @@ export const purchaseQueryKeys = {
     [...purchaseQueryKeys.all, 'detail', { id }] as const,
   comment: (id?: number) =>
     [...purchaseQueryKeys.all, 'comment', { id }] as const,
+  join: () => [...purchaseQueryKeys.all, 'join'] as const,
 };
