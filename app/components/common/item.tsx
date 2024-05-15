@@ -6,15 +6,21 @@ import { PurchaseItemType } from 'types/common';
 import { HeartButton } from './heart-button';
 import { Image, View } from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import axios from 'axios';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { tradeQueryKeys } from '~/key/map';
+import { UsefetchMapTrade } from '~/hooks/map';
 
 export const Item = ({
   data,
   index,
   listLength,
+  removeLikeKey,
 }: {
   data: PurchaseItemType;
   index: number;
   listLength: number;
+  removeLikeKey?: any;
 }) => {
   const {
     title,
@@ -30,8 +36,7 @@ export const Item = ({
     status,
     image,
   } = data;
-
-  // .withCallback(opacity:0)
+  const queryClient = useQueryClient();
   const [lineCount, setLineCount] = useState(1);
 
   const singleLine = 16;
@@ -69,7 +74,22 @@ export const Item = ({
             </PricePersonBox>
           </InfoBox>
         </ItemBox>
-        <HeartButton isLike={liked} />
+
+        <HeartButton
+          isLike={liked}
+          onClick={(isLiked) => {
+            console.log('좋아요', isLiked);
+            axios
+              .post(`/purchase/${id}/like`, {
+                value: isLiked,
+              })
+              .then((res) => {
+                // 여기서 좋아요 해제하면 맵에가면 좋아요 최신화해야하는데 키를 날릴까
+                // 아니면 화면 잡히면 refetch를 해야하나..
+                // queryClient.invalidateQueries(removeLikeKey);
+              });
+          }}
+        />
       </Box>
       <Divider
         style={{

@@ -1,20 +1,26 @@
 import React, { useCallback } from 'react';
-import { SafeAreaView, View, ScrollView, Pressable } from 'react-native';
+import { SafeAreaView, View, ScrollView, Pressable, Text } from 'react-native';
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
 import { CustomHeader } from 'components/common/header';
 import { PURCHASE_ITEM_LIST } from '~/assets/mock/purchase-item-list';
 import { Item } from '~/components/common/item';
+import { useLikeTrade } from '~/hooks/like-trade/list';
+import { likeTradeKeys } from '~/key/like-trade';
+import { tradeQueryKeys } from '~/key/map';
 
 const InterestTradeScreen = ({ navigation }: any) => {
+  const { likeTradeList } = useLikeTrade();
+
   const renderItem = useCallback(
     (item: any, index: number) => (
       <Pressable key={index} onPress={() => navigation.navigate('TradeScreen')}>
         <Item
           data={item}
           index={index}
-          listLength={PURCHASE_ITEM_LIST.length - 1}
+          listLength={likeTradeList?.data?.length - 1}
+          removeLikeKey={likeTradeKeys.all}
         />
       </Pressable>
     ),
@@ -34,9 +40,12 @@ const InterestTradeScreen = ({ navigation }: any) => {
           // paddingTop: 20,
         }}
       >
-        {PURCHASE_ITEM_LIST.map(renderItem)}
+        {likeTradeList?.data ? (
+          likeTradeList?.data?.map(renderItem)
+        ) : (
+          <Text>관심 거래 글이 없습니다.</Text>
+        )}
       </ScrollView>
-      {/* <FlatList data={PURCHASE_ITEM_LIST} renderItem={renderItem} /> */}
     </SafeAreaView>
   );
 };
