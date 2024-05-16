@@ -15,7 +15,10 @@ const InterestTradeScreen = ({ navigation }: any) => {
 
   const renderItem = useCallback(
     (item: any, index: number) => (
-      <Pressable key={index} onPress={() => navigation.navigate('TradeScreen')}>
+      <Pressable
+        key={index}
+        onPress={() => navigation.navigate('TradeScreen', { id: item.id })}
+      >
         <Item
           data={item}
           index={index}

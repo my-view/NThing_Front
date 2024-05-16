@@ -31,7 +31,7 @@ const tradeHistoryMenuList: MenuListType[] = [
     id: 2,
     title: '내가 연 거래',
     icon: 'S_Buy',
-    navigate: 'MyTrade',
+    navigate: 'OpenedTradeScreen',
   },
   {
     id: 3,
