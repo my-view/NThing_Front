@@ -1,59 +1,56 @@
-import React from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import styled from '@emotion/native';
 import { getHeightRatio } from 'assets/util/layout';
-import { ChatItem } from 'components/chat/chat-item';
-import { ChatListType } from 'types/chat';
+import { CustomHeader } from '~/components/common/header';
+import { useOpenTrade } from '~/hooks/open-trade/list';
+import { Item } from '~/components/common/item';
 
-const tradeHistoryMenuList: ChatListType[] = [
-  {
-    id: 1,
-    title: '타코야끼 같이 시켜먹으실 분~',
-    last_message: '좋아요~ 내일 정문에서 만나는걸로',
-    navigate: 'heartTrade',
-    trade_status: 'EXPECT',
-  },
-  {
-    id: 2,
-    title: '추석 잘 보내세요~~~',
-    last_message: '슬기님 추석 잘 보내세욥!',
-    navigate: 'MyTrade',
-    trade_status: 'RECRUIT',
-  },
-  {
-    id: 3,
-    title: '운동 같이 등록하실분 구합니다!',
-    last_message: '명국님 추석 잘 보내세욥',
-    navigate: 'JoinTrade',
-    trade_status: 'CANCEL',
-  },
-  {
-    id: 4,
-    title: '피자 같이 배달시켜요~',
-    last_message: '은지님 추석 잘 보내세욥',
-    navigate: 'JoinTrade',
-    trade_status: 'COMPLETE',
-  },
-  {
-    id: 5,
-    title: '휴지 같이 사실분!',
-    last_message: '윤진님 추석 잘 보내세욥',
-    navigate: 'JoinTrade',
-    trade_status: 'RECRUIT',
-  },
-];
+const OpenedTradeScreen = ({ navigation }: any) => {
+  const { openTradeList } = useOpenTrade();
 
-const OpenedTradeScreen = ({ navigation }: any) => (
-  <>
-    <Container>
-      <FlatList
-        data={tradeHistoryMenuList}
-        keyExtractor={(item) => `${item.id}`}
-        renderItem={({ item }) => <ChatItem data={item} />}
-      />
-    </Container>
-  </>
-);
+  const renderItem = useCallback(
+    (item: any, index: number) => (
+      <Pressable
+        key={index}
+        onPress={() => navigation.navigate('TradeScreen', { id: item.id })}
+      >
+        <Item
+          data={item}
+          index={index}
+          listLength={openTradeList?.data?.length - 1}
+          useHeartButton={false}
+        />
+      </Pressable>
+    ),
+    [],
+  );
+  return (
+    <>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        <CustomHeader
+          title='내가 연 거래'
+          navigation={navigation}
+          bottomBorder={false}
+        />
+
+        <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            paddingBottom: 120,
+            // paddingTop: 20,
+          }}
+        >
+          {openTradeList?.data ? (
+            openTradeList?.data?.map(renderItem)
+          ) : (
+            <Text>관심 거래 글이 없습니다.</Text>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </>
+  );
+};
 
 const Container = styled(View)`
   /* padding: ${getHeightRatio(0)} 20px; */

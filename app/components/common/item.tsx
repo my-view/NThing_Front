@@ -16,11 +16,13 @@ export const Item = ({
   index,
   listLength,
   removeLikeKey,
+  useHeartButton = true,
 }: {
   data: PurchaseItemType;
   index: number;
   listLength: number;
   removeLikeKey?: any;
+  useHeartButton?: boolean;
 }) => {
   const {
     title,
@@ -75,21 +77,23 @@ export const Item = ({
           </InfoBox>
         </ItemBox>
 
-        <HeartButton
-          isLike={liked}
-          onClick={(isLiked) => {
-            console.log('좋아요', isLiked);
-            axios
-              .post(`/purchase/${id}/like`, {
-                value: isLiked,
-              })
-              .then((res) => {
-                // 여기서 좋아요 해제하면 맵에가면 좋아요 최신화해야하는데 키를 날릴까
-                // 아니면 화면 잡히면 refetch를 해야하나..
-                // queryClient.invalidateQueries(removeLikeKey);
-              });
-          }}
-        />
+        {useHeartButton && (
+          <HeartButton
+            isLike={liked}
+            onClick={(isLiked) => {
+              console.log('좋아요', isLiked);
+              axios
+                .post(`/purchase/${id}/like`, {
+                  value: isLiked,
+                })
+                .then((res) => {
+                  // 여기서 좋아요 해제하면 맵에가면 좋아요 최신화해야하는데 키를 날릴까
+                  // 아니면 화면 잡히면 refetch를 해야하나..
+                  // queryClient.invalidateQueries(removeLikeKey);
+                });
+            }}
+          />
+        )}
       </Box>
       <Divider
         style={{

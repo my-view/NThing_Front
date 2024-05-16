@@ -14,6 +14,7 @@ import InterestTradeScreen from 'screens/interest-trade';
 import { TradePlace } from 'types/common';
 import { PurchaseDetail } from 'types/purchase';
 import TradeRegistScreen from 'screens/trade-regist';
+import OpenedTradeScreen from './opened-trade';
 
 export type RootStackParamList = {
   RootScreen: undefined;
@@ -26,6 +27,7 @@ export type RootStackParamList = {
   TradeScreen: { data?: PurchaseDetail; id?: number };
   MyPageEditScreen: { nickname: string };
   InterestTradeScreen: undefined;
+  OpenedTradeScreen: undefined;
   UniversityMapModal: { latitude: number; longitude: number };
   TradeMapModal: {
     initialPlace: TradePlace;
@@ -71,6 +73,7 @@ const RootStackScreen = () => {
           name='InterestTradeScreen'
           component={InterestTradeScreen}
         />
+        <Stack.Screen name='OpenedTradeScreen' component={OpenedTradeScreen} />
       </Stack.Group>
       <Stack.Group
         screenOptions={{
