@@ -69,17 +69,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
 
   const renderItem = useCallback(
     (item: PurchaseItemType, index: number) => (
-      <Pressable
-        key={item.id}
-        onPress={async () => {
-          const token = await getStorage(TOKEN_STORAGE_KEY);
-          if (token) return navigation.navigate('TradeScreen', { id: item.id });
-          Alert.alert('로그인 후 이용해주세요!');
-          navigation.navigate('RootScreen');
-        }}
-      >
-        <Item data={item} index={index} listLength={tradeList?.length - 1} />
-      </Pressable>
+      <Item data={item} index={index} listLength={tradeList?.length - 1} />
     ),
     [tradeList],
   );

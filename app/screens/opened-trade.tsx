@@ -11,17 +11,12 @@ const OpenedTradeScreen = ({ navigation }: any) => {
 
   const renderItem = useCallback(
     (item: any, index: number) => (
-      <Pressable
-        key={index}
-        onPress={() => navigation.navigate('TradeScreen', { id: item.id })}
-      >
-        <Item
-          data={item}
-          index={index}
-          listLength={openTradeList?.data?.length - 1}
-          useHeartButton={false}
-        />
-      </Pressable>
+      <Item
+        data={item}
+        index={index}
+        listLength={openTradeList?.data?.length - 1}
+        useHeartButton={false}
+      />
     ),
     [],
   );
