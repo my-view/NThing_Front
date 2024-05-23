@@ -5,11 +5,11 @@ import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
 import { CustomHeader } from 'components/common/header';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import OpenedTradeScreen from './opened-trade';
-import ParticipationTradeScreen from './participation-trade';
+import ChatListOpenedTradeScreen from 'screens/chat-list/opened-trade';
+import ParticipationTradeChatListScreen from 'screens/chat-list/participation-trade';
 const Tab = createMaterialTopTabNavigator();
 
-const ChattingListScreen = ({ navigation }: any) => {
+const ChatListScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <CustomHeader
@@ -41,14 +41,14 @@ const ChattingListScreen = ({ navigation }: any) => {
           options={{
             title: '참여한 거래',
           }}
-          component={OpenedTradeScreen}
+          component={ChatListOpenedTradeScreen}
         />
         <Tab.Screen
           name='participationTrade'
           options={{
             title: '개설한 거래',
           }}
-          component={ParticipationTradeScreen}
+          component={ParticipationTradeChatListScreen}
         />
       </Tab.Navigator>
       {/* <Container></Container> */}
@@ -56,4 +56,4 @@ const ChattingListScreen = ({ navigation }: any) => {
   );
 };
 
-export default ChattingListScreen;
+export default ChatListScreen;
