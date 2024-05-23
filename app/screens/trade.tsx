@@ -211,23 +211,17 @@ const TradeScreen = ({ navigation, route }: Props) => {
               수정하기
             </Button>
           ) : (
-            <Button
-              onPress={() => {
-                setIsJoinModalOpen(true);
-              }}
-            >
-              참여하기
-            </Button>
+            // TODO: 참여한 채팅방이면, 1) 아직 채팅 열리기 전일 때 '참여 취소' 2) 채팅 열렸으면 '채팅방 가기'
+            <Button onPress={() => setIsJoinModalOpen(true)}>참여하기</Button>
           )}
         </ShadowBottom>
       </View>
       {isJoinModalOpen && (
         <Join
+          purchaseId={tradeDetail.id}
           numerator={tradeDetail.numerator}
           denominator={tradeDetail.denominator}
-          onClose={() => {
-            setIsJoinModalOpen(false);
-          }}
+          onClose={() => setIsJoinModalOpen(false)}
         />
       )}
     </GestureHandlerRootView>

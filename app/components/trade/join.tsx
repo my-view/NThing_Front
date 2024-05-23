@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { Pressable, Text, View } from 'react-native';
-import { BottomSheetHandleStyle } from '@components/common/bottomSheet-Handle';
+import { Alert, Pressable, Text, View } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { RoundedButton } from 'components/common/button';
 import { Shadow } from 'react-native-shadow-2';
@@ -9,12 +8,16 @@ import { Icon } from 'components/common/icon';
 import { theme } from '~/../theme';
 import { Row } from 'components/common/layout';
 import { Font11W500, Font16W600, Font20W600 } from 'components/common/text';
+import axios from 'axios';
+import { useJoinPurchase } from '~/hooks/purchase/purchase-join';
 
 export const Join: React.FC<{
+  purchaseId: number;
   numerator: number;
   denominator: number;
   onClose: () => void;
-}> = ({ numerator, denominator, onClose }) => {
+}> = ({ purchaseId, numerator, denominator, onClose }) => {
+  const { mutate } = useJoinPurchase();
   const filled = Array(numerator).fill(1);
   return (
     <BottomSheet
@@ -54,22 +57,13 @@ export const Join: React.FC<{
           </Row>
           <Row style={{ gap: 20 }}>
             <Row style={{ gap: 1, flex: 1, height: 11 }}>
-              <Row
-                style={{
-                  flex: numerator,
-                  height: '100%',
-                  gap: 1,
-                }}
-              >
+              <Row style={{ flex: numerator, height: '100%', gap: 1 }}>
                 {filled.map((_, index) => (
                   <FilledPiece
                     key={index}
                     style={
                       index === 0
-                        ? {
-                            borderBottomLeftRadius: 8,
-                            borderTopLeftRadius: 8,
-                          }
+                        ? { borderBottomLeftRadius: 8, borderTopLeftRadius: 8 }
                         : undefined
                     }
                   />
@@ -100,11 +94,26 @@ export const Join: React.FC<{
             </Balloon>
             <RoundedButton
               title='참여하기'
-              onPress={() => {
-                // TODO: POST 요청
-                onClose();
-              }}
-            ></RoundedButton>
+              onPress={() =>
+                mutate(purchaseId, {
+                  onSuccess: () => {
+                    // TODO: 채팅방 열렸는지 응답 받아서 적용 & 채팅방으로 이동
+                    const isChatOpened = denominator === numerator + 1;
+                    Alert.alert(
+                      isChatOpened
+                        ? 'n띵 거래가 성사되어 채팅방이 열렸어요! 채팅으로 거래를 진행해주세요.'
+                        : `${denominator}명 중 ${
+                            numerator + 1
+                          }명이 모였어요! 인원이 다 모여 거래가 성사되면 알려드릴게요.`,
+                    );
+                    onClose();
+                  },
+                  onError: (e) => {
+                    console.warn(e);
+                  },
+                })
+              }
+            />
           </View>
         </View>
       </Shadow>
