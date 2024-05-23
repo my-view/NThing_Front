@@ -37,7 +37,7 @@ const tradeHistoryMenuList: MenuListType[] = [
     id: 3,
     title: '참여한 거래',
     icon: 'S_Sell',
-    navigate: 'JoinTrade',
+    navigate: 'ParticipationTradeScreen',
   },
 ];
 
