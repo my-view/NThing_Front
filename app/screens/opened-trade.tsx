@@ -44,7 +44,7 @@ const OpenedTradeScreen = ({ navigation }: any) => {
           {openTradeList?.data ? (
             openTradeList?.data?.map(renderItem)
           ) : (
-            <Text>관심 거래 글이 없습니다.</Text>
+            <Text>내가 연 거래 글이 없습니다.</Text>
           )}
         </ScrollView>
       </SafeAreaView>
