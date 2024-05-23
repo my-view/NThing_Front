@@ -122,13 +122,13 @@ const HomeScreen = ({ route, navigation }: Props) => {
               minZoomLevel={14}
               center={mapCenter}
               onTouch={() => {
-                console.log('온터치?');
+                // console.log('온터치?');
                 if (isFirstLanding) return;
 
                 // downTradeList();
               }}
               onCameraChange={(e) => {
-                console.log('온카메라체인지?', e.latitude, e.longitude);
+                // console.log('온카메라체인지?', e.latitude, e.longitude);
 
                 if (isFirstLanding) return;
                 setCenterMapInfo({
@@ -139,8 +139,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
                 });
               }}
               onMapClick={(e) => {
-                console.log('온맵클릭?');
-
+                // console.log('온맵클릭?');
                 // downTradeList();
                 // console.warn('onMapClick', JSON.stringify(e));
               }}

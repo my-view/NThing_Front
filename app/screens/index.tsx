@@ -113,7 +113,7 @@ const RootScreen = ({ navigation }: Props) => {
   }, [serviceToken]);
 
   DevSettings.addMenuItem('Go Search Page', () => {
-    navigation.navigate('ChatingScreen');
+    navigation.navigate('ChattingScreen');
   });
 
   return (
