@@ -77,7 +77,6 @@ const TradeScreen = ({ navigation, route }: Props) => {
   }, []);
 
   const tradeDetail = (getPurchaseDetail?.data || preData) as PurchaseDetail;
-
   if (!tradeDetail) return null;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -108,8 +107,10 @@ const TradeScreen = ({ navigation, route }: Props) => {
           </Swiper>
           <KeyboardAwareScrollView>
             <ManagerInfoBox>
-              <ProfileImage>{/* TODO: image 넣기 */}</ProfileImage>
-              <Font15W600>{tradeDetail.manager}</Font15W600>
+              <ProfileImage
+                source={{ uri: tradeDetail.manager.profile_image }}
+              />
+              <Font15W600>{tradeDetail.manager.nickname}</Font15W600>
             </ManagerInfoBox>
             <TradeInfoBox>
               <Font18W700>{tradeDetail.title}</Font18W700>
@@ -127,7 +128,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
                   </GrayFont>
                 </Pressable>
                 <GrayFont>{` · ${formatElapsedTime(
-                  tradeDetail.updated_at,
+                  tradeDetail.created_at,
                 )} 전`}</GrayFont>
               </SubInfoWrapper>
               <Row
@@ -165,7 +166,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
           </Pressable>
           <Pressable
             onPress={() => {
-              // 공유하기
+              // TODO: 공유하기
             }}
           >
             <Icon name='S_Share' size={24} color={iconColor} />
@@ -174,7 +175,7 @@ const TradeScreen = ({ navigation, route }: Props) => {
         <ShadowBottom>
           <Row style={{ gap: 20 }}>
             <HeartButton
-              isLike={tradeDetail.liked}
+              isLike={tradeDetail.is_liked}
               onClick={(isLiked) => {
                 axios.post(`/purchase/${tradeDetail.id}/like`, {
                   value: isLiked,
@@ -210,8 +211,15 @@ const TradeScreen = ({ navigation, route }: Props) => {
             >
               수정하기
             </Button>
+          ) : tradeDetail.is_joined ? (
+            <Button
+              onPress={() => {
+                // TODO: 참여한 채팅방이면, 1) 아직 채팅 열리기 전일 때 '참여 취소' 2) 채팅 열렸으면 '채팅방 가기'
+              }}
+            >
+              참여 완료
+            </Button>
           ) : (
-            // TODO: 참여한 채팅방이면, 1) 아직 채팅 열리기 전일 때 '참여 취소' 2) 채팅 열렸으면 '채팅방 가기'
             <Button onPress={() => setIsJoinModalOpen(true)}>참여하기</Button>
           )}
         </ShadowBottom>
@@ -248,11 +256,13 @@ const ManagerInfoBox = styled(Row)`
   gap: 10px;
 `;
 
-const ProfileImage = styled.View`
+const ProfileImage = styled.Image`
   width: 36px;
   height: 36px;
+  border-radius: 100px;
+  border-width: 1px;
+  border-color: ${(p) => p.theme.palette.gray02};
   background-color: ${(p) => p.theme.palette.gray01};
-  border-radius: 36px;
 `;
 
 const TradeInfoBox = styled.View`

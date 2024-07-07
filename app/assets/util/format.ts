@@ -47,12 +47,15 @@ export const formatKorDate = (_date: string) => {
 export const convertToRelativeTime = (dateString: string) => {
   const date = moment(dateString);
   const now = moment();
-
-  if (now.diff(date, 'minutes') < 60) {
-    return `${now.diff(date, 'minutes')}분 전`;
-  } else if (now.diff(date, 'hours') < 24) {
-    return `${now.diff(date, 'hours')}시간 전`;
-  } else {
-    return `${now.diff(date, 'days')}일 전`;
-  }
+  if (date < now)
+    return now.diff(date, 'minutes') < 60
+      ? `${now.diff(date, 'minutes')}분 전`
+      : now.diff(date, 'hours') < 24
+      ? `${now.diff(date, 'hours')}시간 전`
+      : `${now.diff(date, 'days')}일 전`;
+  return date.diff(now, 'minutes') < 60
+    ? `${date.diff(now, 'minutes')}분 후`
+    : date.diff(now, 'hours') < 24
+    ? `${date.diff(now, 'hours')}시간 후`
+    : `${date.diff(now, 'days')}일 후`;
 };

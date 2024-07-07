@@ -8,8 +8,7 @@ import { Icon } from 'components/common/icon';
 import { theme } from '~/../theme';
 import { Row } from 'components/common/layout';
 import { Font11W500, Font16W600, Font20W600 } from 'components/common/text';
-import axios from 'axios';
-import { useJoinPurchase } from '~/hooks/purchase/purchase-join';
+import { useJoinPurchase } from 'hooks/purchase/purchase-join';
 
 export const Join: React.FC<{
   purchaseId: number;
@@ -25,10 +24,7 @@ export const Join: React.FC<{
       handleIndicatorStyle={{ height: 0 }}
       style={{
         shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: -4,
-        },
+        shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.1,
         shadowRadius: 10,
         elevation: 5,
@@ -104,7 +100,7 @@ export const Join: React.FC<{
                         ? 'n띵 거래가 성사되어 채팅방이 열렸어요! 채팅으로 거래를 진행해주세요.'
                         : `${denominator}명 중 ${
                             numerator + 1
-                          }명이 모였어요! 인원이 다 모여 거래가 성사되면 알려드릴게요.`,
+                          }명이 모였어요!\n인원이 다 모여 거래가 성사되면 알려드릴게요.`,
                     );
                     onClose();
                   },

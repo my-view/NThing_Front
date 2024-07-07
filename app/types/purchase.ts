@@ -16,11 +16,13 @@ export interface PurchaseDetail {
   status: boolean;
   price: number;
   place: string;
-  updated_at: string; // 예) 2023-08-14 09:39:08
-  created_at: string;
-  manager: string;
+  updated_at: string; // 안쓰고 있는 값
+  created_at: string; // 예) 2023-08-14 09:39:08
+  manager: { id: number; nickname: string; profile_image: string };
   is_manager: boolean;
+  is_joined: boolean;
+  is_completed: boolean;
   category_id: number;
   category_name: string;
-  liked: boolean;
+  is_liked: boolean;
 }

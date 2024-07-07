@@ -34,6 +34,7 @@ import { Chip } from 'components/common/chip';
 import { PurchaseDetail } from 'types/purchase';
 import useTradeRegisterStore from 'state/trade-register';
 import { krNow } from 'assets/util/time';
+import { postPurchaseAPI } from 'api/purchase';
 
 const oneDayMilliSecond = 1000 * 60 * 60 * 24;
 
@@ -119,7 +120,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
           uri: item.uri,
         }),
       );
-      await axios.post('/purchase', form).then((data) => {
+      await postPurchaseAPI(form).then((data) => {
         navigation.replace('TradeScreen', { data });
       });
     } catch (e) {

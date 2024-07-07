@@ -25,7 +25,7 @@ if (__DEV__) {
   );
 }
 
-axios.defaults.baseURL = 'https://bfa2-14-6-187-81.ngrok-free.app';
+axios.defaults.baseURL = 'https://nthing.kkookkss.synology.me';
 
 axios.interceptors.request.use(
   async (config) => {

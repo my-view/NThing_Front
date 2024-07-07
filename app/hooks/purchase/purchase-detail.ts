@@ -3,7 +3,6 @@ import { getPurchaseDetailAPI } from '~/api/purchase';
 import { purchaseQueryKeys } from '../../key/purchase';
 
 export const usePurchaseDetail = (id?: number) => {
-  //
   const getPurchaseDetail = useQuery({
     queryKey: purchaseQueryKeys.detail(id),
     queryFn: () => getPurchaseDetailAPI(id),

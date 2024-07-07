@@ -4,7 +4,7 @@ import { Font15W500, Font16W600, Font12W400 } from 'components/common/text';
 import { formatPrice, convertToRelativeTime } from 'assets/util/format';
 import { PurchaseItemType } from 'types/common';
 import { HeartButton } from './heart-button';
-import { Image, View, Pressable, Alert } from 'react-native';
+import { View, Pressable, Alert } from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import axios from 'axios';
 import { getStorage } from '~/assets/util/storage';
@@ -49,9 +49,7 @@ export const Item = ({
         onPress={async () => {
           const token = await getStorage(TOKEN_STORAGE_KEY);
           if (token)
-            return navigationRef.current.navigate('TradeScreen', {
-              id: id,
-            });
+            return navigationRef.current.navigate('TradeScreen', { id });
           Alert.alert('로그인 후 이용해주세요!');
           navigationRef.current.navigate('RootScreen');
         }}
@@ -61,9 +59,7 @@ export const Item = ({
             <ItemImg source={{ uri: image }} />
             <InfoBox>
               <Title
-                style={{
-                  lineHeight: lineCount >= 1 ? singleLine : multiLine,
-                }}
+                style={{ lineHeight: lineCount >= 1 ? singleLine : multiLine }}
                 numberOfLines={2}
                 onTextLayout={handleTextLayout}
               >
@@ -80,7 +76,6 @@ export const Item = ({
               </PricePersonBox>
             </InfoBox>
           </ItemBox>
-
           {useHeartButton && (
             <HeartButton
               isLike={liked}
@@ -99,17 +94,11 @@ export const Item = ({
           )}
         </Box>
       </Pressable>
-      <Divider
-        style={{
-          borderBottomWidth: index === listLength ? 0 : 1,
-        }}
-      />
+      <Divider style={{ borderBottomWidth: index === listLength ? 0 : 1 }} />
     </>
   );
 };
 
-//
-//
 export const LoadingItem = () => {
   return (
     <>
