@@ -35,13 +35,13 @@ import { PurchaseDetail } from 'types/purchase';
 import useTradeRegisterStore from 'state/trade-register';
 import { krNow } from 'assets/util/time';
 import { postPurchaseAPI } from 'api/purchase';
-
-const oneDayMilliSecond = 1000 * 60 * 60 * 24;
+import { ONE_DAY_MILLISECOND } from 'assets/util/time';
 
 const formatTradeDate = (full: string) => {
   const date = new Date(full);
   const diff =
-    moment(date).diff(krNow.setHours(0, 0, 0, 0)) / oneDayMilliSecond;
+    moment(date).diff(new Date(krNow).setHours(0, 0, 0, 0)) /
+    ONE_DAY_MILLISECOND;
   const tradeDate: TradeDate = {
     now: krNow,
     day: diff < 0 ? 0 : Math.ceil(diff),

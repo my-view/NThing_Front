@@ -15,10 +15,10 @@ const initialDate = {
 };
 
 const formatFullDate = (tradeDate: TradeDate) => {
-  const date = tradeDate.now;
-  moment(date).add(tradeDate.day, 'days');
-  moment(date).add(tradeDate.hour, 'hours');
-  moment(date).add(tradeDate.minute, 'minutes');
+  const date = moment(tradeDate.now);
+  date.add(tradeDate.day, 'days');
+  date.hour(tradeDate.hour);
+  date.minute(tradeDate.minute * 10);
   return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
