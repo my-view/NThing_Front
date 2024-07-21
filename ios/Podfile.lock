@@ -163,8 +163,8 @@ PODS:
     - KakaoSDKAuth (= 2.11.1)
   - libevent (2.1.12)
   - naveridlogin-sdk-ios (4.1.6)
-  - NMapsGeometry (1.0.1)
-  - NMapsMap (3.17.0):
+  - NMapsGeometry (1.0.2)
+  - NMapsMap (3.18.1):
     - NMapsGeometry
   - OpenSSL-Universal (1.1.1100)
   - PromisesObjC (2.3.1)
@@ -837,8 +837,8 @@ SPEC CHECKSUMS:
   KakaoSDKUser: 08c0a4f40bebdebdf948a9e3d0e44ed5c2754f99
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   naveridlogin-sdk-ios: cdd34e3585a3d5aaf37c1d84c1f41faba4a25d1a
-  NMapsGeometry: 53c573ead66466681cf123f99f698dc8071a4b83
-  NMapsMap: a5b909a31b6f3d27a670f6eb2ddc913c38975474
+  NMapsGeometry: 4e02554fa9880ef02ed96b075dc84355d6352479
+  NMapsMap: e879088eeee2d1e3b97f0a609076e1824dce2cad
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
