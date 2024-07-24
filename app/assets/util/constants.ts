@@ -14,6 +14,6 @@ export const sortOptions: SortType[] = [
 
 export const TOKEN_STORAGE_KEY = 'NT-AUTH-TOKEN';
 
-const BASE_URL = 'bfa2-14-6-187-81.ngrok-free.app';
+const BASE_URL = 'nthing.kkookkss.synology.me';
 export const SERVER_URL = `https://${BASE_URL}`;
 export const WEBSOCKET_SERVER_URL = `wss://${BASE_URL}`;
