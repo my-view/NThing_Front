@@ -22,48 +22,51 @@ export interface ChatUser {
 export enum WebsocketMessageType {
   NORMAL = 'TEXT',
   IMAGE = 'IMAGE',
-  EXPEL = 'EXPEL', // 강퇴 발생 시 메시지
-  COMPLETE = 'COMPLETE', // 거래 종료 시 메시지
-  SATISFY = 'SATISFACTION', // 만족/불만족 메시지
+  EXPEL = 'EXPEL', // 강퇴 발생 시 안내 메시지
+  COMPLETE = 'COMPLETE', // 거래시간 지난 후, 거래 종료할지 묻고 답하는 메시지
+  SATISFACTION = 'SATISFACTION', // 만족/불만족 묻고 답하는 메시지
   LIST = 'LIST', // 메시지 목록
 }
 
-export interface BaseMessage {
+export interface BaseReceivedMessage {
   chat_room_id: number;
   id: number;
 }
 
-export interface BaseChatMessage extends BaseMessage {
+export interface BaseReceivedChatMessage extends BaseReceivedMessage {
   sender_id: number | null;
   sent_at: string;
 }
 
-export interface NormalChatMessage extends BaseChatMessage {
+export interface NormalChatMessage extends BaseReceivedChatMessage {
   type: WebsocketMessageType.NORMAL;
   content: string;
 }
 
-export interface ImageChatMessage extends BaseChatMessage {
+export interface ImageChatMessage extends BaseReceivedChatMessage {
   type: WebsocketMessageType.IMAGE;
   url: string;
 }
 
-export interface CompleteChatMessage extends BaseChatMessage {
+export interface CompleteChatMessage extends BaseReceivedChatMessage {
   type: WebsocketMessageType.COMPLETE;
 }
 
-export interface CompleteChatMessage extends BaseChatMessage {
-  type: WebsocketMessageType.COMPLETE;
+export interface SatisfactionChatMessage extends BaseReceivedMessage {
+  type: WebsocketMessageType.SATISFACTION;
+  sent_at: string;
 }
 
-export type ChatMessage =
+export type ReceivedMessage =
   | NormalChatMessage
   | ImageChatMessage
-  | CompleteChatMessage;
+  | CompleteChatMessage
+  | SatisfactionChatMessage;
 
 // user 한테만
-export interface ListMessage extends BaseMessage {
-  messages: ChatMessage[];
+export interface ListMessage {
+  chat_room_id: number;
+  messages: ReceivedMessage[];
 }
 
 export interface ChatRoomListItem {
