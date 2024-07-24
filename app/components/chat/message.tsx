@@ -7,94 +7,97 @@ import {
   Font12W600,
   Font15W500,
 } from 'components/common/text';
-import { Pressable } from 'react-native';
+import { LayoutChangeEvent, Pressable } from 'react-native';
 import { HostTag } from 'components/common/host-tag';
 import moment from 'moment';
 import { formatKorAmPm } from 'assets/util/format';
-import { IMessage } from 'types/chat';
+import { ChatMessage, WebsocketMessageType } from 'types/chat';
 import { MemberControlModal } from 'components/chat/member-control-modal';
 import { DateSeparator } from 'components/chat/date-separator';
 import { FinishBubble } from 'components/chat/finish-bubble';
 
 export const Message: React.FC<{
-  data: IMessage;
+  data: ChatMessage;
   isSending: boolean;
   isSameSender: boolean;
   isHost: boolean;
+  hasSeparator: boolean;
   unreadCount?: number;
-  checkItemHeight: any;
+  messageType?: 'end' | 'separator';
+  checkItemHeight: (event: LayoutChangeEvent) => void;
 }> = ({
   data,
   isSending,
   isSameSender,
   isHost,
+  hasSeparator,
   unreadCount = 4,
+  messageType,
   checkItemHeight,
 }) => {
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
-  const isEndBubble = data.type == 'end' ? true : false;
+  const isEndBubble = messageType === 'end';
   return (
     <>
-      {data.type == 'separator' ? (
-        <DateSeparator date={data.timeStamp} />
-      ) : (
-        <MessageWrapper onLayout={checkItemHeight} isSameSender={isSameSender}>
-          {data.type == 'end' ? (
-            <BubbleWrapper isSending={isSending}>
-              <FinishBubbleContainer
-                isSending={isSending}
-                isEndBubble={isEndBubble}
-              >
-                <FinishBubble isHost={false} disabled={data.buttonDisabled} />
-              </FinishBubbleContainer>
-              <DetailInfoWrapper isSending={isSending}>
-                <SendTime>
-                  {`${formatKorAmPm(new Date(data.createdAt))} ${moment(
-                    data.createdAt,
-                  ).format('h:m')}`}
-                </SendTime>
-              </DetailInfoWrapper>
-            </BubbleWrapper>
-          ) : (
-            <></>
-          )}
-          {!isSending && !isSameSender && !isEndBubble && (
-            <>
-              <Pressable onLongPress={() => setAvatarModalOpen(true)}>
-                <AvatarWrapper>
-                  <Avatar
-                    source={require('../../assets/image/item-example.png')}
-                  />
-                  <SenderName>{data.user?.name}</SenderName>
-                  {isHost && <HostTag />}
-                </AvatarWrapper>
-              </Pressable>
-              {avatarModalOpen && (
-                <MemberControlModal
-                  isHost={isHost}
-                  setOpen={setAvatarModalOpen}
-                />
-              )}
-            </>
-          )}
-
-          {!isEndBubble && (
-            <BubbleWrapper isSending={isSending}>
-              <Bubble isSending={isSending}>
-                <MessageText isSending={isSending}>{data.text}</MessageText>
-              </Bubble>
-              <DetailInfoWrapper isSending={isSending}>
-                {unreadCount > 0 && <UnreadCount>{unreadCount}</UnreadCount>}
-                <SendTime>
-                  {`${formatKorAmPm(new Date(data.createdAt))} ${moment(
-                    data.createdAt,
-                  ).format('h:m')}`}
-                </SendTime>
-              </DetailInfoWrapper>
-            </BubbleWrapper>
-          )}
-        </MessageWrapper>
+      {hasSeparator && (
+        <DateSeparator date={moment(data.sent_at).format('yyyy년 MM월 DD일')} />
       )}
+      <MessageWrapper onLayout={checkItemHeight} isSameSender={isSameSender}>
+        {isEndBubble && (
+          <BubbleWrapper isSending={isSending}>
+            <FinishBubbleContainer
+              isSending={isSending}
+              isEndBubble={isEndBubble}
+            >
+              <FinishBubble isHost={false} disabled={false} />
+            </FinishBubbleContainer>
+            <DetailInfoWrapper isSending={isSending}>
+              <SendTime>
+                {`${formatKorAmPm(new Date(data.sent_at))} ${moment(
+                  data.sent_at,
+                ).format('h:m')}`}
+              </SendTime>
+            </DetailInfoWrapper>
+          </BubbleWrapper>
+        )}
+        {!isSending && !isSameSender && !isEndBubble && (
+          <>
+            <Pressable onLongPress={() => setAvatarModalOpen(true)}>
+              <AvatarWrapper>
+                <Avatar
+                  source={require('../../assets/image/item-example.png')}
+                />
+                {/* <SenderName>{data.user?.name}</SenderName> */}
+                {isHost && <HostTag />}
+              </AvatarWrapper>
+            </Pressable>
+            {avatarModalOpen && (
+              <MemberControlModal
+                isHost={isHost}
+                setOpen={setAvatarModalOpen}
+              />
+            )}
+          </>
+        )}
+
+        {!isEndBubble && (
+          <BubbleWrapper isSending={isSending}>
+            {data.type === WebsocketMessageType.NORMAL && (
+              <Bubble isSending={isSending}>
+                <MessageText isSending={isSending}>{data.message}</MessageText>
+              </Bubble>
+            )}
+            <DetailInfoWrapper isSending={isSending}>
+              {unreadCount > 0 && <UnreadCount>{unreadCount}</UnreadCount>}
+              <SendTime>
+                {`${formatKorAmPm(new Date(data.sent_at))} ${moment(
+                  data.sent_at,
+                ).format('h:m')}`}
+              </SendTime>
+            </DetailInfoWrapper>
+          </BubbleWrapper>
+        )}
+      </MessageWrapper>
     </>
   );
 };

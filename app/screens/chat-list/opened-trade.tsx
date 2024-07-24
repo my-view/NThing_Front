@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, View } from 'react-native';
 import styled from '@emotion/native';
 import { getHeightRatio } from 'assets/util/layout';
 import { ChatItem } from 'components/chat/chat-item';
 import { ChatListType } from 'types/chat';
+import { useChatRooms } from 'hooks/chatting/chat-rooms';
+import useChatStore from '~/state/chat';
 
 const tradeHistoryMenuList: ChatListType[] = [
   {
@@ -43,17 +45,35 @@ const tradeHistoryMenuList: ChatListType[] = [
   },
 ];
 
-const ChatListOpenedTradeScreen = ({ navigation }: any) => (
-  <>
+const ChatListOpenedTradeScreen = ({ navigation }: any) => {
+  const { data: chatRoomsRes } = useChatRooms();
+  const { chatRooms, setChatRooms } = useChatStore();
+  const data =
+    Object.values(chatRooms).map((x) => ({
+      ...x,
+      title: x.purchaseId,
+      last_message: x.createdAt,
+      navigate: 'JoinTrade',
+      trade_status: x.isCompleted ? 'COMPLETE' : 'RECRUIT',
+    })) || [];
+
+  useEffect(() => {
+    if (!chatRoomsRes) return;
+    setChatRooms(chatRoomsRes);
+  }, [chatRoomsRes]);
+
+  console.log(chatRoomsRes);
+
+  return (
     <Container>
       <FlatList
-        data={tradeHistoryMenuList}
-        keyExtractor={(item) => `${item.id}`}
+        data={data}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ChatItem data={item} />}
       />
     </Container>
-  </>
-);
+  );
+};
 
 const Container = styled(View)`
   /* padding: ${getHeightRatio(0)} 20px; */

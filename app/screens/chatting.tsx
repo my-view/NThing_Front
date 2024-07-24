@@ -4,23 +4,41 @@ import { CustomHeader } from 'components/common/header';
 import initialMessages from 'assets/mock/messages';
 import { InputToolbar } from 'components/chat/input-toolbar';
 import { MessageList } from 'components/chat/message-list';
-import { IMessage } from 'types/chat';
+import { ChatMessage, WebsocketMessageType } from 'types/chat';
+import { send, stompClient } from 'assets/util/web-socket';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from 'screens/stack';
 
-const ChattingScreen = ({ navigation }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'ChattingScreen'>;
+
+const ChattingScreen = ({ navigation, route }: Props) => {
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const roomId = route.params.id || 2;
 
-  const onSend = (newMessages: IMessage) => {
-    setMessages((prev) => [newMessages, ...prev]);
+  const onSend = (msg: string) => {
+    send(roomId, { type: WebsocketMessageType.NORMAL, content: msg });
     setInput('');
   };
 
   useEffect(() => {
     const sortDate = initialMessages
-      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+      .sort(
+        (a, b) => new Date(a.sent_at).getTime() - new Date(b.sent_at).getTime(),
+      )
       .reverse();
-    setMessages(sortDate); // TODO: mock messages에서 text property가 없는 특수 type의 메시지들 때문에 타입이 맞지 않아 에러 발생
+    setMessages(sortDate);
   }, []);
+
+  useEffect(() => {
+    stompClient.subscribe(`/room/${roomId}`, (message) => {
+      const newMessage = JSON.parse(message.body);
+      console.log('hi' + JSON.parse(message.body));
+      // TODO: 메시지 받아서 처리
+
+      // setMessages((prev) => [...prev, newMessage]);
+    });
+  }, [roomId]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>

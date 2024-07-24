@@ -13,7 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1BD45570BB0664708EE3AD52 /* libPods-nThing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 502D3F1973D3B52BCED4F7FE /* libPods-nThing.a */; };
 		3B8918E72A35FEFC00214DA0 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3B8918E62A35FEFC00214DA0 /* Fonts */; };
-		44A8A07F2C4AB597009218AD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 44A8A07E2C4AB597009218AD /* GoogleService-Info.plist */; };
+		44D3DAF92C5149E4004A3B0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 44D3DAF82C5149E4004A3B0B /* GoogleService-Info.plist */; };
 		6BF55969951A6B45757EF771 /* libPods-nThing-nThingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E5A2D8F0DD424256800EAF /* libPods-nThing-nThingTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -43,6 +43,7 @@
 		3B8918E62A35FEFC00214DA0 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		3BC363B42A654C80001EBC0C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		44A8A07E2C4AB597009218AD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		44D3DAF82C5149E4004A3B0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		502D3F1973D3B52BCED4F7FE /* libPods-nThing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nThing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72E5A2D8F0DD424256800EAF /* libPods-nThing-nThingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nThing-nThingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = nThing/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				44A8A07E2C4AB597009218AD /* GoogleService-Info.plist */,
+				44D3DAF82C5149E4004A3B0B /* GoogleService-Info.plist */,
 				3B8918E62A35FEFC00214DA0 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* nThing */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -250,7 +252,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44A8A07F2C4AB597009218AD /* GoogleService-Info.plist in Resources */,
+				44D3DAF92C5149E4004A3B0B /* GoogleService-Info.plist in Resources */,
 				3B8918E72A35FEFC00214DA0 /* Fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,

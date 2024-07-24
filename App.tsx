@@ -15,8 +15,16 @@ import { EventProvider } from 'react-native-outside-press';
 import 'react-native-gesture-handler';
 import axios, { AxiosResponse } from 'axios';
 import { getStorage } from '~/assets/util/storage';
-import { TOKEN_STORAGE_KEY } from '~/assets/util/constants';
+import { SERVER_URL, TOKEN_STORAGE_KEY } from '~/assets/util/constants';
 import { CustomResponse } from 'types/modules';
+import * as encoding from 'text-encoding';
+import { WebSocketConnector } from '~/components/chat/web-socket-connector';
+
+// stomp 위한 polyfill
+Object.assign(global, {
+  TextEncoder: encoding.TextEncoder,
+  TextDecoder: encoding.TextDecoder,
+});
 
 //
 if (__DEV__) {
@@ -25,7 +33,7 @@ if (__DEV__) {
   );
 }
 
-axios.defaults.baseURL = 'https://nthing.kkookkss.synology.me';
+axios.defaults.baseURL = SERVER_URL;
 
 axios.interceptors.request.use(
   async (config) => {
@@ -56,6 +64,7 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
 export default function App() {
   const { handleError } = useApiError();
 
@@ -67,6 +76,7 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
             <NavigationContainer ref={navigationRef}>
+              <WebSocketConnector />
               <RootNavigator />
               <AppStateComponent />
               <SimpleSnackbarUI.Portal />
