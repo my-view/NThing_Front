@@ -4,7 +4,7 @@ import { CustomHeader } from 'components/common/header';
 import initialMessages from 'assets/mock/messages';
 import { InputToolbar } from 'components/chat/input-toolbar';
 import { MessageList } from 'components/chat/message-list';
-import { ChatMessage } from 'types/chat';
+import { ChatMessage, WebsocketMessageType } from 'types/chat';
 import { send, stompClient } from 'assets/util/web-socket';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
@@ -14,10 +14,10 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ChattingScreen'>;
 const ChattingScreen = ({ navigation, route }: Props) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const roomId = route.params.id;
+  const roomId = route.params.id || 2;
 
-  const onSend = (newMessage: string) => {
-    send(roomId, newMessage);
+  const onSend = (msg: string) => {
+    send(roomId, { type: WebsocketMessageType.NORMAL, content: msg });
     setInput('');
   };
 

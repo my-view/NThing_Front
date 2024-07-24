@@ -20,12 +20,12 @@ export interface ChatUser {
 }
 
 export enum WebsocketMessageType {
-  NORMAL = 'normal',
-  IMAGE = 'image',
-  KICK_OUT = 'kickOut', // 강퇴 발생 시 메시지
-  COMPLETE = 'complete', // 거래 종료 시 메시지
-  SATISFY = 'satisfy', // 만족/불만족 메시지
-  LIST = 'list', // 메시지 목록
+  NORMAL = 'TEXT',
+  IMAGE = 'IMAGE',
+  EXPEL = 'EXPEL', // 강퇴 발생 시 메시지
+  COMPLETE = 'COMPLETE', // 거래 종료 시 메시지
+  SATISFY = 'SATISFACTION', // 만족/불만족 메시지
+  LIST = 'LIST', // 메시지 목록
 }
 
 export interface BaseMessage {
@@ -40,7 +40,7 @@ export interface BaseChatMessage extends BaseMessage {
 
 export interface NormalChatMessage extends BaseChatMessage {
   type: WebsocketMessageType.NORMAL;
-  message: string;
+  content: string;
 }
 
 export interface ImageChatMessage extends BaseChatMessage {
@@ -61,6 +61,7 @@ export type ChatMessage =
   | ImageChatMessage
   | CompleteChatMessage;
 
+// user 한테만
 export interface ListMessage extends BaseMessage {
   messages: ChatMessage[];
 }
