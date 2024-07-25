@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postPurchaseJoinAPI } from 'api/purchase';
+import { deletePurchaseJoinAPI } from 'api/purchase';
 import { purchaseQueryKeys } from 'key/purchase';
 import { PurchaseDetail } from 'types/purchase';
 
-export const useJoinPurchase = () => {
+export const useCancelPurchaseJoin = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: purchaseQueryKeys.join(),
-    mutationFn: (purchaseId: number) => postPurchaseJoinAPI(purchaseId),
+    mutationFn: (purchaseId: number) => deletePurchaseJoinAPI(purchaseId),
     onSuccess(_, purchaseId) {
       const queryKey = purchaseQueryKeys.detail(purchaseId);
       queryClient.setQueryData<PurchaseDetail>(
@@ -15,8 +15,8 @@ export const useJoinPurchase = () => {
         (oldData) =>
           ({
             ...oldData,
-            numerator: (oldData?.numerator || 0) + 1,
-            is_joined: true,
+            numerator: (oldData?.numerator || 0) - 1,
+            is_joined: false,
           } as PurchaseDetail),
       );
     },

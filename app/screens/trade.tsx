@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Image,
   Platform,
   Pressable,
@@ -41,12 +42,14 @@ import axios from 'axios';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Join } from 'components/trade/join';
 import { PurchaseDetail } from 'types/purchase';
+import { useCancelPurchaseJoin } from 'hooks/purchase/cancel-purchase-join';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeScreen'>;
 
 const TradeScreen = ({ navigation, route }: Props) => {
   const { data: preData, id } = route.params;
   const getPurchaseDetail = usePurchaseDetail(preData?.id || id);
+  const { mutate } = useCancelPurchaseJoin();
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [scroll, setScroll] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
@@ -215,9 +218,13 @@ const TradeScreen = ({ navigation, route }: Props) => {
             <Button
               onPress={() => {
                 // TODO: 참여한 채팅방이면, 1) 아직 채팅 열리기 전일 때 '참여 취소' 2) 채팅 열렸으면 '채팅방 가기'
+                Alert.alert('거래 참여를 정말 취소하시겠어요?', undefined, [
+                  { text: '아니요', onPress: () => {}, style: 'cancel' },
+                  { text: '네', onPress: () => mutate(tradeDetail.id) },
+                ]);
               }}
             >
-              참여 완료
+              참여 취소
             </Button>
           ) : (
             <Button onPress={() => setIsJoinModalOpen(true)}>참여하기</Button>
