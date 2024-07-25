@@ -13,7 +13,7 @@ export const PURCHASE_ITEM_LIST: PurchaseItemType[] = [
     place: '제주대 앞',
     status: false,
     image: null,
-    liked: false,
+    is_liked: false,
   },
   {
     id: 9,
@@ -27,7 +27,7 @@ export const PURCHASE_ITEM_LIST: PurchaseItemType[] = [
     place: '한강 공원',
     status: false,
     image: null,
-    liked: false,
+    is_liked: false,
   },
   {
     id: 10,
@@ -41,7 +41,7 @@ export const PURCHASE_ITEM_LIST: PurchaseItemType[] = [
     place: '부산 중앙도서관',
     status: false,
     image: null,
-    liked: false,
+    is_liked: false,
   },
   // 추가 객체들...
 ];

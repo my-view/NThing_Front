@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Pressable, SafeAreaView, View, Alert } from 'react-native';
+import { Pressable, SafeAreaView, View } from 'react-native';
 import { SelectBox } from '@components/common/select';
 import styled from '@emotion/native';
 import NaverMapView from 'react-native-nmap';
@@ -25,8 +25,6 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
-import { getStorage } from 'assets/util/storage';
-import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 import { PurchaseItemType } from 'types/common';
 import { useMapControl } from '~/hooks/map/action';
 import Animated from 'react-native-reanimated';
