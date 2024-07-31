@@ -1,14 +1,17 @@
 import axios, { Axios, AxiosRequestConfig } from 'axios';
 import { AxiosResponse, CustomResponse } from '~/types/modules';
-import { getStorage } from '~/assets/util/storage';
-import { TOKEN_STORAGE_KEY } from '~/assets/util/constants';
+import { get, getStorage } from '~/assets/util/storage';
+import { SERVER_URL, TOKEN_STORAGE_KEY } from '~/assets/util/constants';
+import { useLogin } from '~/hooks/login/login';
 
 export const AxiosConfig = () => {
-  axios.defaults.baseURL = 'https://422c-121-130-216-253.ngrok-free.app';
+  axios.defaults.baseURL = SERVER_URL;
+  // const { setToken, get, set, serviceToken } = useLogin();
 
   axios.interceptors.request.use(
     async (config) => {
-      const token = await getStorage(TOKEN_STORAGE_KEY);
+      const token = await get();
+      console.log('@@@ interceptors', token);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -19,10 +22,12 @@ export const AxiosConfig = () => {
     },
   );
 
-  axios.interceptors.response.use((response: AxiosResponse<CustomResponse>) => {
-    console.log('@@ AXIOS RESPONSE 123', response);
-    return response.data.data;
-  });
+  axios.interceptors.response.use(
+    (response: AxiosResponse<CustomResponse<any>>) => {
+      // console.log('@@ AXIOS RESPONSE 123', response);
+      return response.data.data;
+    },
+  );
 
   return null;
 };

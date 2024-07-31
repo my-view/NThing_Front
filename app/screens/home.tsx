@@ -31,6 +31,7 @@ import Animated from 'react-native-reanimated';
 import { useUser } from '~/hooks/user';
 import { userInfoType } from '~/types/user';
 import { useFocusEffect } from '@react-navigation/native';
+import { useLogin } from '~/hooks/login/login';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -53,7 +54,9 @@ const HomeScreen = ({ route, navigation }: Props) => {
   const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
     useMapControl();
   const { keyword } = route.params;
-  const userInfo = useUser();
+  const { serviceToken } = useLogin();
+  console.log('HomeScreen serviceToken', serviceToken);
+  const userInfo = useUser(serviceToken);
   const userData = userInfo?.data as unknown as userInfoType | undefined;
   const [selectValue, setSelectValue] = useState({
     nm: '최신순',
@@ -61,7 +64,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
   });
 
   useFocusEffect(() => {
-    console.log('@@@@@@@@@@@@@@리패치');
+    // console.log('@@@@@@@@@@@@@@리패치');
     refetch();
   });
 

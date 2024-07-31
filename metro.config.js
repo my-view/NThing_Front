@@ -18,9 +18,14 @@ module.exports = (async () => {
         transform: {
           experimentalImportSupport: false,
           inlineRequires: true,
+          nonInlinedRequires: [
+            '@react-native-async-storage/async-storage',
+            'React',
+            'react',
+            'react-native',
+          ],
           // storybook changed log 웹에서만 가능..
           // inlineRequires: false,
-
         },
       }),
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
