@@ -40,6 +40,7 @@ const UniversityScreen = ({ navigation }: Props) => {
             const selected = colleges.find((item) => item.id === id) as College;
             const { latitude, longitude } = selected;
             navigation.navigate('UniversityMapModal', {
+              college_id: selected.id,
               latitude,
               longitude,
             });
