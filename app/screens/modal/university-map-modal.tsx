@@ -11,7 +11,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'UniversityMapModal'>;
 const UniversityMapModal = ({ navigation, route }: Props) => {
   const { college_id, latitude, longitude } = route.params;
   const pin = {
-    id: 1,
+    id: college_id,
     latitude: Number(latitude),
     longitude: Number(longitude),
   };
@@ -26,7 +26,7 @@ const UniversityMapModal = ({ navigation, route }: Props) => {
         form.append('college_id', college_id);
         editUserMutation.mutateAsync(form);
         navigation.goBack();
-        navigation.navigate('MainScreen');
+        navigation.navigate('MainScreen', pin);
       }}
       completeText='네, 맞습니다'
     >

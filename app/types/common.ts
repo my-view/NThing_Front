@@ -91,9 +91,7 @@ export interface Comment {
   replies?: Comment[];
 }
 
-export interface TradeParams {
-  latitude: string | number;
-  longitude: string | number;
+export interface TradeParams extends Coord {
   zoom: number;
   search_keyword: string;
   radius: number;

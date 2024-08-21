@@ -21,6 +21,7 @@ import { SocialLoginRoute } from 'types/common';
 import { useUser } from 'hooks/user';
 import { RootStackParamList } from './stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { defaultCenterPosition } from 'assets/mock/pins';
 
 const naverLoginKeys = {
   consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
@@ -86,9 +87,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'RootScreen'>;
 
 const RootScreen = ({ navigation }: Props) => {
   const [serviceToken, setSeviceToken] = useState<string>(); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
-  const userInfo = useUser();
+  const { data: userInfo, refetch } = useUser();
 
-  console.log('@@@ userInfo', userInfo.data);
+  console.log('@@@ userInfo', userInfo);
   const setToken = (token?: string) => {
     if (!token) return;
     setSeviceToken(token);
@@ -103,14 +104,20 @@ const RootScreen = ({ navigation }: Props) => {
       });
       return;
     }
-    console.log('user', userInfo);
     // 1. serviceToken으로 user 정보 불러옴 (react query)
+    if (!userInfo) {
+      refetch();
+      return;
+    }
     // 2-1. 선택한 학교가 없으면 학교 선택 페이지로 이동
-    // navigation.navigate('UniversityScreen');
+    if (!userInfo.college) navigation.navigate('UniversityScreen');
     // 2-2. 학교가 있으면 (학교 정보와 함께?) 홈으로 이동
-    navigation.navigate('MainScreen');
+    navigation.navigate('MainScreen', {
+      latitude: Number(userInfo.college.latitude),
+      longitude: Number(userInfo.college.longitude),
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceToken]);
+  }, [serviceToken, userInfo]);
 
   DevSettings.addMenuItem('Go Search Page', () => {
     navigation.navigate('ChattingScreen');
@@ -139,7 +146,14 @@ const RootScreen = ({ navigation }: Props) => {
               <Image source={require('../assets/image/google-btn.png')} />
             </Pressable>
           </ButtonWrap>
-          <Pressable onPress={() => navigation.navigate('MainScreen')}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate('MainScreen', {
+                latitude: defaultCenterPosition.latitude,
+                longitude: defaultCenterPosition.longitude,
+              })
+            }
+          >
             <LaterLogin>나중에 로그인하기</LaterLogin>
           </Pressable>
         </SocialLoginWrap>
@@ -159,8 +173,6 @@ const SocialLoginWrap = styled(View)`
 
 const SocialSubTitle = styled(Font16W500)`
   margin-bottom: 30px;
-
-  // color: ${(props) => props.theme.palette.primary};
 `;
 
 const LaterLogin = styled(UnderLine14)`
