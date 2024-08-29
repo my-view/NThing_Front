@@ -3,16 +3,40 @@ import { postLogin } from '~/api/login';
 import { SocialLoginRoute } from '~/types/common';
 import * as KakaoLogin from '@react-native-seoul/kakao-login';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { googleWebClientId, naverLoginKeys } from './constants';
+import {
+  googleWebClientId,
+  naverLoginKeys,
+  NT_ACCESS_TOKEN,
+  NT_REFRESH_TOKEN,
+} from './constants';
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setToken } from '~/hooks/login/login';
 
-export const getServiceToken = (social: SocialLoginRoute, idToken: string) =>
-  postLogin(social, {
-    id_token: idToken,
-  }).then((res) => {
+interface loginResponseType {
+  data: { message: string; access_token: string; refresh_token: string };
+  message: null;
+  status: number;
+  code: null;
+}
+
+export const getServiceToken = async (
+  social: SocialLoginRoute,
+  idToken: string,
+) => {
+  try {
+    console.log('getServiceToken ::', social, idToken);
+    const res: loginResponseType = await postLogin(social, {
+      id_token: idToken,
+    });
+
     console.log('응답', res);
-    return res.access_token as string;
-  });
+    return res;
+  } catch (error) {
+    console.error('Token retrieval failed:', error);
+    throw error;
+  }
+};
 
 export const naverLogin = async () => {
   const NAVER_LOGIN_KEY: NaverLoginRequest = naverLoginKeys;
@@ -27,12 +51,15 @@ export const naverLogin = async () => {
 export const kakaoLogin = async () => {
   try {
     const { accessToken } = await KakaoLogin.login();
-    console.log('카카오 토큰', accessToken);
+    // console.log('카카오 토큰', accessToken);
 
     const token = await getServiceToken('kakao', accessToken);
+    console.log('getServiceToken카카오 토큰', token);
+    setToken(token);
+
     return token;
   } catch (e) {
-    console.warn(e);
+    console.log('kakaoLogin Error', e);
   }
 };
 

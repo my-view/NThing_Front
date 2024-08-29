@@ -26,14 +26,12 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'screens/stack';
 import { getStorage } from 'assets/util/storage';
-import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
 import { PurchaseItemType } from 'types/common';
 import { useMapControl } from '~/hooks/map/action';
 import Animated from 'react-native-reanimated';
 import { useUser } from '~/hooks/user';
 import { userInfoType } from '~/types/user';
 import { useFocusEffect } from '@react-navigation/native';
-import { useLogin } from '~/hooks/login/login';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainScreenParamList, 'HomeScreen'>,
@@ -56,20 +54,20 @@ const HomeScreen = ({ route, navigation }: Props) => {
   const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
     useMapControl();
   const { keyword } = route.params;
-  const { serviceToken } = useLogin();
-  console.log('HomeScreen serviceToken', serviceToken);
-  const userInfo = useUser(serviceToken);
+
+  const userInfo = useUser();
   const userData = userInfo?.data as unknown as userInfoType | undefined;
   const [selectValue, setSelectValue] = useState({
     nm: '최신순',
     cd: 'recent',
   });
 
-  useFocusEffect(() => {
-    // console.log('@@@@@@@@@@@@@@리패치');
-    refetch();
-  });
+  // useFocusEffect(() => {
+  //   // console.log('@@@@@@@@@@@@@@리패치');
+  //   refetch();
+  // });
 
+  console.log('userData', userData);
   const renderItem = useCallback(
     (item: PurchaseItemType, index: number) => (
       <Item data={item} index={index} listLength={tradeList?.length - 1} />
@@ -102,7 +100,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
               >
                 <Row style={{ gap: 5 }}>
                   <Font18W600>
-                    {userData?.college.name || '학교 선택'}
+                    {userData?.college?.name || '학교 선택'}
                   </Font18W600>
                   <Icon name={'S_Down'} size={16} color={theme.palette.black} />
                 </Row>
@@ -187,7 +185,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
                     <LoadingItem key={item.id} />
                   ))
                 : tradeList
-                ? tradeList.map(renderItem)
+                ? tradeList?.map(renderItem)
                 : PURCHASE_ITEM_LIST.map(renderItem)}
             </BottomSheetScrollView>
           </BottomSheet>

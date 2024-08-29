@@ -15,7 +15,7 @@ import { EventProvider } from 'react-native-outside-press';
 import 'react-native-gesture-handler';
 import axios, { AxiosResponse } from 'axios';
 import { getStorage, get } from '~/assets/util/storage';
-import { SERVER_URL, TOKEN_STORAGE_KEY } from '~/assets/util/constants';
+import { SERVER_URL } from '~/assets/util/constants';
 import { CustomResponse } from 'types/modules';
 import * as encoding from 'text-encoding';
 import { WebSocketConnector } from '~/components/chat/web-socket-connector';

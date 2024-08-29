@@ -1,53 +1,82 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { TOKEN_STORAGE_KEY } from '~/assets/util/constants';
+import { navigationRef } from '~/../RootNavigation';
+import { NT_ACCESS_TOKEN, NT_REFRESH_TOKEN } from '~/assets/util/constants';
 import { TokenState } from '~/state/user';
 
-export const useLogin = () => {
-  const [serviceToken, setSeviceToken] = useRecoilState<string>(TokenState); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
-
-  const set = async (value) => {
-    try {
-      await AsyncStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(value));
-      console.log('Token saved:', value);
-    } catch (error) {
-      console.log(error);
+// 토큰 저장
+export const saveTokens = async (accessToken: string, refreshToken: string) => {
+  console.log('saveTokens :: ', accessToken, refreshToken);
+  try {
+    if (accessToken && refreshToken) {
+      // 토큰이 null이나 undefined가 아니면 저장
+      await AsyncStorage.setItem(NT_ACCESS_TOKEN, accessToken);
+      await AsyncStorage.setItem(NT_REFRESH_TOKEN, refreshToken);
+      navigationRef.current.navigate('MainScreen');
+    } else {
+      // 토큰이 null이나 undefined이면 제거
+      await AsyncStorage.removeItem(NT_ACCESS_TOKEN);
+      await AsyncStorage.removeItem(NT_REFRESH_TOKEN);
     }
-  };
-  // getting data
-  const get = async () => {
-    try {
-      const savedToken = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
-      console.log('Saved token retrieved:', savedToken); // 추가된 로그
+  } catch (error) {
+    console.error('토큰 저장 실패:', error);
+  }
+};
 
-      if (savedToken != null) {
-        const token = JSON.parse(savedToken);
-        if (token) {
-          console.log('Parsed token:', token); // 추가된 로그
+// 토큰 가져오기
+export const loadTokens = async () => {
+  try {
+    const accessToken = await AsyncStorage.getItem(NT_ACCESS_TOKEN);
+    const refreshToken = await AsyncStorage.getItem(NT_REFRESH_TOKEN);
 
-          set(token);
-          setSeviceToken(token);
-
-          console.log('get token', token);
-          return token;
-        }
-      }
-    } catch (error) {
-      console.log(error);
+    if (accessToken === null) {
+      console.log('AccessToken is null');
     }
-  };
 
-  const setToken = (token?: string) => {
-    if (!token) return;
-    setSeviceToken(token);
-    set(token);
-  };
+    if (refreshToken === null) {
+      console.log('RefreshToken is null');
+    }
 
-  return {
-    setToken,
-    get,
-    set,
-    serviceToken,
-  };
+    if (accessToken && refreshToken) {
+      console.log('Tokens loaded:', { accessToken, refreshToken });
+
+      return { accessToken, refreshToken };
+    } else {
+      console.log('No tokens found');
+      // 토큰이 없으니까 여기서 로그인화면으로 보내자
+      return null;
+    }
+  } catch (error) {
+    console.error('Failed to load tokens:', error);
+    return null;
+  }
+};
+
+// // 토큰 설정 및 이동
+export const setToken = async (tokenData: Object) => {
+  console.error('setToken -> tokenData', tokenData);
+
+  if (!tokenData) {
+    console.error('Invalid tokens provided');
+    return;
+  }
+
+  const { access_token, refresh_token } = tokenData;
+  console.log('이거', access_token, refresh_token);
+
+  try {
+    if (access_token && refresh_token) {
+      // 토큰이 null이나 undefined가 아니면 저장
+      await AsyncStorage.setItem(NT_ACCESS_TOKEN, access_token);
+      await AsyncStorage.setItem(NT_REFRESH_TOKEN, refresh_token);
+      navigationRef.current.navigate('MainScreen');
+    } else {
+      // 토큰이 null이나 undefined이면 제거
+      // await AsyncStorage.removeItem(NT_ACCESS_TOKEN);
+      // await AsyncStorage.removeItem(NT_REFRESH_TOKEN);
+    }
+  } catch (error) {
+    console.error('토큰 저장 실패:', error);
+  }
+  // navigationRef.current.navigate('MainScreen');
 };

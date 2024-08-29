@@ -1,0 +1,26 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "로그인 토큰 처리",
+  "steps": [
+    {
+      "file": "app/screens/index.tsx",
+      "description": "### 로그인 버튼 화면",
+      "line": 27
+    },
+    {
+      "file": "app/assets/util/login.ts",
+      "description": "### 소셜로그인 로직",
+      "line": 8
+    },
+    {
+      "file": "app/hooks/login/login.ts",
+      "description": "### 로그인 훅",
+      "line": 7
+    },
+    {
+      "file": "app/api/login.ts",
+      "description": "### 리프레쉬토큰API",
+      "line": 35
+    }
+  ]
+}

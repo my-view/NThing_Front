@@ -12,7 +12,8 @@ export const sortOptions: SortType[] = [
   { nm: '가까운순', cd: 'distance' },
 ];
 
-export const TOKEN_STORAGE_KEY = 'NT-AUTH-TOKEN';
+export const NT_ACCESS_TOKEN = 'NT-ACCESS-TOKEN';
+export const NT_REFRESH_TOKEN = 'NT-REFRESH-TOKEN';
 
 const BASE_URL = 'nthing.kkookkss.synology.me';
 export const SERVER_URL = `https://${BASE_URL}`;
