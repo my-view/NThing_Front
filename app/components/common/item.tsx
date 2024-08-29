@@ -29,7 +29,7 @@ export const Item = ({
     price,
     numerator,
     denominator,
-    liked,
+    is_liked,
     id,
     image,
   } = data;
@@ -56,6 +56,7 @@ export const Item = ({
       >
         <Box>
           <ItemBox>
+            {/* TODO: 업로드한 사진 없을 때 디폴트 이미지 필요 */}
             <ItemImg source={{ uri: image }} />
             <InfoBox>
               <Title
@@ -78,7 +79,7 @@ export const Item = ({
           </ItemBox>
           {useHeartButton && (
             <HeartButton
-              isLike={liked}
+              isLike={is_liked}
               onClick={(isLiked) => {
                 console.log('좋아요', isLiked);
                 axios.post(`/purchase/${id}/like`, {

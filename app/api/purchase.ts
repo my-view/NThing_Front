@@ -23,3 +23,6 @@ export const getPurchaseCommentAPI = (id?: number) => {
 
 export const postPurchaseJoinAPI = (purchaseId: number) =>
   axios.post(`/purchase/${purchaseId}/join`);
+
+export const deletePurchaseJoinAPI = (purchaseId: number) =>
+  axios.delete(`/purchase/${purchaseId}/leave`);

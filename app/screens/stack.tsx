@@ -30,7 +30,11 @@ export type RootStackParamList = {
   InterestTradeScreen: undefined;
   OpenedTradeScreen: undefined;
   ParticipationTradeScreen: undefined;
-  UniversityMapModal: { latitude: number; longitude: number };
+  UniversityMapModal: {
+    college_id: number;
+    latitude: number;
+    longitude: number;
+  };
   TradeMapModal: {
     initialPlace: TradePlace;
     update: (updated: TradePlace) => void;

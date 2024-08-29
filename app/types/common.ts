@@ -51,12 +51,12 @@ export interface PurchaseItemType {
   price: number;
   numerator: number;
   denominator: number;
-  liked: boolean;
+  is_liked: boolean;
   id: number;
   latitude: number;
   longitude: number;
   status: boolean;
-  image: string | undefined;
+  image: string | null;
 }
 
 export type MenuListType = {
