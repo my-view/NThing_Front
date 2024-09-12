@@ -20,12 +20,11 @@ import { Icon } from 'components/common/icon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AnimatedArrow } from 'components/common/animated-arrow';
 import { DateTimePicker } from 'components/common/date-time-picker';
-import { TradeDate, TradePlace } from 'types/common';
+import { TradePlace } from 'types/common';
 import { PreviewImage } from 'components/trade-regist/preview-image';
 import { Input } from 'components/common/input';
 import { formatPrice } from 'assets/util/format';
 import axios from 'axios';
-import moment from 'moment';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { usePurchaseDetail } from 'hooks/purchase/purchase-detail';
 import { RootStackParamList } from 'screens/stack';
@@ -33,35 +32,20 @@ import { useFetchCategoryList } from 'hooks/category';
 import { Chip } from 'components/common/chip';
 import { PurchaseDetail } from 'types/purchase';
 import useTradeRegisterStore from 'state/trade-register';
-import { krNow } from 'assets/util/time';
 import { postPurchaseAPI } from 'api/purchase';
-import { ONE_DAY_MILLISECOND } from 'assets/util/time';
-
-const formatTradeDate = (full: string) => {
-  const date = new Date(full);
-  const diff =
-    moment(date).diff(new Date(krNow).setHours(0, 0, 0, 0)) /
-    ONE_DAY_MILLISECOND;
-  const tradeDate: TradeDate = {
-    now: krNow,
-    day: diff < 0 ? 0 : Math.ceil(diff),
-    hour: date.getHours(),
-    minute: Math.floor(date.getMinutes() / 10),
-    full: `${
-      diff < 1 ? '오늘' : diff < 2 ? '내일' : moment(date).format('MM.DD')
-    } ${moment(date).format('HH:mm')}`,
-  };
-  return tradeDate;
-};
+import { useUser } from '~/hooks/user';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TradeRegistScreen'>;
 
 const TradeRegistScreen = ({ navigation, route }: Props) => {
   const { data: preData, id } = route.params;
   const { data, refetch } = usePurchaseDetail(id);
+  const { data: userInfo } = useUser();
   const tradeDetail = (data || preData) as PurchaseDetail | undefined;
   const { data: categories } = useFetchCategoryList();
   const {
+    isInitialized,
+    tradeDetailId,
     title,
     category,
     images,
@@ -73,6 +57,8 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     isDateOpen,
     isValid,
     baseForm,
+    setTradeDetail,
+    setIsInitialized,
     setTitle,
     setCategory,
     setImages,
@@ -83,6 +69,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
     setDescription,
     toggleIsDateOpen,
     validate,
+    reset,
   } = useTradeRegisterStore();
 
   const selectImages = async () => {
@@ -122,6 +109,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
       );
       await postPurchaseAPI(form).then((data) => {
         navigation.replace('TradeScreen', { data });
+        reset();
       });
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
@@ -150,6 +138,7 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
         refetch();
         // TODO: replace 해서 trade로 이동하는데, 그럼 거기서 뒤로 가기 했을 때 또 trade 스크린으로 이동해서 하나 없애야 함
         navigation.replace('TradeScreen', { id: tradeDetail?.id });
+        reset();
       });
     } catch (e) {
       if (typeof e === 'string') return Alert.alert(e);
@@ -158,27 +147,20 @@ const TradeRegistScreen = ({ navigation, route }: Props) => {
   };
 
   useEffect(() => {
-    if (!tradeDetail || title) return;
-    setTitle(tradeDetail.title);
-    setCategory(tradeDetail.category_id);
-    setImages(() =>
-      tradeDetail.images.map((x) => ({ id: String(x.id), uri: x.url })),
-    );
+    if (isInitialized && tradeDetail?.id === tradeDetailId) return;
+    if (tradeDetail) return setTradeDetail(tradeDetail);
+    if (!userInfo?.college) return;
+    reset(); // 등록된 게시글을 수정하던 데이터가 있을 때, 새로 글 쓰러 들어오면 이전 데이터 지워주기 위해
     setPlace({
       coord: {
-        latitude: tradeDetail.latitude,
-        longitude: tradeDetail.longitude,
+        latitude: Number(userInfo.college.latitude),
+        longitude: Number(userInfo.college.longitude),
       },
-      description: tradeDetail.place,
+      description: '',
     });
-    setDate(formatTradeDate(tradeDetail.date));
-    setNThing(() => ({
-      denominator: String(tradeDetail.denominator),
-      numerator: String(tradeDetail.numerator),
-    }));
-    setPrice(String(tradeDetail.price));
-    setDescription(tradeDetail.description);
-  }, [tradeDetail]);
+    setIsInitialized(true);
+    return;
+  }, [tradeDetail, userInfo]);
 
   return (
     <SafeAreaView

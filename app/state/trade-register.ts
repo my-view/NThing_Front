@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import { Asset } from 'react-native-image-picker';
 import { TradeDate, TradePlace } from 'types/common';
-import { krNow } from 'assets/util/time';
+import { krNow, ONE_DAY_MILLISECOND } from 'assets/util/time';
 import moment from 'moment';
+import { PurchaseDetail } from 'types/purchase';
 
 const nowHour = krNow.getHours();
 
@@ -22,12 +23,31 @@ const formatFullDate = (tradeDate: TradeDate) => {
   return moment(date).format('yyyy-MM-DD HH:mm:ss');
 };
 
+const formatTradeDate = (full: string) => {
+  const date = new Date(full);
+  const diff =
+    moment(date).diff(new Date(krNow).setHours(0, 0, 0, 0)) /
+    ONE_DAY_MILLISECOND;
+  const tradeDate: TradeDate = {
+    now: krNow,
+    day: diff < 0 ? 0 : Math.ceil(diff),
+    hour: date.getHours(),
+    minute: Math.floor(date.getMinutes() / 10),
+    full: `${
+      diff < 1 ? '오늘' : diff < 2 ? '내일' : moment(date).format('MM.DD')
+    } ${moment(date).format('HH:mm')}`,
+  };
+  return tradeDate;
+};
+
 interface NThing {
   denominator: string;
   numerator: string;
 }
 
 interface TradeRegisterStoreType {
+  isInitialized: boolean;
+  tradeDetailId?: number;
   title: string;
   category: number; // id
   images: Asset[];
@@ -39,6 +59,8 @@ interface TradeRegisterStoreType {
   isDateOpen: boolean;
   isValid: () => boolean;
   baseForm: () => FormData;
+  setIsInitialized: (isInitialized: boolean) => void;
+  setTradeDetail: (tradeDetail: PurchaseDetail) => void;
   setTitle: (title: string) => void;
   setCategory: (category: number) => void;
   setImages: (callback: (state: Asset[]) => Asset[]) => void;
@@ -49,9 +71,12 @@ interface TradeRegisterStoreType {
   setDescription: (description: string) => void;
   toggleIsDateOpen: () => void;
   validate: () => void;
+  reset: () => void;
 }
 
 const useTradeRegisterStore = create<TradeRegisterStoreType>((set, get) => ({
+  isInitialized: false,
+  tradeDetailId: undefined,
   title: '',
   category: 0,
   images: [],
@@ -91,6 +116,29 @@ const useTradeRegisterStore = create<TradeRegisterStoreType>((set, get) => ({
     form.append('description', get().description);
     return form;
   },
+  setTradeDetail: (tradeDetail) =>
+    set({
+      isInitialized: true,
+      tradeDetailId: tradeDetail.id,
+      title: tradeDetail.title,
+      category: tradeDetail.category_id,
+      images: tradeDetail.images.map((x) => ({ id: String(x.id), uri: x.url })),
+      place: {
+        coord: {
+          latitude: tradeDetail.latitude,
+          longitude: tradeDetail.longitude,
+        },
+        description: tradeDetail.place,
+      },
+      date: formatTradeDate(tradeDetail.date),
+      nThing: {
+        denominator: String(tradeDetail.denominator),
+        numerator: String(tradeDetail.numerator),
+      },
+      price: String(tradeDetail.price),
+      description: tradeDetail.description,
+    }),
+  setIsInitialized: (isInitialized) => set({ isInitialized }),
   setTitle: (title) => set({ title }),
   setCategory: (category) => set({ category }),
   setImages: (callback) => set((state) => ({ images: callback(state.images) })),
@@ -111,6 +159,26 @@ const useTradeRegisterStore = create<TradeRegisterStoreType>((set, get) => ({
       throw 'N띵 정보를 입력해주세요.';
     if (!get().price.trim()) throw '가격을 입력해주세요.';
   },
+  reset: () =>
+    set({
+      isInitialized: false,
+      tradeDetailId: undefined,
+      title: '',
+      category: 0,
+      images: [],
+      place: {
+        coord: { latitude: 37.54965725, longitude: 126.9399627 },
+        description: '',
+      },
+      date: initialDate,
+      nThing: {
+        denominator: '',
+        numerator: '',
+      },
+      price: '',
+      description: '',
+      isDateOpen: false,
+    }),
 }));
 
 export default useTradeRegisterStore;
