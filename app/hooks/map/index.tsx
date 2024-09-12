@@ -17,8 +17,12 @@ function useFetchMapTrade(centerMapInfo: TradeParams) {
 }
 
 // STEP3: 페이지 훅
-export function useMapTrade(coord: Coord) {
-  const defaultMapCenter = { ...defaultCenterPosition, ...coord };
+export function useMapTrade(coord: Coord, search_keyword?: string) {
+  const defaultMapCenter = {
+    ...defaultCenterPosition,
+    ...coord,
+    search_keyword,
+  };
   const [centerMapInfo, setCenterMapInfo] = useState(defaultMapCenter);
 
   const [isFirstLanding, setIsFirstLanding] = useState(true);

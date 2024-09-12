@@ -55,5 +55,6 @@ export const useMapControl = () => {
     ListPoints,
     selectMarker,
     selectedPin,
+    setSelectedPin,
   };
 };

@@ -112,7 +112,6 @@ const HomeScreen = ({ route, navigation }: Props) => {
               ref={mapRef}
               style={{ width: '100%', height: '100%' }}
               showsMyLocationButton={false}
-              // zoomControl={false}
               maxZoomLevel={19}
               minZoomLevel={14}
               center={defaultMapCenter}
