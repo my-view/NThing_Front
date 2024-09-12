@@ -42,8 +42,8 @@ const SearchScreen = ({ route, navigation }: Props) => {
   };
 
   useEffect(() => {
-    getStorage(STORAGE_LATEST_KEYWORD).then((keword) => {
-      if (keword) setLatestKeywords(keword);
+    getStorage(STORAGE_LATEST_KEYWORD).then((keyword) => {
+      if (keyword) setLatestKeywords(keyword);
     });
   }, []);
 
