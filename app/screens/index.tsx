@@ -10,111 +10,83 @@ import {
 import styled from '@emotion/native';
 import { Font16W500, UnderLine14 } from 'components/common/text';
 import { getHeightRatio } from 'assets/util/layout';
-import NaverLogin, { NaverLoginRequest } from '@react-native-seoul/naver-login';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import * as KakaoLogin from '@react-native-seoul/kakao-login';
-import auth from '@react-native-firebase/auth';
-import { postLogin } from 'api/login';
 import { getStorage, setStorage } from 'assets/util/storage';
-import { TOKEN_STORAGE_KEY } from 'assets/util/constants';
-import { SocialLoginRoute } from 'types/common';
-import { useUser } from 'hooks/user';
+import { NT_ACCESS_TOKEN, NT_REFRESH_TOKEN } from 'assets/util/constants';
+
+
 import { RootStackParamList } from './stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-const naverLoginKeys = {
-  consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
-  consumerSecret: 'TtWl5HamP7', // 얘도 필요한건가?
-  appName: 'nThing',
-  serviceUrlScheme: 'naverlogin', // only for iOS
-};
-
-const googleWebClientId =
-  '141023294009-g5k49bh6cmk0re3c94mnu9esi4ep3gcc.apps.googleusercontent.com';
-
-const getServiceToken = (social: SocialLoginRoute, idToken: string) =>
-  postLogin(social, {
-    id_token: idToken,
-  }).then((res) => {
-    console.log('응답', res);
-    return res.access_token as string;
-  });
-
-const naverLogin = async (props: NaverLoginRequest) => {
-  try {
-    const { successResponse } = await NaverLogin.login(props);
-    console.log('네이버 토큰', successResponse?.accessToken);
-  } catch (e) {
-    console.warn(e);
-  }
-};
-
-const kakaoLogin = async () => {
-  try {
-    const { accessToken } = await KakaoLogin.login();
-    console.log('카카오 토큰', accessToken);
-    // const res = await KakaoLogin.getProfile();
-    // console.log('카카오 정뵤', res);
-    const token = await getServiceToken('kakao', accessToken);
-    console.log('service token', token);
-    return token;
-  } catch (e) {
-    console.warn(e);
-  }
-};
-
-const googleLogin = async () => {
-  GoogleSignin.configure({
-    webClientId: googleWebClientId,
-  });
-  try {
-    const { idToken } = await GoogleSignin.signIn();
-    // console.log('구글 토큰', idToken);
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    const firebaseToken = await auth()
-      .signInWithCredential(googleCredential)
-      .then(({ user }) => user.getIdToken());
-    // console.log('새로 받은 토큰', firebaseToken);
-    const token = await getServiceToken('google', firebaseToken);
-    return token;
-  } catch (e) {
-    console.warn(e);
-  }
-};
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { googleLogin, kakaoLogin, naverLogin } from '~/assets/util/login';
+import { getUserInfoAPI } from '~/api/user';
+import AlertPopup from 'react-native-global-components/components/AlertPopup/AlertPopup';
+import { loadTokens } from '~/hooks/login/login';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'RootScreen'>;
 
 const RootScreen = ({ navigation }: Props) => {
-  const [serviceToken, setSeviceToken] = useState<string>(); // 우리 서버에서 로그인 되고 나면 저장하려고 했음
-  const userInfo = useUser();
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  console.log('@@@ userInfo', userInfo.data);
-  const setToken = (token?: string) => {
-    if (!token) return;
-    setSeviceToken(token);
-    setStorage(TOKEN_STORAGE_KEY, token);
-  };
+  // useEffect(() => {
+  //   const autoLogin = async () => {
+  //     try {
+  //       const { accessToken } = await loadTokens();
+  //       console.log('!!token', accessToken);
+
+  //       const isValidToken = await getUserInfoAPI(accessToken);
+  //       console.log('@@isValidToken', isValidToken);
+
+  //       if (isValidToken) {
+  //         navigation.navigate('MainScreen');
+  //       } else {
+  //         // Handle invalid token case, maybe navigate to a login screen
+  //       }
+  //     } catch (error) {
+  //       AlertPopup({
+  //         message: '다시 로그인해주세요.',
+  //       });
+  //       console.error('Error fetching data:', error);
+  //       // Handle error, perhaps by showing an alert or navigating to an error screen
+  //     }
+  //   };
+  //   autoLogin();
+  // }, []);
 
   useEffect(() => {
-    if (!serviceToken) {
-      getStorage(TOKEN_STORAGE_KEY).then((data) => {
-        if (!data) return;
-        setSeviceToken(data);
-      });
-      return;
-    }
-    console.log('user', userInfo);
-    // 1. serviceToken으로 user 정보 불러옴 (react query)
-    // 2-1. 선택한 학교가 없으면 학교 선택 페이지로 이동
-    // navigation.navigate('UniversityScreen');
-    // 2-2. 학교가 있으면 (학교 정보와 함께?) 홈으로 이동
-    navigation.navigate('MainScreen');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceToken]);
+    const checkToken = async () => {
+      console.group('토큰 불러오기 시작');
 
-  DevSettings.addMenuItem('Go Search Page', () => {
-    navigation.navigate('ChattingScreen');
-  });
+      const { accessToken } = await loadTokens(); // loadTokens의 결과를 기다림
+      console.log('accessToken', accessToken);
+
+      if (accessToken) {
+        try {
+          const isValidUser = await getUserInfoAPI();
+          console.log('isValidUser', isValidUser);
+          if (isValidUser) {
+            setIsLoggedIn(true);
+            navigation.navigate('MainScreen');
+          } else {
+            console.log('Invalid token, redirecting to login');
+            setIsLoggedIn(false);
+            navigation.navigate('RootScreen');
+          }
+        } catch (error) {
+          console.error('Token validation failed:', error);
+          // await AsyncStorage.removeItem(NT_ACCESS_TOKEN);
+          // await AsyncStorage.removeItem(NT_REFRESH_TOKEN);
+          setIsLoggedIn(false);
+        }
+      } else {
+        console.log('No valid tokens found, redirecting to login');
+        setIsLoggedIn(false);
+      }
+
+      console.groupEnd();
+    };
+
+    checkToken();
+  }, []);
 
   return (
     <SafeAreaView>
@@ -122,15 +94,14 @@ const RootScreen = ({ navigation }: Props) => {
         <View style={{ flex: 1 }}>
           <Text>NTHING</Text>
         </View>
+
         <SocialLoginWrap>
           <SocialSubTitle>sns로 간편 로그인</SocialSubTitle>
           <ButtonWrap>
-            <Pressable onPress={() => naverLogin(naverLoginKeys)}>
+            <Pressable onPress={() => naverLogin()}>
               <Image source={require('../assets/image/naver-btn.png')} />
             </Pressable>
-            <Pressable
-              onPress={() => kakaoLogin().then((token) => setToken(token))}
-            >
+            <Pressable onPress={() => kakaoLogin()}>
               <Image source={require('../assets/image/kakao-btn.png')} />
             </Pressable>
             <Pressable
@@ -175,3 +146,20 @@ const ButtonWrap = styled(View)`
 `;
 
 export default RootScreen;
+
+// useEffect(() => {
+//   if (!serviceToken) {
+//     getStorage(TOKEN_STORAGE_KEY).then((data) => {
+//       if (!data) return;
+//       setSeviceToken(data);
+//     });
+//     return;
+//   }
+//   console.log('user', userInfo);
+//   // 1. serviceToken으로 user 정보 불러옴 (react query)
+//   // 2-1. 선택한 학교가 없으면 학교 선택 페이지로 이동
+//   // navigation.navigate('UniversityScreen');
+//   // 2-2. 학교가 있으면 (학교 정보와 함께?) 홈으로 이동
+//   navigation.navigate('MainScreen');
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+// }, [serviceToken]);

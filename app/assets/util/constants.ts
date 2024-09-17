@@ -12,8 +12,19 @@ export const sortOptions: SortType[] = [
   { nm: '가까운순', cd: 'distance' },
 ];
 
-export const TOKEN_STORAGE_KEY = 'NT-AUTH-TOKEN';
+export const NT_ACCESS_TOKEN = 'NT-ACCESS-TOKEN';
+export const NT_REFRESH_TOKEN = 'NT-REFRESH-TOKEN';
 
 const BASE_URL = 'nthing.kkookkss.synology.me';
 export const SERVER_URL = `https://${BASE_URL}`;
 export const WEBSOCKET_SERVER_URL = `wss://${BASE_URL}`;
+
+export const naverLoginKeys = {
+  consumerKey: 'vnH89uX9Nczv8vOeXfQw', // 이거 필요한건가?
+  consumerSecret: 'TtWl5HamP7', // 얘도 필요한건가?
+  appName: 'nThing',
+  serviceUrlScheme: 'naverlogin', // only for iOS
+};
+
+export const googleWebClientId =
+  '141023294009-g5k49bh6cmk0re3c94mnu9esi4ep3gcc.apps.googleusercontent.com';

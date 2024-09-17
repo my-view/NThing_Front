@@ -1,5 +1,5 @@
 import { Frame, messageCallbackType, Stomp, StompConfig } from '@stomp/stompjs';
-import { TOKEN_STORAGE_KEY, WEBSOCKET_SERVER_URL } from 'assets/util/constants';
+import { NT_ACCESS_TOKEN, WEBSOCKET_SERVER_URL } from 'assets/util/constants';
 import { getStorage } from 'assets/util/storage';
 import { ChatMessage, WebsocketMessageType } from 'types/chat';
 
@@ -12,7 +12,7 @@ export const connect = async (
   roomIds: number[],
   callback: messageCallbackType,
 ) => {
-  const token = await getStorage(TOKEN_STORAGE_KEY);
+  const token = await getStorage(NT_ACCESS_TOKEN);
   // console.log('웹소켓에 보낼 token  ' + token);
   stompClient.connect({ Authorization: `Bearer ${token}` }, (frame) => {
     console.log('hi connected', frame);
@@ -23,7 +23,7 @@ export const connect = async (
 };
 
 export const send = async (roomId: number, message: ChatMessage) => {
-  const token = await getStorage(TOKEN_STORAGE_KEY);
+  const token = await getStorage(NT_ACCESS_TOKEN);
   stompClient.send(
     `/send-to/room/${roomId}`,
     { Authorization: `Bearer ${token}` },

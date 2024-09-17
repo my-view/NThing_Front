@@ -53,6 +53,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
   const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
     useMapControl();
   const { keyword } = route.params;
+
   const userInfo = useUser();
   const userData = userInfo?.data as unknown as userInfoType | undefined;
   const [selectValue, setSelectValue] = useState({
@@ -60,11 +61,12 @@ const HomeScreen = ({ route, navigation }: Props) => {
     cd: 'recent',
   });
 
-  useFocusEffect(() => {
-    console.log('@@@@@@@@@@@@@@리패치');
-    refetch();
-  });
+  // useFocusEffect(() => {
+  //   // console.log('@@@@@@@@@@@@@@리패치');
+  //   refetch();
+  // });
 
+  console.log('userData', userData);
   const renderItem = useCallback(
     (item: PurchaseItemType, index: number) => (
       <Item data={item} index={index} listLength={tradeList?.length - 1} />
@@ -97,7 +99,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
               >
                 <Row style={{ gap: 5 }}>
                   <Font18W600>
-                    {userData?.college.name || '학교 선택'}
+                    {userData?.college?.name || '학교 선택'}
                   </Font18W600>
                   <Icon name={'S_Down'} size={16} color={theme.palette.black} />
                 </Row>
@@ -182,7 +184,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
                     <LoadingItem key={item.id} />
                   ))
                 : tradeList
-                ? tradeList.map(renderItem)
+                ? tradeList?.map(renderItem)
                 : PURCHASE_ITEM_LIST.map(renderItem)}
             </BottomSheetScrollView>
           </BottomSheet>

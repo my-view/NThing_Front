@@ -13,7 +13,7 @@ export const AppStateComponent = () => {
     const subscription = AppState.addEventListener(
       'change',
       async (nextAppState) => {
-        // console.log('@ 다음 동작 nextAppState', nextAppState);
+        console.log('@ 다음 동작 nextAppState', nextAppState);
         handleAppState(nextAppState);
       },
     );
@@ -32,7 +32,7 @@ export const AppStateComponent = () => {
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active'
     ) {
-      // console.log('@ 앱으로 다시 돌아오는 경우 foreground');
+      console.log('@ 앱으로 다시 돌아오는 경우 foreground');
     }
 
     // 앱 비활성화
@@ -40,7 +40,7 @@ export const AppStateComponent = () => {
       appState.current.match(/inactive|active/) &&
       nextAppState === 'background'
     ) {
-      // console.log('@ App has come to the background!');
+      console.log('@ App has come to the background!');
     }
     appState.current = nextAppState; // 변경된 상태를 바꿔줌.
     setUserAppState(nextAppState);
