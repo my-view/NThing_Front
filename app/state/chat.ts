@@ -1,14 +1,10 @@
 import { create } from 'zustand';
-import { ChatMessage, ChatRoomListItem } from 'types/chat';
+import { ChatListType, ChatMessage, ChatRoomListItem } from 'types/chat';
 
 // chatRooms(채팅목록 볼 때)와 messages(특정 채팅방 안)는 각각 해당하는 상황에만 값이 존재하므로, 두가지 동시에 있을 수 없음
 interface ChatStoreType {
   chatRooms: {
-    [key in number]: {
-      lastMessage: {
-        sent_at: string;
-      };
-    };
+    [key in number]: ChatListType;
   };
   messages: ChatMessage[];
   addChatRoom: (chatRoom: ChatRoomListItem) => void;
@@ -23,7 +19,16 @@ const useChatStore = create<ChatStoreType>((set, get) => ({
   addChatRoom: (chatRoom) =>
     set((state) => {
       const chatRooms = state.chatRooms;
-      chatRooms[chatRoom.id] = { lastMessage: { sent_at: chatRoom.createdAt } };
+      chatRooms[chatRoom.id] = {
+        id: chatRoom.id,
+        title: String(chatRoom.purchaseId),
+        last_message: {
+          content: String(chatRoom.purchaseId),
+          sent_at: chatRoom.createdAt,
+        },
+        trade_status: chatRoom.isCompleted ? 'COMPLETE' : 'RECRUIT',
+        image: '../../assets/image/item-example.png',
+      };
       return { chatRooms };
     }),
   setChatRooms: (chatRooms) => {

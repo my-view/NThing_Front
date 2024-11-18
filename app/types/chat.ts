@@ -8,9 +8,9 @@ export enum ChatStatus {
 export type ChatListType = {
   id: number;
   title: string;
-  last_message: string;
-  navigate: string;
+  last_message: { content: string; sent_at: string };
   trade_status: keyof typeof ChatStatus;
+  image: string;
 };
 
 export interface ChatUser {

@@ -14,8 +14,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ChattingScreen'>;
 const ChattingScreen = ({ navigation, route }: Props) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const roomId = route.params.id || 2;
-
+  const roomId = route.params.id;
+  console.log(roomId);
   const onSend = (msg: string) => {
     send(roomId, { type: WebsocketMessageType.NORMAL, content: msg });
     setInput('');
@@ -30,15 +30,15 @@ const ChattingScreen = ({ navigation, route }: Props) => {
     setMessages(sortDate);
   }, []);
 
-  useEffect(() => {
-    stompClient.subscribe(`/room/${roomId}`, (message) => {
-      const newMessage = JSON.parse(message.body);
-      console.log('hi' + JSON.parse(message.body));
-      // TODO: 메시지 받아서 처리
+  // useEffect(() => {
+  //   stompClient.subscribe(`/room/${roomId}`, (message) => {
+  //     const newMessage = JSON.parse(message.body);
+  //     console.log('hi' + JSON.parse(message.body));
+  //     // TODO: 메시지 받아서 처리
 
-      // setMessages((prev) => [...prev, newMessage]);
-    });
-  }, [roomId]);
+  //     // setMessages((prev) => [...prev, newMessage]);
+  //   });
+  // }, [roomId]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>

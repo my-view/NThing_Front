@@ -10,6 +10,7 @@ import { TradeStatus } from 'components/common/trade-status';
 import { navigationRef } from '../../../RootNavigation';
 
 export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
+  console.log(data);
   return (
     <Animated.View
       style={{
@@ -33,17 +34,15 @@ export const ChatItem: React.FC<{ data: ChatListType }> = ({ data }) => {
             }}
           >
             <Row>
-              <TradeThumbnail
-                source={require('../../assets/image/item-example.png')}
-              />
+              {/* <TradeThumbnail source={require(data.image)} /> */}
               <TradeInfoWrap>
                 <TradeTitle>{data?.title}</TradeTitle>
                 <Row style={{ gap: 6 }}>
                   <LastMessage numberOfLines={1}>
-                    {data?.last_message}
+                    {data?.last_message.content}
                   </LastMessage>
                   <MiddleDot size={DotSize.SMALL} />
-                  <LastTime>21:13</LastTime>
+                  <LastTime>{data?.last_message.sent_at}</LastTime>
                 </Row>
               </TradeInfoWrap>
             </Row>
