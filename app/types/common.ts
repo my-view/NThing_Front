@@ -93,9 +93,9 @@ export interface Comment {
 
 export interface TradeParams extends Coord {
   zoom: number;
-  search_keyword: string;
+  search_keyword?: string;
   radius: number;
-  sort: string;
+  sort?: string;
 }
 
 export interface CategoryItem extends WithIdName {
