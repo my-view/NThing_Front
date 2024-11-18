@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeScreen from './home';
 import ChatListScreen from 'screens/chat-list';
 import MyPageScreen from './my-page';
@@ -23,9 +23,9 @@ import { CompositeScreenProps } from '@react-navigation/native';
 
 export type MainScreenParamList = {
   Home: undefined;
-  HomeScreen: { keyword: string };
+  HomeScreen: { keyword: string; latitude: number; longitude: number };
   TradeRegistScreen: undefined;
-  ChatingListScreen: undefined;
+  ChatListScreen: undefined;
   MyPageScreen: undefined;
 };
 
@@ -40,7 +40,16 @@ type Props = NativeStackScreenProps<RootStackParamList, 'MainScreen'>;
 // >;
 
 // TODO: 탭 4개 목록 map하는 방식으로 리팩토링하기
-const MainScreen = ({ navigation }: Props) => {
+const MainScreen = ({ route, navigation }: Props) => {
+  const { params } = route;
+  // console.log(params);
+  useEffect(() => {
+    navigation.navigate('HomeScreen', {
+      keyword: '',
+      latitude: params.latitude,
+      longitude: params.longitude,
+    });
+  }, [params]);
   return (
     // <Tab.Navigator
     //   screenOptions={{
@@ -58,10 +67,7 @@ const MainScreen = ({ navigation }: Props) => {
     // </Tab.Navigator>
     <Tab.Navigator
       initialRouteName='Home'
-      screenOptions={{
-        headerShown: false,
-        headerShadowVisible: false,
-      }}
+      screenOptions={{ headerShown: false, headerShadowVisible: false }}
     >
       <Tab.Group>
         <Tab.Screen
@@ -76,7 +82,11 @@ const MainScreen = ({ navigation }: Props) => {
               ),
           }}
           component={HomeScreen}
-          initialParams={{ keyword: '' }}
+          initialParams={{
+            keyword: '',
+            latitude: params.latitude,
+            longitude: params.longitude,
+          }}
         />
         <Tab.Screen
           name='TradeRegistScreen'
@@ -98,7 +108,7 @@ const MainScreen = ({ navigation }: Props) => {
           })}
         />
         <Tab.Screen
-          name='ChatingListScreen'
+          name='ChatListScreen'
           options={{
             tabBarLabel: ({ focused, color }) => <MenuText>채팅</MenuText>,
             tabBarIcon: ({ color, focused }) =>

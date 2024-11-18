@@ -16,10 +16,11 @@ import { PurchaseDetail } from 'types/purchase';
 import TradeRegistScreen from 'screens/trade-regist';
 import OpenedTradeScreen from './opened-trade';
 import ParticipationTradeScreen from './participation-trade';
+import { Coord } from 'react-native-nmap';
 
 export type RootStackParamList = {
   RootScreen: undefined;
-  MainScreen: undefined;
+  MainScreen: Coord;
   UniversityScreen: undefined;
   ChattingScreen: { id: number };
   SearchScreen: { keyword?: string };

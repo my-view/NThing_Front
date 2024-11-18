@@ -38,21 +38,18 @@ type Props = CompositeScreenProps<
 >;
 
 const HomeScreen = ({ route, navigation }: Props) => {
+  const { keyword, latitude, longitude } = route.params;
   // STEP4: 페이지 빌드
   const {
+    defaultMapCenter,
     centerMapInfo,
     setCenterMapInfo,
     tradeList,
-    isFirstLanding,
-    mapCenter,
-    setMapCenter,
     isLoading,
     refetch,
-  } = useMapTrade();
-
+  } = useMapTrade({ latitude, longitude });
   const { mapRef, listSheetRef, ListPoints, selectMarker, selectedPin } =
     useMapControl();
-  const { keyword } = route.params;
   const userInfo = useUser();
   const userData = userInfo?.data as unknown as userInfoType | undefined;
   const [selectValue, setSelectValue] = useState({
@@ -61,7 +58,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
   });
 
   useFocusEffect(() => {
-    console.log('@@@@@@@@@@@@@@리패치');
+    // console.log('@@@@@@@@@@@@@@리패치');
     refetch();
   });
 
@@ -118,17 +115,13 @@ const HomeScreen = ({ route, navigation }: Props) => {
               // zoomControl={false}
               maxZoomLevel={19}
               minZoomLevel={14}
-              center={mapCenter}
+              center={defaultMapCenter}
               onTouch={() => {
                 // console.log('온터치?');
-                if (isFirstLanding) return;
-
                 // downTradeList();
               }}
               onCameraChange={(e) => {
-                // console.log('온카메라체인지?', e.latitude, e.longitude);
-
-                if (isFirstLanding) return;
+                // console.log('온카메라체인지', e.latitude, e.longitude);
                 setCenterMapInfo({
                   ...centerMapInfo,
                   longitude: e.longitude,
