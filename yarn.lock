@@ -2282,19 +2282,12 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@react-native-async-storage/async-storage@^1.19.3":
-  version "1.19.3"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.19.3.tgz#ad5fe3ed0a82d4624aa4500321c1e09c02daeb46"
-  integrity sha512-CwGfoHCWdPOTPS+2fW6YRE1fFBpT9++ahLEroX5hkgwyoQ+TkmjOaUxixdEIoVua9Pz5EF2pGOIJzqOTMWfBlA==
+"@react-native-async-storage/async-storage@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-2.1.0.tgz#84ca82af320c16d3d8e617508ea523fe786b6781"
+  integrity sha512-eAGQGPTAuFNEoIQSB5j2Jh1zm5NPyBRTfjRMfCN0W1OakC5WIB5vsDyIQhUweKN9XOE2/V07lqTMGsL0dGXNkA==
   dependencies:
     merge-options "^3.0.4"
-
-"@react-native-community/async-storage@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.12.1.tgz#25f821b4f6b13abe005ad67e47c6f1cee9f27b24"
-  integrity sha512-70WGaH3PKYASi4BThuEEKMkyAgE9k7VytBqmgPRx3MzJx9/MkspwqJGmn3QLCgHLIFUgF1pit2mWICbRJ3T3lg==
-  dependencies:
-    deep-assign "^3.0.0"
 
 "@react-native-community/cli-clean@^10.1.1":
   version "10.1.1"
@@ -6498,13 +6491,6 @@ dedent@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
   integrity sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==
-
-deep-assign@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/deep-assign/-/deep-assign-3.0.0.tgz#c8e4c4d401cba25550a2f0f486a2e75bc5f219a2"
-  integrity sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==
-  dependencies:
-    is-obj "^1.0.0"
 
 deep-equal@^1.0.1:
   version "1.1.1"
