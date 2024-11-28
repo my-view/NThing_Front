@@ -1,41 +1,38 @@
 import { create } from 'zustand';
-import { ChatListType, ChatMessage, ChatRoomListItem } from 'types/chat';
+import { ChatListType, ReceivedMessage, ChatRoomListItem } from 'types/chat';
 
 // chatRooms(채팅목록 볼 때)와 messages(특정 채팅방 안)는 각각 해당하는 상황에만 값이 존재하므로, 두가지 동시에 있을 수 없음
 interface ChatStoreType {
   chatRooms: {
     [key in number]: ChatListType;
   };
-  messages: ChatMessage[];
-  addChatRoom: (chatRoom: ChatRoomListItem) => void;
+  messages: ReceivedMessage[];
+  formatChatRoom: (chatRoom: ChatRoomListItem) => ChatListType;
   setChatRooms: (chatRooms: ChatRoomListItem[]) => void;
-  addMessages: (messages: ChatMessage[]) => void;
-  addMessage: (message: ChatMessage) => void;
+  addMessages: (messages: ReceivedMessage[]) => void;
+  addMessage: (message: ReceivedMessage) => void;
 }
 
 const useChatStore = create<ChatStoreType>((set, get) => ({
   chatRooms: {},
   messages: [],
-  addChatRoom: (chatRoom) =>
+  formatChatRoom: (chatRoom) => ({
+    id: chatRoom.id,
+    title: chatRoom.purchase.title,
+    last_message: {
+      content: chatRoom.last_message.message,
+      sent_at: chatRoom.last_message.sent_at,
+    },
+    trade_status: chatRoom.purchase.purchase_status,
+    image: '../../assets/image/item-example.png',
+  }),
+  setChatRooms: (data) => {
+    set({ messages: [] });
+    const newChatRooms = data.filter((x) => !get().chatRooms[x.id]);
     set((state) => {
       const chatRooms = state.chatRooms;
-      chatRooms[chatRoom.id] = {
-        id: chatRoom.id,
-        title: String(chatRoom.purchaseId),
-        last_message: {
-          content: String(chatRoom.purchaseId),
-          sent_at: chatRoom.createdAt,
-        },
-        trade_status: chatRoom.isCompleted ? 'COMPLETE' : 'RECRUIT',
-        image: '../../assets/image/item-example.png',
-      };
+      newChatRooms.forEach((x) => (chatRooms[x.id] = get().formatChatRoom(x)));
       return { chatRooms };
-    }),
-  setChatRooms: (chatRooms) => {
-    set({ messages: [] });
-    chatRooms.forEach((x) => {
-      if (get().chatRooms[x.id]) return;
-      get().addChatRoom(x);
     });
   },
   addMessages: (messages) => {
@@ -54,7 +51,10 @@ const useChatStore = create<ChatStoreType>((set, get) => ({
     // 채팅방 목록 있으면 마지막 메시지 내용 수정
     set((state) => {
       const chatRooms = state.chatRooms;
-      chatRooms[message.id] = { lastMessage: { sent_at: message.sent_at } };
+      chatRooms[message.id].last_message = {
+        content: message.content || '', // TODO: 메시지 타입별로 변환 필요?
+        sent_at: message.sent_at,
+      };
       return { chatRooms };
     });
   },

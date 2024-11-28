@@ -41,14 +41,14 @@ const ChatListScreen = ({ navigation }: any) => {
           options={{
             title: '참여한 거래',
           }}
-          component={ChatListOpenedTradeScreen}
+          component={ParticipationTradeChatListScreen}
         />
         <Tab.Screen
           name='participationTrade'
           options={{
             title: '개설한 거래',
           }}
-          component={ParticipationTradeChatListScreen}
+          component={ChatListOpenedTradeScreen}
         />
       </Tab.Navigator>
       {/* <Container></Container> */}

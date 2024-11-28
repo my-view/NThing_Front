@@ -1,15 +1,17 @@
-export enum ChatStatus {
+export enum ChatStatusEnum {
   EXPECT = '거래예정',
   RECRUIT = '모집중',
   CANCEL = '거래취소',
   COMPLETE = '거래완료',
 }
 
+export type ChatStatus = keyof typeof ChatStatusEnum;
+
 export type ChatListType = {
   id: number;
   title: string;
   last_message: { content: string; sent_at: string };
-  trade_status: keyof typeof ChatStatus;
+  trade_status: ChatStatus;
   image: string;
 };
 
@@ -69,10 +71,30 @@ export interface ListMessage {
   messages: ReceivedMessage[];
 }
 
-export interface ChatRoomListItem {
+export interface _ChatRoomListItem {
   id: number;
   purchaseId: number;
   createdAt: string; // '2023-12-12 20:52:13'
   isDeleted: boolean;
   isCompleted: boolean;
+}
+
+export interface ChatRoomListItem {
+  id: number;
+  purchase: {
+    id: number;
+    image: string; // 저장된 이미지 목록 중 1번째 이미지
+    title: string;
+    numerator: number; // 참여자 수
+    place: string;
+    purchase_status: ChatStatus;
+    isCompleted: boolean; // 완료 여부
+    isSatisfied: boolean;
+  };
+  last_message: {
+    message_id: number;
+    message: string;
+    sent_at: '2024-05-17 20:54:53';
+  }; // 채팅방 목록 요청 시점에서 해당 채팅방의 최신 메시지 1개
+  // isManager: boolean;
 }

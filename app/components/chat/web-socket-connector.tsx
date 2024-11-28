@@ -36,7 +36,7 @@ export const WebSocketConnector = () => {
     console.log('웹소켓 연결 상태 ' + stompClient.connected);
     if (!user || stompClient.connected) return;
     // TODO: 채팅방 목록 불러와 subscribe
-    connect(user.id, roomIds, receiveUserMsg, receiveRoomMsg);
+    connect(user.id, roomIds, addMessage, addMessages);
   }, [user]);
 
   console.log('Im WebSocketConnector');

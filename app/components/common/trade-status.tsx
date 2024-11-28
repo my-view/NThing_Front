@@ -2,7 +2,7 @@ import React from 'react';
 import { Row } from 'components/common/layout';
 import { Text } from 'react-native';
 import { Icon, IconName } from 'components/common/icon';
-import { ChatListType, ChatStatus } from 'types/chat';
+import { ChatListType, ChatStatusEnum } from 'types/chat';
 
 // 타입변환을 위한 함수
 function capitalizeFirstLetter(str: string) {
@@ -62,7 +62,7 @@ export const TradeStatus: React.FC<{
           { lineHeight: 12, fontSize: 11, fontWeight: '700' },
         ]}
       >
-        {ChatStatus[data.trade_status]}
+        {ChatStatusEnum[data.trade_status]}
       </Text>
     </Row>
   );
